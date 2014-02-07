@@ -1,0 +1,383 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="PROCESS_C_FileDescription" xml:space="preserve">
+    <value>File Description</value>
+  </data>
+  <data name="PROCESS_C_FileVersion" xml:space="preserve">
+    <value>File Version</value>
+  </data>
+  <data name="PROCESS_C_HandleCount" xml:space="preserve">
+    <value>Handle Count</value>
+  </data>
+  <data name="PROCESS_C_ID" xml:space="preserve">
+    <value>Process ID</value>
+  </data>
+  <data name="PROCESS_C_MainWindowHandle" xml:space="preserve">
+    <value>Main Window Handle</value>
+  </data>
+  <data name="PROCESS_C_MainWindowTitle" xml:space="preserve">
+    <value>Main Window Title</value>
+  </data>
+  <data name="PROCESS_C_Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="PROCESS_C_NonpagedSystemMemorySize64" xml:space="preserve">
+    <value>Nonpaged System Memory</value>
+  </data>
+  <data name="PROCESS_C_PagedMemorySize64" xml:space="preserve">
+    <value>Paged Memory</value>
+  </data>
+  <data name="PROCESS_C_PagedSystemMemorySize64" xml:space="preserve">
+    <value>Paged System Memory</value>
+  </data>
+  <data name="PROCESS_C_Path" xml:space="preserve">
+    <value>Path</value>
+  </data>
+  <data name="PROCESS_C_PeakPagedMemorySize64" xml:space="preserve">
+    <value>Peak Paged Memory</value>
+  </data>
+  <data name="PROCESS_C_PeakVirtualMemorySize64" xml:space="preserve">
+    <value>Peak Virtual Memory</value>
+  </data>
+  <data name="PROCESS_C_PeakWorkingSet64" xml:space="preserve">
+    <value>Peak Working Set</value>
+  </data>
+  <data name="PROCESS_C_PrivateMemorySize64" xml:space="preserve">
+    <value>Private Memory</value>
+  </data>
+  <data name="PROCESS_C_PrivilegedProcessorTime" xml:space="preserve">
+    <value>Privileged Processor Time</value>
+  </data>
+  <data name="PROCESS_C_ProcessPriorityClass" xml:space="preserve">
+    <value>Process Priority Class</value>
+  </data>
+  <data name="PROCESS_C_Product" xml:space="preserve">
+    <value>Product</value>
+  </data>
+  <data name="PROCESS_C_ProductVersion" xml:space="preserve">
+    <value>Product Version</value>
+  </data>
+  <data name="PROCESS_C_Responding" xml:space="preserve">
+    <value>Reponding</value>
+  </data>
+  <data name="PROCESS_C_SessionId" xml:space="preserve">
+    <value>Session ID</value>
+  </data>
+  <data name="PROCESS_C_StartInfoArguments" xml:space="preserve">
+    <value>Start Info Arguments</value>
+  </data>
+  <data name="PROCESS_C_StartTime" xml:space="preserve">
+    <value>Start Time</value>
+  </data>
+  <data name="PROCESS_C_ThreadCount" xml:space="preserve">
+    <value>Thread Count</value>
+  </data>
+  <data name="PROCESS_C_TotalProcessorTime" xml:space="preserve">
+    <value>Total Processor Time</value>
+  </data>
+  <data name="PROCESS_C_TotalRunTime" xml:space="preserve">
+    <value>Total Run Time</value>
+  </data>
+  <data name="PROCESS_C_User" xml:space="preserve">
+    <value>User</value>
+  </data>
+  <data name="PROCESS_C_VirtualMemorySize64" xml:space="preserve">
+    <value>Virtual Memory</value>
+  </data>
+  <data name="PROCESS_C_WorkingSet64" xml:space="preserve">
+    <value>Working Set</value>
+  </data>
+  <data name="SERVICE_ACCEPT_PAUSE_CONTINUE" xml:space="preserve">
+    <value>Pause|Continue</value>
+    <comment>The service can be paused and continued.</comment>
+  </data>
+  <data name="SERVICE_ACCEPT_STOP" xml:space="preserve">
+    <value>Stop</value>
+    <comment>The service can be stopped</comment>
+  </data>
+  <data name="SERVICE_AUTO_START" xml:space="preserve">
+    <value>Automatic</value>
+    <comment>A service started automatically by the service control manager during system startup</comment>
+  </data>
+  <data name="SERVICE_BOOT_START" xml:space="preserve">
+    <value>Boot</value>
+    <comment>A device driver started by the system loader. This value is valid only for driver services.</comment>
+  </data>
+  <data name="SERVICE_CONTINUE_PENDING" xml:space="preserve">
+    <value>Continue Pending</value>
+    <comment>The service is about to continue.</comment>
+  </data>
+  <data name="SERVICE_C_BinaryPathName" xml:space="preserve">
+    <value>Binary Path Name</value>
+  </data>
+  <data name="SERVICE_C_CheckPoint" xml:space="preserve">
+    <value>Checkpoint</value>
+  </data>
+  <data name="SERVICE_C_ControlsAccepted" xml:space="preserve">
+    <value>Controls Accepted</value>
+  </data>
+  <data name="SERVICE_C_CurrentState" xml:space="preserve">
+    <value>Current State</value>
+  </data>
+  <data name="SERVICE_C_Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="SERVICE_C_DisplayName" xml:space="preserve">
+    <value>Display Name</value>
+  </data>
+  <data name="SERVICE_C_ErrorControl" xml:space="preserve">
+    <value>Error Control</value>
+  </data>
+  <data name="SERVICE_C_LoadOrderGroup" xml:space="preserve">
+    <value>Load Order Group</value>
+  </data>
+  <data name="SERVICE_C_ProcessID" xml:space="preserve">
+    <value>Process ID</value>
+  </data>
+  <data name="SERVICE_C_ServiceFlags" xml:space="preserve">
+    <value>Service Flags</value>
+  </data>
+  <data name="SERVICE_C_ServiceName" xml:space="preserve">
+    <value>Service Name</value>
+  </data>
+  <data name="SERVICE_C_ServiceSpecificExitCode" xml:space="preserve">
+    <value>Service-Specific Exit Code</value>
+  </data>
+  <data name="SERVICE_C_ServiceType" xml:space="preserve">
+    <value>Service Type</value>
+  </data>
+  <data name="SERVICE_C_StartType" xml:space="preserve">
+    <value>Start Type</value>
+  </data>
+  <data name="SERVICE_C_TagId" xml:space="preserve">
+    <value>Tag ID</value>
+  </data>
+  <data name="SERVICE_C_User" xml:space="preserve">
+    <value>User</value>
+  </data>
+  <data name="SERVICE_C_WaitHint" xml:space="preserve">
+    <value>Wait Hint</value>
+  </data>
+  <data name="SERVICE_C_Win32ExitCode" xml:space="preserve">
+    <value>Win32 Exit Code</value>
+  </data>
+  <data name="SERVICE_DEMAND_START" xml:space="preserve">
+    <value>Manual</value>
+    <comment>A service started by the service control manager when a process calls the StartService function.</comment>
+  </data>
+  <data name="SERVICE_DISABLED" xml:space="preserve">
+    <value>Disabled</value>
+    <comment>A service that cannot be started. Attempts to start the service result in the error code ERROR_SERVICE_DISABLED.</comment>
+  </data>
+  <data name="SERVICE_ERROR_CRITICAL" xml:space="preserve">
+    <value>Critical</value>
+    <comment>The startup program logs the error in the event log, if possible. If the last-known good configuration is being started, the startup operation fails. Otherwise, the system is restarted with the last-known good configuration.</comment>
+  </data>
+  <data name="SERVICE_ERROR_IGNORE" xml:space="preserve">
+    <value>Ignore</value>
+    <comment>The startup program ignores the error and continues the startup operation.</comment>
+  </data>
+  <data name="SERVICE_ERROR_NORMAL" xml:space="preserve">
+    <value>Normal</value>
+    <comment>The startup program logs the error in the event log and continues the startup operation.</comment>
+  </data>
+  <data name="SERVICE_ERROR_SEVERE" xml:space="preserve">
+    <value>Severe</value>
+    <comment>The startup program logs the error in the event log. If the last-known good configuration is being started, the startup operation continues. Otherwise, the system is restarted with the last-known-good configuration.</comment>
+  </data>
+  <data name="SERVICE_FILE_SYSTEM_DRIVER" xml:space="preserve">
+    <value>File System</value>
+    <comment>The service is a file system driver.</comment>
+  </data>
+  <data name="SERVICE_INTERACTIVE_PROCESS" xml:space="preserve">
+    <value>Interactive</value>
+    <comment>The service can interact with the desktop.</comment>
+  </data>
+  <data name="SERVICE_KERNEL_DRIVER" xml:space="preserve">
+    <value>Kernel Driver</value>
+    <comment>The service is a device driver.</comment>
+  </data>
+  <data name="SERVICE_PAUSED" xml:space="preserve">
+    <value>Paused</value>
+    <comment>The service is paused.</comment>
+  </data>
+  <data name="SERVICE_PAUSE_PENDING" xml:space="preserve">
+    <value>Pause Pending</value>
+    <comment>The service is pausing.</comment>
+  </data>
+  <data name="SERVICE_RUNNING" xml:space="preserve">
+    <value>Running</value>
+    <comment>The service is running.</comment>
+  </data>
+  <data name="SERVICE_START_PENDING" xml:space="preserve">
+    <value>Start Pending</value>
+    <comment>The service is starting.</comment>
+  </data>
+  <data name="SERVICE_STOPPED" xml:space="preserve">
+    <value>Stopped</value>
+    <comment>The service has stopped</comment>
+  </data>
+  <data name="SERVICE_STOP_PENDING" xml:space="preserve">
+    <value>Stop Pending</value>
+    <comment>The service is stopping.</comment>
+  </data>
+  <data name="SERVICE_SYSTEM_START" xml:space="preserve">
+    <value>System</value>
+    <comment>A device driver started by the IoInitSystem function. This value is valid only for driver services</comment>
+  </data>
+  <data name="SERVICE_WIN32_OWN_PROCESS" xml:space="preserve">
+    <value>Own Process</value>
+    <comment>The service runs in its own process.</comment>
+  </data>
+  <data name="SERVICE_WIN32_SHARE_PROCESS" xml:space="preserve">
+    <value>Shared Process</value>
+    <comment>The service shares a process with other services.</comment>
+  </data>
+  <data name="WINDOW_C_Class" xml:space="preserve">
+    <value>Class</value>
+  </data>
+  <data name="WINDOW_C_ExStyle" xml:space="preserve">
+    <value>Extended Style</value>
+  </data>
+  <data name="WINDOW_C_ID" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="WINDOW_C_Position" xml:space="preserve">
+    <value>Position</value>
+  </data>
+  <data name="WINDOW_C_Process" xml:space="preserve">
+    <value>Process Name</value>
+  </data>
+  <data name="WINDOW_C_ProcessID" xml:space="preserve">
+    <value>Process ID</value>
+  </data>
+  <data name="WINDOW_C_Size" xml:space="preserve">
+    <value>Size</value>
+  </data>
+  <data name="WINDOW_C_Style" xml:space="preserve">
+    <value>Style</value>
+  </data>
+  <data name="WINDOW_C_ThreadID" xml:space="preserve">
+    <value>Thread ID</value>
+  </data>
+  <data name="WINDOW_C_Title" xml:space="preserve">
+    <value>Title</value>
+  </data>
+</root>
