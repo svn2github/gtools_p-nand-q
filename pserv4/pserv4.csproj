@@ -61,6 +61,8 @@
     <Compile Include="devices\DevicesDataController.cs" />
     <Compile Include="IObject.cs" />
     <Compile Include="Localisation.cs" />
+    <Compile Include="modules\ModuleDataObject.cs" />
+    <Compile Include="modules\ModulesDataController.cs" />
     <Compile Include="ObjectColumn.cs" />
     <Compile Include="IObjectController.cs" />
     <Compile Include="processes\NativeProcessFunctions.cs" />
@@ -72,6 +74,8 @@
     <Compile Include="services\ServicesDataController.cs" />
     <Compile Include="services\ServiceDataObject.cs" />
     <Compile Include="services\ServicesLocalisation.cs" />
+    <Compile Include="uninstaller\UninstallerDataController.cs" />
+    <Compile Include="uninstaller\UninstallerDataObject.cs" />
     <Compile Include="WaitCursor.cs" />
     <Compile Include="windows\NativeWindowFunctions.cs" />
     <Compile Include="windows\WindowsDataController.cs" />
@@ -119,7 +123,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="images\glyphicons_461_saw_blade.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

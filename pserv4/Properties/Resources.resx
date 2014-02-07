@@ -117,6 +117,30 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="MODULE_C_FileDescription" xml:space="preserve">
+    <value>File Description</value>
+  </data>
+  <data name="MODULE_C_FileVersion" xml:space="preserve">
+    <value>File Version</value>
+  </data>
+  <data name="MODULE_C_ModuleMemorySize" xml:space="preserve">
+    <value>Memory Size</value>
+  </data>
+  <data name="MODULE_C_Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="MODULE_C_Path" xml:space="preserve">
+    <value>Path</value>
+  </data>
+  <data name="MODULE_C_ProcessID" xml:space="preserve">
+    <value>Process ID</value>
+  </data>
+  <data name="MODULE_C_Product" xml:space="preserve">
+    <value>Product</value>
+  </data>
+  <data name="MODULE_C_ProductVersion" xml:space="preserve">
+    <value>Product Version</value>
+  </data>
   <data name="PROCESS_C_FileDescription" xml:space="preserve">
     <value>File Description</value>
   </data>
@@ -349,6 +373,30 @@
   <data name="SERVICE_WIN32_SHARE_PROCESS" xml:space="preserve">
     <value>Shared Process</value>
     <comment>The service shares a process with other services.</comment>
+  </data>
+  <data name="UNINSTALLER_C_AboutLink" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="UNINSTALLER_C_Action" xml:space="preserve">
+    <value>Action</value>
+  </data>
+  <data name="UNINSTALLER_C_ApplicationName" xml:space="preserve">
+    <value>Application Name</value>
+  </data>
+  <data name="UNINSTALLER_C_HelpLink" xml:space="preserve">
+    <value>Help</value>
+  </data>
+  <data name="UNINSTALLER_C_InstallLocation" xml:space="preserve">
+    <value>Install Location</value>
+  </data>
+  <data name="UNINSTALLER_C_Key" xml:space="preserve">
+    <value>Key</value>
+  </data>
+  <data name="UNINSTALLER_C_Publisher" xml:space="preserve">
+    <value>Publisher</value>
+  </data>
+  <data name="UNINSTALLER_C_Version" xml:space="preserve">
+    <value>Version</value>
   </data>
   <data name="WINDOW_C_Class" xml:space="preserve">
     <value>Class</value>

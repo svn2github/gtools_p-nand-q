@@ -63,6 +63,78 @@ namespace pserv4.Properties {
         /// <summary>
         ///   Looks up a localized string similar to File Description.
         /// </summary>
+        internal static string MODULE_C_FileDescription {
+            get {
+                return ResourceManager.GetString("MODULE_C_FileDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File Version.
+        /// </summary>
+        internal static string MODULE_C_FileVersion {
+            get {
+                return ResourceManager.GetString("MODULE_C_FileVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Memory Size.
+        /// </summary>
+        internal static string MODULE_C_ModuleMemorySize {
+            get {
+                return ResourceManager.GetString("MODULE_C_ModuleMemorySize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        internal static string MODULE_C_Name {
+            get {
+                return ResourceManager.GetString("MODULE_C_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Path.
+        /// </summary>
+        internal static string MODULE_C_Path {
+            get {
+                return ResourceManager.GetString("MODULE_C_Path", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Process ID.
+        /// </summary>
+        internal static string MODULE_C_ProcessID {
+            get {
+                return ResourceManager.GetString("MODULE_C_ProcessID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Product.
+        /// </summary>
+        internal static string MODULE_C_Product {
+            get {
+                return ResourceManager.GetString("MODULE_C_Product", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Product Version.
+        /// </summary>
+        internal static string MODULE_C_ProductVersion {
+            get {
+                return ResourceManager.GetString("MODULE_C_ProductVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File Description.
+        /// </summary>
         internal static string PROCESS_C_FileDescription {
             get {
                 return ResourceManager.GetString("PROCESS_C_FileDescription", resourceCulture);
@@ -687,6 +759,78 @@ namespace pserv4.Properties {
         internal static string SERVICE_WIN32_SHARE_PROCESS {
             get {
                 return ResourceManager.GetString("SERVICE_WIN32_SHARE_PROCESS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to About.
+        /// </summary>
+        internal static string UNINSTALLER_C_AboutLink {
+            get {
+                return ResourceManager.GetString("UNINSTALLER_C_AboutLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Action.
+        /// </summary>
+        internal static string UNINSTALLER_C_Action {
+            get {
+                return ResourceManager.GetString("UNINSTALLER_C_Action", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Application Name.
+        /// </summary>
+        internal static string UNINSTALLER_C_ApplicationName {
+            get {
+                return ResourceManager.GetString("UNINSTALLER_C_ApplicationName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Help.
+        /// </summary>
+        internal static string UNINSTALLER_C_HelpLink {
+            get {
+                return ResourceManager.GetString("UNINSTALLER_C_HelpLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Install Location.
+        /// </summary>
+        internal static string UNINSTALLER_C_InstallLocation {
+            get {
+                return ResourceManager.GetString("UNINSTALLER_C_InstallLocation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Key.
+        /// </summary>
+        internal static string UNINSTALLER_C_Key {
+            get {
+                return ResourceManager.GetString("UNINSTALLER_C_Key", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Publisher.
+        /// </summary>
+        internal static string UNINSTALLER_C_Publisher {
+            get {
+                return ResourceManager.GetString("UNINSTALLER_C_Publisher", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Version.
+        /// </summary>
+        internal static string UNINSTALLER_C_Version {
+            get {
+                return ResourceManager.GetString("UNINSTALLER_C_Version", resourceCulture);
             }
         }
         

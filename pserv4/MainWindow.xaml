@@ -1,20 +1,21 @@
 ﻿<Window x:Class="pserv4.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="599" Width="1186" Loaded="Window_Loaded">
+        Title="pserv4" Height="599" Width="1186" Loaded="Window_Loaded">
     <Grid >
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="30" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="80*"/>
-                <ColumnDefinition Width="80*"/>
-                <ColumnDefinition Width="80*"/>
-                <ColumnDefinition Width="80*"/>
-                <ColumnDefinition Width="80*"/>
-                <ColumnDefinition Width="80*"/>
+                <ColumnDefinition Width="50*"/>
+                <ColumnDefinition Width="50*"/>
+                <ColumnDefinition Width="50*"/>
+                <ColumnDefinition Width="50*"/>
+                <ColumnDefinition Width="50*"/>
+                <ColumnDefinition Width="50*"/>
                 <ColumnDefinition Width="400*"/>
             </Grid.ColumnDefinitions>
             <Button Name="ButtonServices" Grid.Column="0" BorderThickness="0" Margin="0" FontFamily="Segoe UI" FontSize="17" FontWeight="Light" Background="LightGray" Click="SwitchToServices">
@@ -37,7 +38,7 @@
             </Button>
             <Grid Grid.Column="6">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="10" />
+                    <RowDefinition Height="2" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
@@ -46,16 +47,18 @@
                     <ColumnDefinition Width="436*"/>
                 </Grid.ColumnDefinitions>
                 <Label Grid.Row="1" Grid.Column="0" Content="Suchtext:"/>
-                <TextBox x:Name="FindThisText" Grid.Row="1" Grid.Column="1" Margin="3"/>
+                <TextBox x:Name="FindThisText" Grid.Row="1" Grid.Column="1" Margin="3" TextChanged="FindThisText_TextChanged"/>
             </Grid>
         </Grid>
-        <ListView Grid.Row="1" Name="MainListView" >
+        <ListView Grid.Row="1" Name="MainListView" 
+                  MouseDoubleClick="MainListView_MouseDoubleClick" 
+                  SelectionChanged="MainListView_SelectionChanged"
+                  PreviewMouseWheel="Zoom_MouseWheel"
+                  GridViewColumnHeader.Click="MainListView_GridViewColumnHeaderClickedHandler">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="Foreground" Value="Black" />
                     <Setter Property="FontFamily" Value="Segoe UI" />
-                    <Setter Property="FontSize" Value="13" />
-                    
                     
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding Path=IsRunning}" Value="True">
