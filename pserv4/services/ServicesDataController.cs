@@ -76,11 +76,11 @@ namespace pserv4.services
             {
                 ContextMenu menu = new ContextMenu();
 
-                AppendMenuItem(menu, "Start", "control_play_blue.png", OnStartService);
-                AppendMenuItem(menu, "Stop", "control_stop_blue.png", OnStopService);
-                AppendMenuItem(menu, "Restart", "control_repeat_blue.png", OnRestartService);
-                AppendMenuItem(menu, "Pause", "control_pause_blue.png", OnPauseService);
-                AppendMenuItem(menu, "Continue", "control_fastforward_blue.png", OnContinueService);
+                AppendMenuItem(menu, pserv4.Properties.Resources.SERVICE_CONTROL_Start, "control_play_blue.png", OnStartService);
+                AppendMenuItem(menu, pserv4.Properties.Resources.SERVICE_CONTROL_Stop, "control_stop_blue.png", OnStopService);
+                AppendMenuItem(menu, pserv4.Properties.Resources.SERVICE_CONTROL_Restart, "control_repeat_blue.png", OnRestartService);
+                AppendMenuItem(menu, pserv4.Properties.Resources.SERVICE_CONTROL_Pause, "control_pause_blue.png", OnPauseService);
+                AppendMenuItem(menu, pserv4.Properties.Resources.SERVICE_CONTROL_Continue, "control_fastforward_blue.png", OnContinueService);
 
                 return menu;
             }

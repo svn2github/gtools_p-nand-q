@@ -601,6 +601,51 @@ namespace pserv4.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Continue.
+        /// </summary>
+        internal static string SERVICE_CONTROL_Continue {
+            get {
+                return ResourceManager.GetString("SERVICE_CONTROL_Continue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pause.
+        /// </summary>
+        internal static string SERVICE_CONTROL_Pause {
+            get {
+                return ResourceManager.GetString("SERVICE_CONTROL_Pause", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Restart.
+        /// </summary>
+        internal static string SERVICE_CONTROL_Restart {
+            get {
+                return ResourceManager.GetString("SERVICE_CONTROL_Restart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start.
+        /// </summary>
+        internal static string SERVICE_CONTROL_Start {
+            get {
+                return ResourceManager.GetString("SERVICE_CONTROL_Start", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stop.
+        /// </summary>
+        internal static string SERVICE_CONTROL_Stop {
+            get {
+                return ResourceManager.GetString("SERVICE_CONTROL_Stop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Manual.
         /// </summary>
         internal static string SERVICE_DEMAND_START {

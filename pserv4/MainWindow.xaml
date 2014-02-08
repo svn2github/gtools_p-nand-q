@@ -12,6 +12,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="25" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="25" />
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
@@ -225,5 +226,44 @@
                 </GridView>
             </ListView.View>
         </ListView>
+
+        <StatusBar Grid.Row="2">
+            <StatusBar.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                    </Grid>
+                </ItemsPanelTemplate>
+            </StatusBar.ItemsPanel>
+            <StatusBarItem Grid.Column="0">
+                <TextBlock Name="SbVisible"/>
+            </StatusBarItem>
+            <StatusBarItem Grid.Column="1">
+                <TextBlock Name="SbHighlighted"/>
+            </StatusBarItem>
+            <StatusBarItem Grid.Column="2">
+                <TextBlock Name="SbDisabled"/>
+            </StatusBarItem>
+            <StatusBarItem Grid.Column="3">
+                <TextBlock Name="SbHidden"/>
+            </StatusBarItem>
+            <StatusBarItem Grid.Column="4">
+                <TextBlock Name="SbTotal"/>
+            </StatusBarItem>
+            <StatusBarItem Grid.Column="5">
+                <TextBlock Name="SbSelected"/>
+            </StatusBarItem>
+        </StatusBar>
     </Grid>
 </Window>

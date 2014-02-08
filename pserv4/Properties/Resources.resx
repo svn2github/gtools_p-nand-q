@@ -248,6 +248,21 @@
     <value>Continue Pending</value>
     <comment>The service is about to continue.</comment>
   </data>
+  <data name="SERVICE_CONTROL_Continue" xml:space="preserve">
+    <value>Continue</value>
+  </data>
+  <data name="SERVICE_CONTROL_Pause" xml:space="preserve">
+    <value>Pause</value>
+  </data>
+  <data name="SERVICE_CONTROL_Restart" xml:space="preserve">
+    <value>Restart</value>
+  </data>
+  <data name="SERVICE_CONTROL_Start" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="SERVICE_CONTROL_Stop" xml:space="preserve">
+    <value>Stop</value>
+  </data>
   <data name="SERVICE_C_BinaryPathName" xml:space="preserve">
     <value>Binary Path Name</value>
   </data>

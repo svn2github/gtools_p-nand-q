@@ -92,6 +92,8 @@ namespace pserv4
                 MainListView.ContextMenu = CurrentController.ContextMenu;
                 MainListView.ContextMenuOpening += MainListView_ContextMenuOpening;
 
+                UpdateDefaultStatusBar();
+
                 CreateInitialSort();
                 LastActiveButton = index;
                 SwitchButtons[LastActiveButton].Background = new SolidColorBrush(Colors.LightGray);
@@ -187,6 +189,60 @@ namespace pserv4
             bool enabled = MainListView.SelectedItems.Count > 0;
             //BtEdit.IsEnabled = enabled;
             //BtDelete.IsEnabled = enabled;
+
+            SbSelected.Text = string.Format("{0} selected", MainListView.SelectedItems.Count);
+        }
+
+        private void UpdateDefaultStatusBar()
+        {
+            int nVisible = 0;
+            int nHighlighted = 0;
+            int nDisabled = 0;
+            int nHidden = 0;
+            foreach (DataObject o in Items)
+            {
+                ++nVisible;
+                if (o.IsDisabled)
+                    ++nDisabled;
+
+                else if (o.IsRunning)
+                    ++nHighlighted;
+            }
+            SbVisible.Text = string.Format("{0} visible", nVisible);
+            SbHighlighted.Text = string.Format("{0} highlighted", nHighlighted);
+            SbDisabled.Text = string.Format("{0} disabled", nDisabled);
+            SbHidden.Text = string.Format("{0} filtered", nHidden);
+            SbTotal.Text = string.Format("{0} total", Items.Count);
+            SbSelected.Text = string.Format("{0} selected", MainListView.SelectedItems.Count);
+        }
+
+        private void UpdateFilteredStatusBar()
+        {
+            int nVisible = 0;
+            int nHighlighted = 0;
+            int nDisabled = 0;
+            int nHidden = 0;
+            foreach (DataObject o in Items)
+            {
+                if (FilterDataObjectItem(o))
+                {
+                    ++nVisible;
+                    if (o.IsDisabled)
+                        ++nDisabled;
+
+                    else if (o.IsRunning)
+                        ++nHighlighted;
+
+                }
+                else
+                {
+                    ++nHidden;
+                }
+            }
+            SbVisible.Text = string.Format("{0} visible", nVisible);
+            SbHighlighted.Text = string.Format("{0} highlighted", nHighlighted);
+            SbDisabled.Text = string.Format("{0} disabled", nDisabled);
+            SbHidden.Text = string.Format("{0} filtered", nHidden);
         }
 
         private void FindThisText_TextChanged(object sender, TextChangedEventArgs e)
@@ -195,10 +251,12 @@ namespace pserv4
             if (FindThisText.Text.Trim().Length == 0)
             {
                 view.Filter = null;
+                UpdateDefaultStatusBar();
             }
             else
             {
                 view.Filter = new Predicate<object>(FilterDataObjectItem);
+                UpdateFilteredStatusBar();
             }
         }
 
