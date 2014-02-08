@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
+using System.Windows.Controls;
 
 namespace pserv4.windows
 {
-    public class WindowsDataController : IObjectController
+    public class WindowsDataController : DataController
     {
         private static List<ObjectColumn> ActualColumns;
 
@@ -15,7 +16,7 @@ namespace pserv4.windows
         {
         }
 
-        public IEnumerable<ObjectColumn> Columns
+        public override IEnumerable<ObjectColumn> Columns
         {
             get
             {
@@ -37,11 +38,11 @@ namespace pserv4.windows
             }
         }
 
-        public void Refresh(ObservableCollection<IObject> objects)
+        public override void Refresh(ObservableCollection<DataObject> objects)
         {
             Dictionary<int, WindowDataObject> existingObjects = new Dictionary<int, WindowDataObject>();
 
-            foreach (IObject o in objects)
+            foreach (DataObject o in objects)
             {
                 WindowDataObject sdo = o as WindowDataObject;
                 if (sdo != null)

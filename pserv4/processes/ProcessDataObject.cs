@@ -16,7 +16,7 @@ using HANDLE = System.IntPtr;
 
 namespace pserv4.processes
 {
-    public class ProcessDataObject : IObject
+    public class ProcessDataObject : DataObject
     {
         public string IDString
         { 
@@ -55,8 +55,6 @@ namespace pserv4.processes
         public string WorkingSet64 { get; private set; }
 
 
-        public bool IsDisabled { get; private set; }
-        public bool IsRunning { get; private set; }
 
         public readonly int ID;
 
@@ -123,16 +121,6 @@ namespace pserv4.processes
                 IsDisabled = true;
             }
                         
-        }
-        
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public void NotifyPropertyChanged(string name)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(name));
-            }
         }
     }
 

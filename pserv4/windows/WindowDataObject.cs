@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace pserv4.windows
 {
-    public class WindowDataObject : IObject
+    public class WindowDataObject : DataObject
     {
         public string HandleString
         { 
@@ -27,10 +27,7 @@ namespace pserv4.windows
         public string ProcessID { get; private set; }
         public string ThreadID { get; private set; }
         public string Process { get; private set; }
-
-        public bool IsDisabled { get; private set; }
-        public bool IsRunning { get; private set; }
-
+        
         public readonly int Handle;
 
         public WindowDataObject(int hwnd)
@@ -67,16 +64,6 @@ namespace pserv4.windows
             if (!WindowTimedOut)
             {
                 IsRunning = true;
-            }
-        }
-        
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public void NotifyPropertyChanged(string name)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(name));
             }
         }
     }

@@ -5,36 +5,54 @@
     <Grid >
         
         <Grid.RowDefinitions>
-            <RowDefinition Height="30" />
+            <RowDefinition Height="25" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="50*"/>
-                <ColumnDefinition Width="50*"/>
-                <ColumnDefinition Width="50*"/>
-                <ColumnDefinition Width="50*"/>
-                <ColumnDefinition Width="50*"/>
-                <ColumnDefinition Width="50*"/>
+                <ColumnDefinition Width="60*"/>
+                <ColumnDefinition Width="60*"/>
+                <ColumnDefinition Width="60*"/>
+                <ColumnDefinition Width="60*"/>
+                <ColumnDefinition Width="60*"/>
+                <ColumnDefinition Width="60*"/>
                 <ColumnDefinition Width="400*"/>
             </Grid.ColumnDefinitions>
-            <Button Name="ButtonServices" Grid.Column="0" BorderThickness="0" Margin="0" FontFamily="Segoe UI" FontSize="17" FontWeight="Light" Background="LightGray" Click="SwitchToServices">
-                <TextBlock TextWrapping="Wrap" TextAlignment="Left">Services</TextBlock>
+            <Button Name="ButtonServices" Grid.Column="0" BorderThickness="0" Margin="0" FontFamily="Segoe UI" FontSize="14" Background="White" FontWeight="Normal" Click="SwitchToServices">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                    <Image Source="images\server.png" RenderOptions.BitmapScalingMode="NearestNeighbor" Height="16" Margin="0 0 5 0"/>
+                    <TextBlock TextWrapping="Wrap" TextAlignment="Left">Services</TextBlock>
+                </StackPanel>
             </Button>
-            <Button Name="ButtonDevices" Grid.Column="1" BorderThickness="0" Margin="0"  FontFamily="Segoe UI" FontSize="17" FontWeight="Light" Background="LightGray" Click="SwitchToDevices" >
-                <TextBlock TextWrapping="Wrap" TextAlignment="Left">Devices</TextBlock>
+            <Button Name="ButtonDevices" Grid.Column="1" BorderThickness="0" Margin="0"  FontFamily="Segoe UI" FontSize="14"  Background="White" Click="SwitchToDevices" >
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                    <Image Source="images\wrench.png" RenderOptions.BitmapScalingMode="NearestNeighbor" Height="16" Margin="0 0 5 0"/>
+                    <TextBlock TextWrapping="Wrap" TextAlignment="Left">Devices</TextBlock>
+                </StackPanel>
             </Button>
-            <Button Name="ButtonWindows" Grid.Column="2" BorderThickness="0" Margin="0" FontFamily="Segoe UI" FontSize="17" FontWeight="Light" Background="LightGray" Click="SwitchToWindows">
-                <TextBlock TextWrapping="Wrap" TextAlignment="Left">Windows</TextBlock>
+            <Button Name="ButtonWindows" Grid.Column="2" BorderThickness="0" Margin="0" FontFamily="Segoe UI" FontSize="14" Background="White" Click="SwitchToWindows">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                    <Image Source="images\application_cascade.png" RenderOptions.BitmapScalingMode="NearestNeighbor" Height="16" Margin="0 0 5 0"/>
+                    <TextBlock TextWrapping="Wrap" TextAlignment="Left">Windows</TextBlock>
+                </StackPanel>
             </Button>
-            <Button Name="ButtonUninstaller" Grid.Column="3" BorderThickness="0" Margin="0" FontFamily="Segoe UI" FontSize="17" FontWeight="Light" Background="LightGray" Click="SwitchToUninstaller">
-                <TextBlock TextWrapping="Wrap" TextAlignment="Left">Uninstall</TextBlock>
+            <Button Name="ButtonUninstaller" Grid.Column="3" BorderThickness="0" Margin="0" FontFamily="Segoe UI" FontSize="14" Background="White" Click="SwitchToUninstaller">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                    <Image Source="images\package_delete.png" RenderOptions.BitmapScalingMode="NearestNeighbor" Height="16" Margin="0 0 5 0"/>
+                    <TextBlock TextWrapping="Wrap" TextAlignment="Left">Programs</TextBlock>
+                </StackPanel>
             </Button>
-            <Button Name="ButtonProcesses" Grid.Column="4" BorderThickness="0" Margin="0" FontFamily="Segoe UI" FontSize="17" FontWeight="Light" Background="LightGray" Click="SwitchToProcesses">
-                <TextBlock TextWrapping="Wrap" TextAlignment="Left">Processes</TextBlock>
+            <Button Name="ButtonProcesses" Grid.Column="4" BorderThickness="0" Margin="0" FontFamily="Segoe UI" FontSize="14" Background="White" Click="SwitchToProcesses">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                    <Image Source="images\server_uncompressed.png" RenderOptions.BitmapScalingMode="NearestNeighbor" Height="16" Margin="0 0 5 0"/>
+                    <TextBlock TextWrapping="Wrap" TextAlignment="Left">Processes</TextBlock>
+                </StackPanel>
             </Button>
-            <Button Name="ButtonModules" Grid.Column="5" BorderThickness="0" Margin="0" FontFamily="Segoe UI" FontSize="17" FontWeight="Light" Background="LightGray" Click="SwitchToModules">
-                <TextBlock TextWrapping="Wrap" TextAlignment="Left">Modules</TextBlock>
+            <Button Name="ButtonModules" Grid.Column="5" BorderThickness="0" Margin="0" FontFamily="Segoe UI" FontSize="14" Background="White" Click="SwitchToModules">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                    <Image Source="images\server_database.png" RenderOptions.BitmapScalingMode="NearestNeighbor" Height="16" Margin="0 0 5 0"/>
+                    <TextBlock TextWrapping="Wrap" TextAlignment="Left">Modules</TextBlock>
+                </StackPanel>
             </Button>
             <Grid Grid.Column="6">
                 <Grid.RowDefinitions>

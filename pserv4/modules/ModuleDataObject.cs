@@ -12,7 +12,7 @@ using System.IO;
 
 namespace pserv4.modules
 {
-    public class ModuleDataObject : IObject
+    public class ModuleDataObject : DataObject
     {
         public string ID { get; private set; }
         public string ProcessID { get; private set; }
@@ -24,8 +24,6 @@ namespace pserv4.modules
         public string Product { get; private set; }
         public string ProductVersion { get; private set; }
 
-        public bool IsDisabled { get; private set; }
-        public bool IsRunning { get; private set; }
 
 
         public ModuleDataObject(Process p, ProcessModule m, bool isDisabled)
@@ -42,16 +40,6 @@ namespace pserv4.modules
             Product = m.FileVersionInfo.ProductName;
             ProductVersion = m.FileVersionInfo.ProductVersion;
             IsDisabled = isDisabled;
-        }
-        
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public void NotifyPropertyChanged(string name)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(name));
-            }
         }
     }
 

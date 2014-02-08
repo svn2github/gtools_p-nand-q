@@ -58,28 +58,44 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BackgroundAction.cs" />
     <Compile Include="devices\DevicesDataController.cs" />
-    <Compile Include="IObject.cs" />
+    <Compile Include="DataObject.cs" />
     <Compile Include="Localisation.cs" />
+    <Compile Include="LongRunningFunctionWindow.xaml.cs">
+      <DependentUpon>LongRunningFunctionWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="modules\ModuleDataObject.cs" />
     <Compile Include="modules\ModulesDataController.cs" />
     <Compile Include="ObjectColumn.cs" />
-    <Compile Include="IObjectController.cs" />
+    <Compile Include="DataController.cs" />
     <Compile Include="processes\NativeProcessFunctions.cs" />
     <Compile Include="processes\ProcessDataObject.cs" />
     <Compile Include="processes\ProcessesDataController.cs" />
     <Compile Include="services\NativeSCManager.cs" />
     <Compile Include="services\NativeService.cs" />
     <Compile Include="services\NativeServiceFunctions.cs" />
+    <Compile Include="services\PerformServiceStateRequest.cs" />
+    <Compile Include="services\RequestServiceContinue.cs" />
+    <Compile Include="services\RequestServicePause.cs" />
+    <Compile Include="services\RequestServiceRestart.cs" />
+    <Compile Include="services\RequestServiceShutdown.cs" />
+    <Compile Include="services\RequestServiceStartup.cs" />
     <Compile Include="services\ServicesDataController.cs" />
     <Compile Include="services\ServiceDataObject.cs" />
     <Compile Include="services\ServicesLocalisation.cs" />
+    <Compile Include="services\ServiceStateRequest.cs" />
+    <Compile Include="services\ServiceStatus.cs" />
     <Compile Include="uninstaller\UninstallerDataController.cs" />
     <Compile Include="uninstaller\UninstallerDataObject.cs" />
     <Compile Include="WaitCursor.cs" />
     <Compile Include="windows\NativeWindowFunctions.cs" />
     <Compile Include="windows\WindowsDataController.cs" />
     <Compile Include="windows\WindowDataObject.cs" />
+    <Page Include="LongRunningFunctionWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -124,7 +140,34 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="images\glyphicons_461_saw_blade.png" />
+    <Resource Include="images\server.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\wrench.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\application_cascade.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\package_delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\server_uncompressed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\server_database.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\control_fastforward.png" />
+    <Resource Include="images\control_fastforward_blue.png" />
+    <Resource Include="images\control_pause.png" />
+    <Resource Include="images\control_pause_blue.png" />
+    <Resource Include="images\control_play.png" />
+    <Resource Include="images\control_play_blue.png" />
+    <Resource Include="images\control_repeat.png" />
+    <Resource Include="images\control_repeat_blue.png" />
+    <Resource Include="images\control_stop.png" />
+    <Resource Include="images\control_stop_blue.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

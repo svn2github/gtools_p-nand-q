@@ -13,7 +13,7 @@ using Microsoft.Win32;
 
 namespace pserv4.uninstaller
 {
-    public class UninstallerDataObject : IObject
+    public class UninstallerDataObject : DataObject
     {
         public string ApplicationName { get; private set; }
         public string InstallLocation { get; private set; }
@@ -23,10 +23,7 @@ namespace pserv4.uninstaller
         public string HelpLink { get; private set; }
         public string AboutLink { get; private set; }
         public string Action { get; private set; }
-
-        public bool IsDisabled { get; private set; }
-        public bool IsRunning { get; private set; }
-
+        
         public UninstallerDataObject(RegistryKey rootKey, string keyPath, string keyName)
         {
             using (RegistryKey hkKey = rootKey.OpenSubKey(keyPath, false))
@@ -59,16 +56,7 @@ namespace pserv4.uninstaller
                 }
             }
         }
-        
-        public event PropertyChangedEventHandler PropertyChanged;
 
-        public void NotifyPropertyChanged(string name)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(name));
-            }
-        }
     }
 
 }

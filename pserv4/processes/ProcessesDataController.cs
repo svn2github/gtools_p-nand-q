@@ -8,7 +8,7 @@ using System.Collections.ObjectModel;
 
 namespace pserv4.processes
 {
-    public class ProcessesDataController : IObjectController
+    public class ProcessesDataController : DataController
     {
         private static List<ObjectColumn> ActualColumns;
 
@@ -16,7 +16,7 @@ namespace pserv4.processes
         {
         }
 
-        public IEnumerable<ObjectColumn> Columns
+        public override IEnumerable<ObjectColumn> Columns
         {
             get
             {
@@ -57,11 +57,11 @@ namespace pserv4.processes
             }
         }
 
-        public void Refresh(ObservableCollection<IObject> objects)
+        public override void Refresh(ObservableCollection<DataObject> objects)
         {
             Dictionary<int, ProcessDataObject> existingObjects = new Dictionary<int, ProcessDataObject>();
 
-            foreach (IObject o in objects)
+            foreach (DataObject o in objects)
             {
                 ProcessDataObject sdo = o as ProcessDataObject;
                 if (sdo != null)

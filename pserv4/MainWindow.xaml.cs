@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.ComponentModel;
+using System.Diagnostics;
 
 namespace pserv4
 {
@@ -22,8 +23,8 @@ namespace pserv4
     /// </summary>
     public partial class MainWindow : Window
     {
-        public IObjectController CurrentController;
-        private IObjectController[] Controllers = {
+        public DataController CurrentController;
+        private DataController[] Controllers = {
             new services.ServicesDataController(), // services
             new devices.DevicesDataController(), // devices
             new windows.WindowsDataController(), // windows 
@@ -35,7 +36,7 @@ namespace pserv4
         private readonly Button[] SwitchButtons;
         private int LastActiveButton = -1;
 
-        private ObservableCollection<IObject> Items = new ObservableCollection<IObject>();
+        private ObservableCollection<DataObject> Items = new ObservableCollection<DataObject>();
 
         public MainWindow()
         {
@@ -65,8 +66,7 @@ namespace pserv4
 
                 if (LastActiveButton >= 0)
                 {
-                    SwitchButtons[LastActiveButton].Background = new SolidColorBrush(Colors.LightGray);
-                    SwitchButtons[LastActiveButton].Foreground = new SolidColorBrush(Colors.Black);
+                    SwitchButtons[LastActiveButton].Background = new SolidColorBrush(Colors.White);
                 }
 
                 // cleanup
@@ -86,10 +86,24 @@ namespace pserv4
                     column.Width = System.Double.NaN;
                     MainGridView.Columns.Add(column);
                 }
+                CurrentController.MainListView = MainListView;
+                MainListView.ContextMenu = CurrentController.ContextMenu;
+                MainListView.ContextMenuOpening += MainListView_ContextMenuOpening;
+
                 CreateInitialSort();
                 LastActiveButton = index;
-                SwitchButtons[index].Background = new SolidColorBrush(Colors.SteelBlue);
-                SwitchButtons[index].Foreground = new SolidColorBrush(Colors.White);
+                SwitchButtons[LastActiveButton].Background = new SolidColorBrush(Colors.LightGray);
+            }
+        }
+
+        void MainListView_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            try
+            {
+                CurrentController.OnContextMenuOpening(MainListView.SelectedItems, MainListView.ContextMenu);
+            }
+            catch(Exception)
+            {
             }
         }
 
@@ -159,7 +173,7 @@ namespace pserv4
 
         private void MainListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            IObject item = ((FrameworkElement)e.OriginalSource).DataContext as IObject;
+            DataObject item = ((FrameworkElement)e.OriginalSource).DataContext as DataObject;
             if (item != null)
             {
                 //EditItem(item); TODO: pass on to controller for editing
@@ -188,7 +202,7 @@ namespace pserv4
 
         private bool FilterMovieItem(object obj)
         {
-            IObject item = obj as IObject;
+            DataObject item = obj as DataObject;
             if (item == null) return false;
 
             string textFilter = FindThisText.Text.ToLower();

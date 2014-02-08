@@ -9,7 +9,7 @@ using Microsoft.Win32;
 
 namespace pserv4.uninstaller
 {
-    public class UninstallerDataController : IObjectController
+    public class UninstallerDataController : DataController
     {
         private static List<ObjectColumn> ActualColumns;
 
@@ -17,7 +17,7 @@ namespace pserv4.uninstaller
         {
         }
 
-        public IEnumerable<ObjectColumn> Columns
+        public override IEnumerable<ObjectColumn> Columns
         {
             get
             {
@@ -37,11 +37,11 @@ namespace pserv4.uninstaller
             }
         }
 
-        public void Refresh(ObservableCollection<IObject> objects)
+        public override void Refresh(ObservableCollection<DataObject> objects)
         {
             Dictionary<string, UninstallerDataObject> existingObjects = new Dictionary<string, UninstallerDataObject>();
 
-            foreach (IObject o in objects)
+            foreach (DataObject o in objects)
             {
                 UninstallerDataObject sdo = o as UninstallerDataObject;
                 if (sdo != null)
@@ -53,7 +53,7 @@ namespace pserv4.uninstaller
             RefreshEntries(existingObjects, objects, Registry.CurrentUser, "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall");
         }
         
-        private void RefreshEntries(Dictionary<string, UninstallerDataObject> existingObjects, ObservableCollection<IObject> objects, RegistryKey rootKey, string keyName)
+        private void RefreshEntries(Dictionary<string, UninstallerDataObject> existingObjects, ObservableCollection<DataObject> objects, RegistryKey rootKey, string keyName)
         {
             using(RegistryKey hkKey = rootKey.OpenSubKey(keyName,false))
             {

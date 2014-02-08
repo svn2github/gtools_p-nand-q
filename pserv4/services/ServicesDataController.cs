@@ -4,10 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
+using System.Windows;
+using System.Windows.Controls;
+using System.Diagnostics;
+using System.Windows.Media.Imaging;
 
 namespace pserv4.services
 {
-    public class ServicesDataController : IObjectController
+    public class ServicesDataController : DataController
     {
         private static List<ObjectColumn> ActualColumns;
         private readonly SC_SERVICE_TYPE ServicesType;
@@ -17,7 +21,7 @@ namespace pserv4.services
             ServicesType = servicesType;
         }
 
-        public IEnumerable<ObjectColumn> Columns
+        public override IEnumerable<ObjectColumn> Columns
         {
             get
             {
@@ -47,11 +51,169 @@ namespace pserv4.services
             }
         }
 
-        public void Refresh(ObservableCollection<IObject> objects)
+        private void AppendMenuItem(ContextMenu menu, string header, string image, RoutedEventHandler callback)
+        {
+            MenuItem mi = new MenuItem();
+            mi.Header = header;
+            if( !string.IsNullOrEmpty(image))
+            {
+                Image i = new Image();
+                string filename = string.Format(@"pack://application:,,,/images/{0}", image);
+                Trace.TraceInformation("filename: {0}", filename);
+
+                i.Source = new BitmapImage(new Uri(filename));
+                mi.Icon = i;
+            }
+            mi.Click += callback;
+            menu.Items.Add(mi);
+        }
+
+        public override ContextMenu ContextMenu
+        {
+            get
+            {
+                ContextMenu menu = new ContextMenu();
+
+                AppendMenuItem(menu, "Start", "control_play_blue.png", OnStartService);
+                AppendMenuItem(menu, "Stop", "control_stop_blue.png", OnStopService);
+                AppendMenuItem(menu, "Restart", "control_repeat_blue.png", OnRestartService);
+                AppendMenuItem(menu, "Pause", "control_pause_blue.png", OnPauseService);
+                AppendMenuItem(menu, "Continue", "control_fastforward_blue.png", OnContinueService);
+
+                return menu;
+            }
+        }
+
+        private enum Possibility
+        {
+            Unknown,
+            CanRun,
+            CannotRun,
+            CanBoth
+        }
+
+        public override void OnContextMenuOpening(System.Collections.IList selectedItems, ContextMenu menu)
+        {
+            Possibility canStartService = Possibility.Unknown;
+            Possibility canStopService = Possibility.Unknown;
+            Possibility canRestartService = Possibility.Unknown;
+            Possibility canPauseService = Possibility.Unknown;
+            Possibility canContinueService = Possibility.Unknown;
+
+            foreach (ServiceDataObject o in selectedItems)
+            {
+                switch(o.CurrentState)
+                {
+                    case SC_RUNTIME_STATUS.SERVICE_PAUSED:
+                        if (canPauseService == Possibility.Unknown)
+                            canPauseService = Possibility.CannotRun;
+                        else if (canPauseService != Possibility.CannotRun)
+                            canPauseService = Possibility.CanBoth;
+
+                        if (canContinueService == Possibility.Unknown)
+                            canContinueService = Possibility.CanRun;
+                        else if (canContinueService != Possibility.CanRun)
+                            canContinueService = Possibility.CanBoth;
+                        break;
+
+                    case SC_RUNTIME_STATUS.SERVICE_RUNNING:
+                        if (canStartService == Possibility.Unknown)
+                            canStartService = Possibility.CannotRun;
+                        else if (canStartService != Possibility.CannotRun)
+                            canStartService = Possibility.CanBoth;
+
+                        if (canContinueService == Possibility.Unknown)
+                            canContinueService = Possibility.CannotRun;
+                        else if (canContinueService != Possibility.CannotRun)
+                            canContinueService = Possibility.CanBoth;
+                        break;
+
+                    case SC_RUNTIME_STATUS.SERVICE_STOPPED:
+                        if (canStopService == Possibility.Unknown)
+                            canStopService = Possibility.CannotRun;
+                        else if (canStopService != Possibility.CannotRun)
+                            canStopService = Possibility.CanBoth;
+
+                        if (canRestartService == Possibility.Unknown)
+                            canRestartService = Possibility.CannotRun;
+                        else if (canRestartService != Possibility.CannotRun)
+                            canRestartService = Possibility.CanBoth;
+
+                        if (canContinueService == Possibility.Unknown)
+                            canContinueService = Possibility.CannotRun;
+                        else if (canContinueService != Possibility.CannotRun)
+                            canContinueService = Possibility.CanBoth;
+
+                        if (canPauseService == Possibility.Unknown)
+                            canPauseService = Possibility.CannotRun;
+                        else if (canPauseService != Possibility.CannotRun)
+                            canPauseService = Possibility.CanBoth;
+                            
+                        break;
+                }
+            }
+
+
+            SetMenuItemEnabled(menu, 0, canStartService);
+            SetMenuItemEnabled(menu, 1, canStopService);
+            SetMenuItemEnabled(menu, 2, canRestartService);
+            SetMenuItemEnabled(menu, 3, canPauseService);
+            SetMenuItemEnabled(menu, 4, canContinueService);
+
+        }
+
+        private void SetMenuItemEnabled(ContextMenu menu, int index, Possibility p)
+        {
+            MenuItem mi = menu.Items[index] as MenuItem;
+            if(mi != null)
+            {
+                mi.IsEnabled = (p != Possibility.CannotRun);
+            }
+        }
+
+        private void OnChangeServiceStatus(ServiceStateRequest ssr)
+        {
+            PerformServiceStateRequest pssr = new PerformServiceStateRequest(ssr);
+            foreach(ServiceDataObject sdo in MainListView.SelectedItems)
+            {
+                pssr.Services.Add(sdo);
+            }
+            if( pssr.Services.Count > 0 )
+            {
+                new LongRunningFunctionWindow(pssr).ShowDialog();
+            }
+        }
+
+        private void OnStartService(object sender, RoutedEventArgs e)
+        {
+            OnChangeServiceStatus(new RequestServiceStartup());
+        }
+
+        private void OnStopService(object sender, RoutedEventArgs e)
+        {
+            OnChangeServiceStatus(new RequestServiceShutdown());
+        }
+
+        private void OnRestartService(object sender, RoutedEventArgs e)
+        {
+            OnChangeServiceStatus(new RequestServiceRestart());
+        }
+
+        private void OnPauseService(object sender, RoutedEventArgs e)
+        {
+            OnChangeServiceStatus(new RequestServicePause());
+        }
+
+        private void OnContinueService(object sender, RoutedEventArgs e)
+        {
+            OnChangeServiceStatus(new RequestServiceContinue());
+        }
+
+        public override void Refresh(ObservableCollection<DataObject> objects)
         {
             Dictionary<string, ServiceDataObject> existingObjects = new Dictionary<string, ServiceDataObject>();
 
-            foreach (IObject o in objects)
+            foreach (DataObject o in objects)
             {
                 ServiceDataObject sdo = o as ServiceDataObject;
                 if (sdo != null)
@@ -83,3 +245,4 @@ namespace pserv4.services
         }
     }
 }
+

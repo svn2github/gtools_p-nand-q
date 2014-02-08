@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace pserv4.services
 {
-    public class ServiceDataObject : IObject
+    public class ServiceDataObject : DataObject
     {
         public string DisplayName { get; private set; }
         public string ServiceName { get; private set; }
@@ -43,11 +43,34 @@ namespace pserv4.services
             }
         }
 
-        public bool IsDisabled { get; private set; }
-        public bool IsRunning { get; private set; }
+        public SC_RUNTIME_STATUS CurrentState { get; private set; }
+        public SC_CONTROLS_ACCEPTED ControlsAccepted { get; private set; }
 
-        private SC_RUNTIME_STATUS CurrentState;
-        private SC_CONTROLS_ACCEPTED ControlsAccepted;
+        public void UpdateFrom(SERVICE_STATUS_PROCESS ssp)
+        {
+            if( CurrentState != ssp.CurrentState )
+            {
+                CurrentState = ssp.CurrentState;
+                NotifyPropertyChanged("CurrentStateString");
+                NotifyPropertyChanged("IsRunning");
+            }
+            
+            if( ControlsAccepted != ssp.ControlsAccepted)
+            {
+                ControlsAccepted = ssp.ControlsAccepted;
+                NotifyPropertyChanged("ControlsAcceptedString");
+            }
+
+            string pid = "";
+            if (ssp.ProcessID != 0)
+                pid = ssp.ProcessID.ToString();
+
+            if( !PID.Equals(pid))
+            {
+                PID = pid;
+                NotifyPropertyChanged("PID");
+            }
+        }
 
         public ServiceDataObject(NativeService service, ENUM_SERVICE_STATUS_PROCESS essp)
         {
@@ -65,6 +88,8 @@ namespace pserv4.services
             ServiceType = ServicesLocalisation.Localized(essp.ServiceType);
             if (essp.ProcessID != 0)
                 PID = essp.ProcessID.ToString();
+            else
+                PID = "";
             QUERY_SERVICE_CONFIG config = service.ServiceConfig;
 
             if (essp.CurrentState == SC_RUNTIME_STATUS.SERVICE_RUNNING)
@@ -87,19 +112,6 @@ namespace pserv4.services
 
             }
             Description = service.Description;
-            
-
-
-        }
-        
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public void NotifyPropertyChanged(string name)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(name));
-            }
         }
     }
 

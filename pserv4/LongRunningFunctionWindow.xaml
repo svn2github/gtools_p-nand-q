@@ -1,0 +1,10 @@
+﻿<Window x:Class="pserv4.LongRunningFunctionWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Please wait, stopping services..." Height="158" Width="738" Loaded="Window_Loaded">
+    <Grid>
+        <TextBlock Name="TbOutput" Margin="24,10,24,0" TextWrapping="Wrap" Text="Nothing to see here, move along..." VerticalAlignment="Top"/>
+        <ProgressBar HorizontalAlignment="Left" Height="39" Margin="24,42,0,0" VerticalAlignment="Top" Width="683" IsIndeterminate="True"/>
+        <Button Content="Cancel" HorizontalAlignment="Center" Height="31" Margin="0,88,0,0" VerticalAlignment="Top" Width="152"/>
+    </Grid>
+</Window>

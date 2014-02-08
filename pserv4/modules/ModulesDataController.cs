@@ -8,7 +8,7 @@ using System.Collections.ObjectModel;
 
 namespace pserv4.modules
 {
-    public class ModulesDataController : IObjectController
+    public class ModulesDataController : DataController
     {
         private static List<ObjectColumn> ActualColumns;
 
@@ -16,7 +16,7 @@ namespace pserv4.modules
         {
         }
 
-        public IEnumerable<ObjectColumn> Columns
+        public override IEnumerable<ObjectColumn> Columns
         {
             get
             {
@@ -36,11 +36,11 @@ namespace pserv4.modules
             }
         }
 
-        public void Refresh(ObservableCollection<IObject> objects)
+        public override void Refresh(ObservableCollection<DataObject> objects)
         {
             Dictionary<string, ModuleDataObject> existingObjects = new Dictionary<string, ModuleDataObject>();
 
-            foreach (IObject o in objects)
+            foreach (DataObject o in objects)
             {
                 ModuleDataObject sdo = o as ModuleDataObject;
                 if (sdo != null)
