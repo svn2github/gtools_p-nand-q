@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Reflection;
 
 namespace pserv4
 {
@@ -74,7 +75,7 @@ namespace pserv4
 
                 // create columns
                 CurrentController.Refresh(Items);
-
+                FindThisText.Text = "";
 
                 MainListView.ItemsSource = Items;   //your query result 
 
@@ -196,25 +197,35 @@ namespace pserv4
             }
             else
             {
-                view.Filter = new Predicate<object>(FilterMovieItem);
+                view.Filter = new Predicate<object>(FilterDataObjectItem);
             }
         }
 
-        private bool FilterMovieItem(object obj)
+        private bool FilterDataObjectItem(object obj)
         {
             DataObject item = obj as DataObject;
-            if (item == null) return false;
+            if (item == null) 
+                return false;
 
-            string textFilter = FindThisText.Text.ToLower();
+
+            string findThisText = FindThisText.Text.Trim().ToLower();
+
+            Type actualType = obj.GetType();
+
+            foreach(ObjectColumn oc in CurrentController.Columns)
+            {
+                object actualValue = actualType.GetProperty(oc.BindingName).GetValue(obj, null);
+                if (actualValue != null)
+                {
+                    string sValue = actualValue as string;
+                    if (sValue == null)
+                        sValue = actualValue.ToString();
+
+                    if( sValue.ToLower().Contains(findThisText) )
+                        return true;
+                }
+            }
             return false;
-            /*
-            // apply the filter  
-            return item.FirstName.ToLower().Contains(textFilter) ||
-                item.LastName.ToLower().Contains(textFilter) ||
-                item.Street.ToLower().Contains(textFilter) ||
-                item.City.ToLower().Contains(textFilter) ||
-                item.Profession.ToLower().Contains(textFilter) ||
-                item.Department.ToLower().Contains(textFilter);*/
         }
 
         private string LastHeaderClicked;
