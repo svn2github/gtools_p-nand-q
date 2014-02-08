@@ -188,12 +188,12 @@ namespace pserv4.services
 
         private void OnStartService(object sender, RoutedEventArgs e)
         {
-            OnChangeServiceStatus(new RequestServiceStartup());
+            OnChangeServiceStatus(new RequestServiceStart());
         }
 
         private void OnStopService(object sender, RoutedEventArgs e)
         {
-            OnChangeServiceStatus(new RequestServiceShutdown());
+            OnChangeServiceStatus(new RequestServiceStop());
         }
 
         private void OnRestartService(object sender, RoutedEventArgs e)

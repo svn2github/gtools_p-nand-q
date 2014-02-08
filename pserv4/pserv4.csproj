@@ -65,6 +65,7 @@
     <Compile Include="LongRunningFunctionWindow.xaml.cs">
       <DependentUpon>LongRunningFunctionWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MainViewType.cs" />
     <Compile Include="modules\ModuleDataObject.cs" />
     <Compile Include="modules\ModulesDataController.cs" />
     <Compile Include="DataObjectColumn.cs" />
@@ -79,8 +80,8 @@
     <Compile Include="services\RequestServiceContinue.cs" />
     <Compile Include="services\RequestServicePause.cs" />
     <Compile Include="services\RequestServiceRestart.cs" />
-    <Compile Include="services\RequestServiceShutdown.cs" />
-    <Compile Include="services\RequestServiceStartup.cs" />
+    <Compile Include="services\RequestServiceStop.cs" />
+    <Compile Include="services\RequestServiceStart.cs" />
     <Compile Include="services\ServicesDataController.cs" />
     <Compile Include="services\ServiceDataObject.cs" />
     <Compile Include="services\ServicesLocalisation.cs" />

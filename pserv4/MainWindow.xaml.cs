@@ -24,39 +24,41 @@ namespace pserv4
     /// </summary>
     public partial class MainWindow : Window
     {
-        public DataController CurrentController;
-
-        private DataController[] Controllers = {
-            new services.ServicesDataController(), // services
-            new devices.DevicesDataController(), // devices
-            new windows.WindowsDataController(), // windows 
-            new uninstaller.UninstallerDataController(), // uninstaller
-            new processes.ProcessesDataController(), // processes
-            new modules.ModulesDataController(), // modules
-        };
-
-        private readonly Button[] SwitchButtons;
-        private int LastActiveButton = -1;
-
-        private ObservableCollection<DataObject> Items = new ObservableCollection<DataObject>();
-
-        public MainWindow()
+        
+        protected class DataView
         {
-            InitializeComponent();
+            public readonly DataController Controller;
+            public readonly Button Button;
 
-            SwitchButtons = new Button[6];
-            SwitchButtons[0] = ButtonServices;
-            SwitchButtons[1] = ButtonDevices;
-            SwitchButtons[2] = ButtonWindows;
-            SwitchButtons[3] = ButtonUninstaller;
-            SwitchButtons[4] = ButtonProcesses;
-            SwitchButtons[5] = ButtonModules;
-            
+            public DataView(DataController controller, Button button)
+            {
+                Controller = controller;
+                Button = button;
+            }
         }
 
-        private void SwitchController(int index)
+        private readonly Dictionary<MainViewType, DataView> KnownViews = new Dictionary<MainViewType, DataView>();
+        private ObservableCollection<DataObject> Items = new ObservableCollection<DataObject>();
+        private DataController CurrentController;
+        private readonly MainViewType InitialControl;
+        private MainViewType CurrentViewType;
+
+        public MainWindow(MainViewType initialControl)
         {
-            if (LastActiveButton == index)
+            InitializeComponent();
+            InitialControl = initialControl;
+            CurrentViewType = MainViewType.Invalid;
+            KnownViews[MainViewType.Services] = new DataView(new services.ServicesDataController(), ButtonServices);
+            KnownViews[MainViewType.Devices] = new DataView(new devices.DevicesDataController(), ButtonDevices);
+            KnownViews[MainViewType.Windows] = new DataView(new windows.WindowsDataController(), ButtonWindows);
+            KnownViews[MainViewType.Programs] = new DataView(new uninstaller.UninstallerDataController(), ButtonUninstaller);
+            KnownViews[MainViewType.Processes] = new DataView(new processes.ProcessesDataController(), ButtonProcesses);
+            KnownViews[MainViewType.Modules] = new DataView(new modules.ModulesDataController(), ButtonModules);
+        }
+
+        private void SwitchController(MainViewType newViewType)
+        {
+            if (CurrentViewType == newViewType)
                 return;
 
             using (new WaitCursor())
@@ -66,13 +68,13 @@ namespace pserv4
                 ICollectionView dataView = CollectionViewSource.GetDefaultView(Items);
                 dataView.SortDescriptions.Clear();
 
-                if (LastActiveButton >= 0)
+                if (CurrentViewType != MainViewType.Invalid)
                 {
-                    SwitchButtons[LastActiveButton].Background = new SolidColorBrush(Colors.White);
+                    KnownViews[CurrentViewType].Button.Background = new SolidColorBrush(Colors.White);
                 }
 
                 // cleanup
-                CurrentController = Controllers[index];
+                CurrentController = KnownViews[newViewType].Controller;
 
                 // create columns
                 CurrentController.Refresh(Items);
@@ -95,8 +97,8 @@ namespace pserv4
                 UpdateDefaultStatusBar();
 
                 CreateInitialSort();
-                LastActiveButton = index;
-                SwitchButtons[LastActiveButton].Background = new SolidColorBrush(Colors.LightGray);
+                CurrentViewType = newViewType;
+                KnownViews[CurrentViewType].Button.Background = new SolidColorBrush(Colors.LightGray);
             }
         }
 
@@ -113,37 +115,37 @@ namespace pserv4
 
         private void SwitchToServices(object sender, RoutedEventArgs e)
         {
-            SwitchController(0);
+            SwitchController(MainViewType.Services);
         }
 
         private void SwitchToDevices(object sender, RoutedEventArgs e)
         {
-            SwitchController(1);
+            SwitchController(MainViewType.Devices);
         }
 
         private void SwitchToWindows(object sender, RoutedEventArgs e)
         {
-            SwitchController(2);
+            SwitchController(MainViewType.Windows);
         }
 
         private void SwitchToUninstaller(object sender, RoutedEventArgs e)
         {
-            SwitchController(3);
+            SwitchController(MainViewType.Programs);
         }
 
         private void SwitchToProcesses(object sender, RoutedEventArgs e)
         {
-            SwitchController(4);
+            SwitchController(MainViewType.Processes);
         }
 
         private void SwitchToModules(object sender, RoutedEventArgs e)
         {
-            SwitchController(5);
+            SwitchController(MainViewType.Modules);
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            SwitchController(0);
+            SwitchController(InitialControl);
         }
 
         private void Zoom_MouseWheel(object sender, MouseWheelEventArgs e)

@@ -5,28 +5,28 @@ using System.Text;
 
 namespace pserv4.services
 {
-    public class RequestServiceStartup : ServiceStateRequest
+    public class RequestServiceStop : ServiceStateRequest
     {
         #region ServiceStateRequest Members
 
         public ACCESS_MASK GetServiceAccessMask()
         {
-            return ACCESS_MASK.SERVICE_START;
+            return ACCESS_MASK.SERVICE_STOP;
         }
 
         public bool Request(ServiceStatus ss)
         {
-            return ss.Start();
+            return ss.Control(SC_CONTROL_CODE.SERVICE_CONTROL_STOP);
         }
 
         public bool HasSuccess(SC_RUNTIME_STATUS state)
         {
-            return state == SC_RUNTIME_STATUS.SERVICE_RUNNING;
+            return state == SC_RUNTIME_STATUS.SERVICE_STOPPED;
         }
 
         public bool HasFailed(SC_RUNTIME_STATUS state)
         {
-            return state == SC_RUNTIME_STATUS.SERVICE_STOPPED;
+            return false;
         }
 
         #endregion
