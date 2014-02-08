@@ -25,6 +25,7 @@ namespace pserv4
     public partial class MainWindow : Window
     {
         public DataController CurrentController;
+
         private DataController[] Controllers = {
             new services.ServicesDataController(), // services
             new devices.DevicesDataController(), // devices
@@ -79,7 +80,7 @@ namespace pserv4
 
                 MainListView.ItemsSource = Items;   //your query result 
 
-                foreach (ObjectColumn oc in CurrentController.Columns)
+                foreach (DataObjectColumn oc in CurrentController.Columns)
                 {
                     GridViewColumn column = new GridViewColumn();
                     column.Header = oc.DisplayName;
@@ -212,7 +213,7 @@ namespace pserv4
 
             Type actualType = obj.GetType();
 
-            foreach(ObjectColumn oc in CurrentController.Columns)
+            foreach(DataObjectColumn oc in CurrentController.Columns)
             {
                 object actualValue = actualType.GetProperty(oc.BindingName).GetValue(obj, null);
                 if (actualValue != null)
@@ -283,6 +284,15 @@ namespace pserv4
             SortDescription sd = new SortDescription(sortBy, direction);
             dataView.SortDescriptions.Add(sd);
             dataView.Refresh();
+        }
+
+        private void CopyToClipboard(object sender, RoutedEventArgs e)
+        {
+            System.Collections.IList list = MainListView.SelectedItems;
+            if( list.Count == 0 )
+                list = MainListView.Items;
+
+            CurrentController.SaveAsXml(null, list);
         }
     }
 }

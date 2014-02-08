@@ -31,6 +31,7 @@ namespace pserv4.windows
         public readonly int Handle;
 
         public WindowDataObject(int hwnd)
+            : base(hwnd.ToString("X4"))
         {
             Handle = hwnd;
             bool WindowTimedOut = false;

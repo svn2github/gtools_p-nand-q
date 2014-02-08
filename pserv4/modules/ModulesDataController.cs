@@ -10,27 +10,28 @@ namespace pserv4.modules
 {
     public class ModulesDataController : DataController
     {
-        private static List<ObjectColumn> ActualColumns;
+        private static List<DataObjectColumn> ActualColumns;
 
         public ModulesDataController()
+            :   base("Modules", "Module")
         {
         }
 
-        public override IEnumerable<ObjectColumn> Columns
+        public override IEnumerable<DataObjectColumn> Columns
         {
             get
             {
                 if (ActualColumns == null)
                 {
-                    ActualColumns = new List<ObjectColumn>();
-                    ActualColumns.Add(new ObjectColumn(pserv4.Properties.Resources.MODULE_C_ProcessID, "ProcessID"));
-                    ActualColumns.Add(new ObjectColumn(pserv4.Properties.Resources.MODULE_C_Name, "Name"));
-                    ActualColumns.Add(new ObjectColumn(pserv4.Properties.Resources.MODULE_C_Path, "Path"));
-                    ActualColumns.Add(new ObjectColumn(pserv4.Properties.Resources.MODULE_C_ModuleMemorySize, "ModuleMemorySize"));
-                    ActualColumns.Add(new ObjectColumn(pserv4.Properties.Resources.MODULE_C_FileDescription, "FileDescription"));
-                    ActualColumns.Add(new ObjectColumn(pserv4.Properties.Resources.MODULE_C_FileVersion, "FileVersion"));
-                    ActualColumns.Add(new ObjectColumn(pserv4.Properties.Resources.MODULE_C_Product, "Product"));
-                    ActualColumns.Add(new ObjectColumn(pserv4.Properties.Resources.MODULE_C_ProductVersion, "ProductVersion"));
+                    ActualColumns = new List<DataObjectColumn>();
+                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.MODULE_C_ProcessID, "ProcessID"));
+                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.MODULE_C_Name, "Name"));
+                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.MODULE_C_Path, "Path"));
+                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.MODULE_C_ModuleMemorySize, "ModuleMemorySize"));
+                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.MODULE_C_FileDescription, "FileDescription"));
+                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.MODULE_C_FileVersion, "FileVersion"));
+                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.MODULE_C_Product, "Product"));
+                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.MODULE_C_ProductVersion, "ProductVersion"));
                 }
                 return ActualColumns;
             }
@@ -45,7 +46,7 @@ namespace pserv4.modules
                 ModuleDataObject sdo = o as ModuleDataObject;
                 if (sdo != null)
                 {
-                    existingObjects[sdo.ID] = sdo;
+                    existingObjects[sdo.InternalID] = sdo;
                 }
             }
 

@@ -10,29 +10,31 @@ namespace pserv4.windows
 {
     public class WindowsDataController : DataController
     {
-        private static List<ObjectColumn> ActualColumns;
+        private static List<DataObjectColumn> ActualColumns;
 
         public WindowsDataController()
+            :   base("Windows", "Window")
         {
         }
 
-        public override IEnumerable<ObjectColumn> Columns
+        public override IEnumerable<DataObjectColumn> Columns
         {
             get
             {
                 if (ActualColumns == null)
                 {
-                    ActualColumns = new List<ObjectColumn>();
-                    ActualColumns.Add(new ObjectColumn(pserv4.Properties.Resources.WINDOW_C_Title, "Title"));
-                    ActualColumns.Add(new ObjectColumn(pserv4.Properties.Resources.WINDOW_C_Class, "Class"));
-                    ActualColumns.Add(new ObjectColumn(pserv4.Properties.Resources.WINDOW_C_Style, "Style"));
-                    ActualColumns.Add(new ObjectColumn(pserv4.Properties.Resources.WINDOW_C_ExStyle, "ExStyle"));
-                    ActualColumns.Add(new ObjectColumn(pserv4.Properties.Resources.WINDOW_C_ID, "ID"));
-                    ActualColumns.Add(new ObjectColumn(pserv4.Properties.Resources.WINDOW_C_Size, "Size"));
-                    ActualColumns.Add(new ObjectColumn(pserv4.Properties.Resources.WINDOW_C_Position, "Position"));
-                    ActualColumns.Add(new ObjectColumn(pserv4.Properties.Resources.WINDOW_C_ProcessID, "ProcessID"));
-                    ActualColumns.Add(new ObjectColumn(pserv4.Properties.Resources.WINDOW_C_ThreadID, "ThreadID"));
-                    ActualColumns.Add(new ObjectColumn(pserv4.Properties.Resources.WINDOW_C_Process, "Process"));
+                    ActualColumns = new List<DataObjectColumn>();
+                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.WINDOW_C_HWND, "InternalID"));
+                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.WINDOW_C_Title, "Title"));
+                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.WINDOW_C_Class, "Class"));
+                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.WINDOW_C_Style, "Style"));
+                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.WINDOW_C_ExStyle, "ExStyle"));
+                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.WINDOW_C_ID, "ID"));
+                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.WINDOW_C_Size, "Size"));
+                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.WINDOW_C_Position, "Position"));
+                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.WINDOW_C_ProcessID, "ProcessID"));
+                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.WINDOW_C_ThreadID, "ThreadID"));
+                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.WINDOW_C_Process, "Process"));
                 }
                 return ActualColumns;
             }

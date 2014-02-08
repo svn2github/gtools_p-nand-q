@@ -67,7 +67,7 @@
     </Compile>
     <Compile Include="modules\ModuleDataObject.cs" />
     <Compile Include="modules\ModulesDataController.cs" />
-    <Compile Include="ObjectColumn.cs" />
+    <Compile Include="DataObjectColumn.cs" />
     <Compile Include="DataController.cs" />
     <Compile Include="processes\NativeProcessFunctions.cs" />
     <Compile Include="processes\ProcessDataObject.cs" />
@@ -168,6 +168,19 @@
     <Resource Include="images\control_repeat_blue.png" />
     <Resource Include="images\control_stop.png" />
     <Resource Include="images\control_stop_blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\find.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\arrow_refresh.png" />
+    <Resource Include="images\database_gear.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\database_save.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\database_lightning.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

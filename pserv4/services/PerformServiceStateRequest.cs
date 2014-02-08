@@ -37,7 +37,7 @@ namespace pserv4.services
                                         so.DisplayName,
                                         ServicesLocalisation.Localized(so.CurrentState)));
 
-                        using (NativeService ns = new NativeService(scm, so.ServiceName, ServiceAccessMask))
+                        using (NativeService ns = new NativeService(scm, so.InternalID, ServiceAccessMask))
                         {
                             bool requestedStatusChange = false;
 

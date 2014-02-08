@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace pserv4
 {
-    public  class ObjectColumn
+    public  class DataObjectColumn
     {
         public readonly string DisplayName;
         public readonly string BindingName;
 
-        public ObjectColumn(string displayName, string bindingName)
+        public DataObjectColumn(string displayName, string bindingName)
         {
             DisplayName = displayName;
             BindingName = bindingName;

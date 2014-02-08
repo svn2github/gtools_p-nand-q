@@ -18,13 +18,6 @@ namespace pserv4.processes
 {
     public class ProcessDataObject : DataObject
     {
-        public string IDString
-        { 
-            get
-            {
-                return ID.ToString();
-            }
-        }
         public string Name { get; private set; }
         public string Path { get; private set; }
         public string User { get; private set; }
@@ -54,11 +47,10 @@ namespace pserv4.processes
         public string VirtualMemorySize64 { get; private set; }
         public string WorkingSet64 { get; private set; }
 
-
-
         public readonly int ID;
 
         public ProcessDataObject(Process p)
+            :   base(p.Id.ToString())
         {
             ID = p.Id;
             Path = NativeProcessFunctions.GetSafeProcessName(p);

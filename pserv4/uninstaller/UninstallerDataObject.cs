@@ -17,7 +17,6 @@ namespace pserv4.uninstaller
     {
         public string ApplicationName { get; private set; }
         public string InstallLocation { get; private set; }
-        public string Key { get; private set; }
         public string Version { get; private set; }
         public string Publisher { get; private set; }
         public string HelpLink { get; private set; }
@@ -25,6 +24,7 @@ namespace pserv4.uninstaller
         public string Action { get; private set; }
         
         public UninstallerDataObject(RegistryKey rootKey, string keyPath, string keyName)
+            :   base(keyName)
         {
             using (RegistryKey hkKey = rootKey.OpenSubKey(keyPath, false))
             {
@@ -39,7 +39,6 @@ namespace pserv4.uninstaller
                 }
                 
                 InstallLocation = hkKey.GetValue("InstallLocation") as string;
-                Key = keyName;
                 Version = hkKey.GetValue("DisplayVersion") as string;
                 Publisher = hkKey.GetValue("Publisher") as string;
                 HelpLink = hkKey.GetValue("HelpLink") as string;

@@ -13,6 +13,14 @@ namespace pserv4
 
         public bool IsDisabled { get; protected set; }
         public bool IsRunning { get; protected set; }
+        public string ToolTip { get; protected set; }
+        public string ToolTipCaption { get; protected set; }
+        public string InternalID { get; private set; }
+
+        public DataObject(string internalID)
+        {
+            InternalID = internalID;
+        }
 
         public void NotifyPropertyChanged(string name)
         {

@@ -14,7 +14,6 @@ namespace pserv4.modules
 {
     public class ModuleDataObject : DataObject
     {
-        public string ID { get; private set; }
         public string ProcessID { get; private set; }
         public string Name { get; private set; }
         public string Path { get; private set; }
@@ -27,11 +26,10 @@ namespace pserv4.modules
 
 
         public ModuleDataObject(Process p, ProcessModule m, bool isDisabled)
+            :   base(string.Format("{0}.{1}", p.Id, m.FileName))
         {
             ProcessID = p.Id.ToString();
             Name = System.IO.Path.GetFileName(m.FileName);
-            
-            ID = string.Format("{0}.{1}", p.Id, m.FileName);
 
             Path = System.IO.Path.GetDirectoryName(m.FileName);
             ModuleMemorySize = Localisation.BytesToSize(m.ModuleMemorySize); 

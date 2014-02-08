@@ -853,6 +853,15 @@ namespace pserv4.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to HWND.
+        /// </summary>
+        internal static string WINDOW_C_HWND {
+            get {
+                return ResourceManager.GetString("WINDOW_C_HWND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ID.
         /// </summary>
         internal static string WINDOW_C_ID {

@@ -404,6 +404,9 @@
   <data name="WINDOW_C_ExStyle" xml:space="preserve">
     <value>Extended Style</value>
   </data>
+  <data name="WINDOW_C_HWND" xml:space="preserve">
+    <value>HWND</value>
+  </data>
   <data name="WINDOW_C_ID" xml:space="preserve">
     <value>ID</value>
   </data>

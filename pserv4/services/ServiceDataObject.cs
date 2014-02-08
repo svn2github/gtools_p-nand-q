@@ -10,7 +10,6 @@ namespace pserv4.services
     public class ServiceDataObject : DataObject
     {
         public string DisplayName { get; private set; }
-        public string ServiceName { get; private set; }
         public string ServiceType { get; private set; }
         public string PID { get; private set; }
         public string StartType { get; private set; }
@@ -73,9 +72,9 @@ namespace pserv4.services
         }
 
         public ServiceDataObject(NativeService service, ENUM_SERVICE_STATUS_PROCESS essp)
+            :   base(essp.ServiceName)
         {
             DisplayName = essp.DisplayName;
-            ServiceName = essp.ServiceName;
             CurrentState = essp.CurrentState;
             ControlsAccepted = essp.ControlsAccepted;
 
@@ -111,7 +110,8 @@ namespace pserv4.services
                 User = config.ServiceStartName;
 
             }
-            Description = service.Description;
+            ToolTip = Description = service.Description;
+            ToolTipCaption = DisplayName;
         }
     }
 

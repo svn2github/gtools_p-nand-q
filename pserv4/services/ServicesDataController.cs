@@ -13,39 +13,41 @@ namespace pserv4.services
 {
     public class ServicesDataController : DataController
     {
-        private static List<ObjectColumn> ActualColumns;
+        private static List<DataObjectColumn> ActualColumns;
         private readonly SC_SERVICE_TYPE ServicesType;
 
-        public ServicesDataController(SC_SERVICE_TYPE servicesType = SC_SERVICE_TYPE.SERVICE_WIN32_OWN_PROCESS | SC_SERVICE_TYPE.SERVICE_WIN32_SHARE_PROCESS)
+        public ServicesDataController(SC_SERVICE_TYPE servicesType = SC_SERVICE_TYPE.SERVICE_WIN32_OWN_PROCESS | SC_SERVICE_TYPE.SERVICE_WIN32_SHARE_PROCESS,
+                string controllerName = "Services", string itemName = "Service")
+            : base(controllerName, itemName)
         {
             ServicesType = servicesType;
         }
 
-        public override IEnumerable<ObjectColumn> Columns
+        public override IEnumerable<DataObjectColumn> Columns
         {
             get
             {
                 if (ActualColumns == null)
                 {
-                    ActualColumns = new List<ObjectColumn>();
-                    ActualColumns.Add(new ObjectColumn(pserv4.Properties.Resources.SERVICE_C_DisplayName, "DisplayName"));
-                    ActualColumns.Add(new ObjectColumn(pserv4.Properties.Resources.SERVICE_C_ServiceName, "ServiceName"));
-                    ActualColumns.Add(new ObjectColumn(pserv4.Properties.Resources.SERVICE_C_ServiceType, "ServiceType"));
-                    ActualColumns.Add(new ObjectColumn(pserv4.Properties.Resources.SERVICE_C_ProcessID, "PID"));
-                    ActualColumns.Add(new ObjectColumn(pserv4.Properties.Resources.SERVICE_C_StartType, "StartType"));
-                    ActualColumns.Add(new ObjectColumn(pserv4.Properties.Resources.SERVICE_C_BinaryPathName, "BinaryPathName"));
-                    ActualColumns.Add(new ObjectColumn(pserv4.Properties.Resources.SERVICE_C_LoadOrderGroup, "LoadOrderGroup"));
-                    ActualColumns.Add(new ObjectColumn(pserv4.Properties.Resources.SERVICE_C_ErrorControl, "ErrorControl"));
-                    ActualColumns.Add(new ObjectColumn(pserv4.Properties.Resources.SERVICE_C_TagId, "TagId"));
-                    ActualColumns.Add(new ObjectColumn(pserv4.Properties.Resources.SERVICE_C_Description, "Description"));
-                    ActualColumns.Add(new ObjectColumn(pserv4.Properties.Resources.SERVICE_C_User, "User"));
-                    ActualColumns.Add(new ObjectColumn(pserv4.Properties.Resources.SERVICE_C_CurrentState, "CurrentStateString"));
-                    ActualColumns.Add(new ObjectColumn(pserv4.Properties.Resources.SERVICE_C_Win32ExitCode, "Win32ExitCode"));
-                    ActualColumns.Add(new ObjectColumn(pserv4.Properties.Resources.SERVICE_C_ServiceSpecificExitCode, "ServiceSpecificExitCode"));
-                    ActualColumns.Add(new ObjectColumn(pserv4.Properties.Resources.SERVICE_C_CheckPoint, "CheckPoint"));
-                    ActualColumns.Add(new ObjectColumn(pserv4.Properties.Resources.SERVICE_C_WaitHint, "WaitHint"));
-                    ActualColumns.Add(new ObjectColumn(pserv4.Properties.Resources.SERVICE_C_ServiceFlags, "ServiceFlags"));
-                    ActualColumns.Add(new ObjectColumn(pserv4.Properties.Resources.SERVICE_C_ControlsAccepted, "ControlsAcceptedString"));
+                    ActualColumns = new List<DataObjectColumn>();
+                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.SERVICE_C_DisplayName, "DisplayName"));
+                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.SERVICE_C_ServiceName, "InternalID"));
+                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.SERVICE_C_ServiceType, "ServiceType"));
+                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.SERVICE_C_ProcessID, "PID"));
+                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.SERVICE_C_StartType, "StartType"));
+                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.SERVICE_C_BinaryPathName, "BinaryPathName"));
+                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.SERVICE_C_LoadOrderGroup, "LoadOrderGroup"));
+                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.SERVICE_C_ErrorControl, "ErrorControl"));
+                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.SERVICE_C_TagId, "TagId"));
+                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.SERVICE_C_Description, "Description"));
+                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.SERVICE_C_User, "User"));
+                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.SERVICE_C_CurrentState, "CurrentStateString"));
+                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.SERVICE_C_Win32ExitCode, "Win32ExitCode"));
+                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.SERVICE_C_ServiceSpecificExitCode, "ServiceSpecificExitCode"));
+                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.SERVICE_C_CheckPoint, "CheckPoint"));
+                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.SERVICE_C_WaitHint, "WaitHint"));
+                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.SERVICE_C_ServiceFlags, "ServiceFlags"));
+                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.SERVICE_C_ControlsAccepted, "ControlsAcceptedString"));
                 }
                 return ActualColumns;
             }
@@ -218,7 +220,7 @@ namespace pserv4.services
                 ServiceDataObject sdo = o as ServiceDataObject;
                 if (sdo != null)
                 {
-                    existingObjects[sdo.ServiceName] = sdo;
+                    existingObjects[sdo.InternalID] = sdo;
                 }
             }
 
