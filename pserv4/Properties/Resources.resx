@@ -117,6 +117,21 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="DEVICES_CTRL_CONTINUE_Description" xml:space="preserve">
+    <value>Continue the selected device(s)</value>
+  </data>
+  <data name="DEVICES_CTRL_PAUSE_Description" xml:space="preserve">
+    <value>Pause the selected device(s)</value>
+  </data>
+  <data name="DEVICES_CTRL_RESTART_Description" xml:space="preserve">
+    <value>Restart the selected device(s)</value>
+  </data>
+  <data name="DEVICES_CTRL_START_Description" xml:space="preserve">
+    <value>Start the selected device(s)</value>
+  </data>
+  <data name="DEVICES_CTRL_STOP_Description" xml:space="preserve">
+    <value>Stop the selected device(s)</value>
+  </data>
   <data name="MODULE_C_FileDescription" xml:space="preserve">
     <value>File Description</value>
   </data>
@@ -227,6 +242,21 @@
   </data>
   <data name="PROCESS_C_WorkingSet64" xml:space="preserve">
     <value>Working Set</value>
+  </data>
+  <data name="SERVICES_CTRL_CONTINUE_Description" xml:space="preserve">
+    <value>Continue the selected service(s)</value>
+  </data>
+  <data name="SERVICES_CTRL_PAUSE_Description" xml:space="preserve">
+    <value>Pause the selected service(s)</value>
+  </data>
+  <data name="SERVICES_CTRL_RESTART_Description" xml:space="preserve">
+    <value>Restart the selected service(s)</value>
+  </data>
+  <data name="SERVICES_CTRL_START_Description" xml:space="preserve">
+    <value>Start the selected service(s)</value>
+  </data>
+  <data name="SERVICES_CTRL_STOP_Description" xml:space="preserve">
+    <value>Stop the selected service(s)</value>
   </data>
   <data name="SERVICE_ACCEPT_PAUSE_CONTINUE" xml:space="preserve">
     <value>Pause|Continue</value>
@@ -412,6 +442,21 @@
   </data>
   <data name="UNINSTALLER_C_Version" xml:space="preserve">
     <value>Version</value>
+  </data>
+  <data name="WINDOWS_CTRL_CONTINUE_Description" xml:space="preserve">
+    <value>Maximize Window</value>
+  </data>
+  <data name="WINDOWS_CTRL_PAUSE_Description" xml:space="preserve">
+    <value>Minimize Window</value>
+  </data>
+  <data name="WINDOWS_CTRL_RESTART_Description" xml:space="preserve">
+    <value>Bring Window To Top</value>
+  </data>
+  <data name="WINDOWS_CTRL_START_Description" xml:space="preserve">
+    <value>Show Window</value>
+  </data>
+  <data name="WINDOWS_CTRL_STOP_Description" xml:space="preserve">
+    <value>Hide Window</value>
   </data>
   <data name="WINDOW_C_Class" xml:space="preserve">
     <value>Class</value>

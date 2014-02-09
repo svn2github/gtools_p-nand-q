@@ -46,6 +46,27 @@ namespace pserv4
         private readonly MainViewType InitialControl;
         private MainViewType CurrentViewType;
 
+        private SolidColorBrush SelectedBackgroundColor;
+        private SolidColorBrush SelectedForegroundColor;
+        private SolidColorBrush UnselectedBackgroundColor;
+        private SolidColorBrush UnselectedForegroundColor;
+
+        public static BitmapImage[] BIStart = new BitmapImage[2];
+        public static BitmapImage[] BIStop = new BitmapImage[2];
+        public static BitmapImage[] BIRestart = new BitmapImage[2];
+        public static BitmapImage[] BIPause = new BitmapImage[2];
+        public static BitmapImage[] BIContinue = new BitmapImage[2];
+
+        private void SetBitmapImage(BitmapImage[] array, string image)
+        {
+            Image i = new Image();
+            string filename = string.Format(@"pack://application:,,,/images/control_{0}.png", image);
+            array[0] = new BitmapImage(new Uri(filename));
+            i = new Image();
+            filename = string.Format(@"pack://application:,,,/images/control_{0}_blue.png", image);
+            array[1] = new BitmapImage(new Uri(filename));
+        }
+
         public MainWindow(MainViewType initialControl)
         {
             InitializeComponent();
@@ -57,6 +78,18 @@ namespace pserv4
             KnownViews[MainViewType.Programs] = new DataView(new uninstaller.UninstallerDataController(), ButtonUninstaller);
             KnownViews[MainViewType.Processes] = new DataView(new processes.ProcessesDataController(), ButtonProcesses);
             KnownViews[MainViewType.Modules] = new DataView(new modules.ModulesDataController(), ButtonModules);
+
+            SetBitmapImage(BIStart, "play");
+            SetBitmapImage(BIStop, "stop");
+            SetBitmapImage(BIRestart, "repeat");
+            SetBitmapImage(BIPause, "pause");
+            SetBitmapImage(BIContinue, "fastforward");
+
+            UnselectedBackgroundColor = new SolidColorBrush(Color.FromArgb(255, 0xF5, 0xF5, 0xF5));
+            UnselectedForegroundColor = new SolidColorBrush(Colors.Black);
+            SelectedBackgroundColor = new SolidColorBrush(Colors.DarkSlateGray);
+            SelectedForegroundColor = new SolidColorBrush(Colors.White);
+
         }
 
         private void timer_Tick(object sender, EventArgs e)
@@ -83,7 +116,8 @@ namespace pserv4
 
                 if (CurrentViewType != MainViewType.Invalid)
                 {
-                    KnownViews[CurrentViewType].Button.Background = new SolidColorBrush(Colors.White);
+                    KnownViews[CurrentViewType].Button.Background = UnselectedBackgroundColor;
+                    KnownViews[CurrentViewType].Button.Foreground = UnselectedForegroundColor;
                 }
 
                 // cleanup
@@ -109,9 +143,16 @@ namespace pserv4
 
                 UpdateDefaultStatusBar();
 
+                TbControlStart.Text = CurrentController.ControlStartDescription;
+                TbControlStop.Text = CurrentController.ControlStopDescription;
+                TbControlRestart.Text = CurrentController.ControlRestartDescription;
+                TbControlPause.Text = CurrentController.ControlPauseDescription;
+                TbControlContinue.Text = CurrentController.ControlContinueDescription;
+
                 CreateInitialSort();
                 CurrentViewType = newViewType;
-                KnownViews[CurrentViewType].Button.Background = new SolidColorBrush(Colors.LightGray);
+                KnownViews[CurrentViewType].Button.Background = SelectedBackgroundColor;
+                KnownViews[CurrentViewType].Button.Foreground = SelectedForegroundColor;
             }
         }
 
@@ -154,6 +195,31 @@ namespace pserv4
         private void SwitchToModules(object sender, RoutedEventArgs e)
         {
             SwitchController(MainViewType.Modules);
+        }
+
+        private void OnControlStart(object sender, RoutedEventArgs e)
+        {
+            CurrentController.OnControlStart(sender, e);
+        }
+
+        private void OnControlStop(object sender, RoutedEventArgs e)
+        {
+            CurrentController.OnControlStop(sender, e);
+        }
+
+        private void OnControlRestart(object sender, RoutedEventArgs e)
+        {
+            CurrentController.OnControlRestart(sender, e);
+        }
+
+        private void OnControlPause(object sender, RoutedEventArgs e)
+        {
+            CurrentController.OnControlPause(sender, e);
+        }
+
+        private void OnControlContinue(object sender, RoutedEventArgs e)
+        {
+            CurrentController.OnControlContinue(sender, e);
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -205,11 +271,35 @@ namespace pserv4
             }
         }
 
+        private void SetControlButton(Button b, BitmapImage[] images, bool enabled)
+        {
+            b.IsEnabled = enabled;
+            Image i = b.Content as Image;
+            if( i != null )
+            {
+                i.Source = enabled ? images[1] : images[0];
+            }
+            b.Background = UnselectedBackgroundColor;
+            if (enabled)
+            {
+            }
+            else
+            {
+
+            }
+        }
+
         private void MainListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             bool enabled = MainListView.SelectedItems.Count > 0;
-            //BtEdit.IsEnabled = enabled;
-            //BtDelete.IsEnabled = enabled;
+
+            CurrentController.OnSelectionChanged(MainListView.SelectedItems);
+
+            SetControlButton(BtStart, BIStart, CurrentController.AnythingStopped || CurrentController.AnythingPaused);
+            SetControlButton(BtStop, BIStop, CurrentController.AnythingRunning || CurrentController.AnythingPaused);
+            SetControlButton(BtRestart, BIRestart, CurrentController.AnythingRunning);
+            SetControlButton(BtPause, BIPause, CurrentController.AnythingRunning);
+            SetControlButton(BtContinue, BIContinue, CurrentController.AnythingPaused);
 
             SbSelected.Text = string.Format("{0} selected", MainListView.SelectedItems.Count);
         }

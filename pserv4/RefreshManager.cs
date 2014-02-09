@@ -11,8 +11,8 @@ namespace pserv4
     public class RefreshManager<T> : IDisposable
         where T: DataObject
     {
-        private readonly Dictionary<string, T> ExistingObjects = new Dictionary<string, T>();
-        private readonly ObservableCollection<DataObject> Objects;
+        public readonly Dictionary<string, T> ExistingObjects = new Dictionary<string, T>();
+        public readonly ObservableCollection<DataObject> Objects;
 
         public RefreshManager(ObservableCollection<DataObject> objects)
         {

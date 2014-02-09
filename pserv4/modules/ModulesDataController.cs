@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
+using pserv4.Properties;
 
 namespace pserv4.modules
 {
@@ -13,7 +14,14 @@ namespace pserv4.modules
         private static List<DataObjectColumn> ActualColumns;
 
         public ModulesDataController()
-            :   base("Modules", "Module")
+            :   base(
+                    "Modules", 
+                    "Module",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "")
         {
         }
 
@@ -24,14 +32,14 @@ namespace pserv4.modules
                 if (ActualColumns == null)
                 {
                     ActualColumns = new List<DataObjectColumn>();
-                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.MODULE_C_ProcessID, "ProcessID"));
-                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.MODULE_C_Name, "Name"));
-                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.MODULE_C_Path, "Path"));
-                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.MODULE_C_ModuleMemorySize, "ModuleMemorySize"));
-                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.MODULE_C_FileDescription, "FileDescription"));
-                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.MODULE_C_FileVersion, "FileVersion"));
-                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.MODULE_C_Product, "Product"));
-                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.MODULE_C_ProductVersion, "ProductVersion"));
+                    ActualColumns.Add(new DataObjectColumn(Resources.MODULE_C_ProcessID, "ProcessID"));
+                    ActualColumns.Add(new DataObjectColumn(Resources.MODULE_C_Name, "Name"));
+                    ActualColumns.Add(new DataObjectColumn(Resources.MODULE_C_Path, "Path"));
+                    ActualColumns.Add(new DataObjectColumn(Resources.MODULE_C_ModuleMemorySize, "ModuleMemorySize"));
+                    ActualColumns.Add(new DataObjectColumn(Resources.MODULE_C_FileDescription, "FileDescription"));
+                    ActualColumns.Add(new DataObjectColumn(Resources.MODULE_C_FileVersion, "FileVersion"));
+                    ActualColumns.Add(new DataObjectColumn(Resources.MODULE_C_Product, "Product"));
+                    ActualColumns.Add(new DataObjectColumn(Resources.MODULE_C_ProductVersion, "ProductVersion"));
                 }
                 return ActualColumns;
             }
@@ -39,54 +47,50 @@ namespace pserv4.modules
 
         public override void Refresh(ObservableCollection<DataObject> objects)
         {
-            Dictionary<string, ModuleDataObject> existingObjects = new Dictionary<string, ModuleDataObject>();
 
-            foreach (DataObject o in objects)
+            using (var manager = new RefreshManager<ModuleDataObject>(objects))
             {
-                ModuleDataObject sdo = o as ModuleDataObject;
-                if (sdo != null)
+                foreach (Process p in Process.GetProcesses())
                 {
-                    existingObjects[sdo.InternalID] = sdo;
-                }
-            }
-
-            foreach (Process p in Process.GetProcesses())
-            {
-                bool isDisabled = false;
-                if( p.Id < 10 )
-                {
-                    isDisabled = true;
-                }
-                else
-                {
-                    string username = pserv4.processes.NativeProcessFunctions.GetUserInfo(p);
-                    if (username.Equals("SYSTEM", StringComparison.OrdinalIgnoreCase) )
+                    bool isDisabled = false;
+                    if (p.Id < 10)
                     {
                         isDisabled = true;
                     }
-                }
-                
-                try
-                {
-                    
-                    foreach (ProcessModule m in p.Modules)
+                    else
                     {
-                        string ID = string.Format("{0}.{1}", p.Id, m.FileName);
-                                        
-                        ModuleDataObject mdo;
-                        if (existingObjects.TryGetValue(ID, out mdo))
+                        string username = pserv4.processes.NativeProcessFunctions.GetUserInfo(p);
+                        if (username.Equals("SYSTEM", StringComparison.OrdinalIgnoreCase))
                         {
-                            // todo: refresh existing instance from updated data
-                        }
-                        else
-                        {
-                            objects.Add(new ModuleDataObject(p, m, isDisabled));
+                            isDisabled = true;
                         }
                     }
-                }
-                catch(Exception)
-                {
+                    ProcessModuleCollection pmc = null;
+                    try
+                    {
+                        pmc = p.Modules;
+                    }
+                    catch(Exception)
+                    {
 
+                    }
+                    if( pmc != null )
+                    {
+                        foreach (ProcessModule m in pmc)
+                        {
+                            string ID = string.Format("{0}.{1}", p.Id, m.FileName);
+
+                            ModuleDataObject mdo;
+                            if (manager.Contains(ID, out mdo))
+                            {
+                                mdo.Refresh(p, m, isDisabled);
+                            }
+                            else
+                            {
+                                objects.Add(new ModuleDataObject(p, m, isDisabled));
+                            }
+                        }
+                    }
                 }
             }
         }

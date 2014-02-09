@@ -13,7 +13,14 @@ namespace pserv4.processes
         private static List<DataObjectColumn> ActualColumns;
 
         public ProcessesDataController()
-            :   base("Processes", "Process")
+            :   base(
+                    "Processes", 
+                    "Process",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "")
         {
         }
 
@@ -60,28 +67,20 @@ namespace pserv4.processes
 
         public override void Refresh(ObservableCollection<DataObject> objects)
         {
-            Dictionary<int, ProcessDataObject> existingObjects = new Dictionary<int, ProcessDataObject>();
-
-            foreach (DataObject o in objects)
+            using (var manager = new RefreshManager<ProcessDataObject>(objects))
             {
-                ProcessDataObject sdo = o as ProcessDataObject;
-                if (sdo != null)
+                foreach (Process p in Process.GetProcesses())
                 {
-                    existingObjects[sdo.ID] = sdo;
-                }
-            }
+                    ProcessDataObject pdo = null;
 
-            foreach (Process p in Process.GetProcesses())
-            {
-                ProcessDataObject pdo = null;
-
-                if (existingObjects.TryGetValue(p.Id, out pdo))
-                {
-                    // todo: refresh existing instance from updated data
-                }
-                else
-                {
-                    objects.Add(new ProcessDataObject(p));
+                    if (manager.Contains(p.Id.ToString(), out pdo))
+                    {
+                        pdo.Refresh(p);
+                    }
+                    else
+                    {
+                        objects.Add(new ProcessDataObject(p));
+                    }
                 }
             }
         }

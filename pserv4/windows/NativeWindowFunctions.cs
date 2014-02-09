@@ -110,14 +110,17 @@ namespace pserv4.windows
         private const int GWL_HWNDPARENT = -8;
         private const int GWL_USERDATA = -21;
 
-        private const int SW_RESTORE = 9;
-        private const int SW_HIDE = 0;
-        private const int SW_SHOW = 5;
-        private const int SW_MAXIMIZE = 3;
-        private const int SW_MINIMIZE = 6;
+        public const int SW_RESTORE = 9;
+        public const int SW_HIDE = 0;
+        public const int SW_SHOW = 5;
+        public const int SW_MAXIMIZE = 3;
+        public const int SW_MINIMIZE = 6;
 
-        [DllImport("user32.dll")]
-        private static extern bool ShowWindow(int hWnd, int state);
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern bool ShowWindow(int hWnd, int state);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern bool BringWindowToTop(int hWnd);
 
         [DllImport("user32.dll")]
         public static extern bool GetWindowRect(int hWnd, ref RECT lpRect);

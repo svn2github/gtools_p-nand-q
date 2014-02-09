@@ -61,6 +61,51 @@ namespace pserv4.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Continue the selected device(s).
+        /// </summary>
+        internal static string DEVICES_CTRL_CONTINUE_Description {
+            get {
+                return ResourceManager.GetString("DEVICES_CTRL_CONTINUE_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pause the selected device(s).
+        /// </summary>
+        internal static string DEVICES_CTRL_PAUSE_Description {
+            get {
+                return ResourceManager.GetString("DEVICES_CTRL_PAUSE_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Restart the selected device(s).
+        /// </summary>
+        internal static string DEVICES_CTRL_RESTART_Description {
+            get {
+                return ResourceManager.GetString("DEVICES_CTRL_RESTART_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start the selected device(s).
+        /// </summary>
+        internal static string DEVICES_CTRL_START_Description {
+            get {
+                return ResourceManager.GetString("DEVICES_CTRL_START_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stop the selected device(s).
+        /// </summary>
+        internal static string DEVICES_CTRL_STOP_Description {
+            get {
+                return ResourceManager.GetString("DEVICES_CTRL_STOP_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to File Description.
         /// </summary>
         internal static string MODULE_C_FileDescription {
@@ -808,6 +853,51 @@ namespace pserv4.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Continue the selected service(s).
+        /// </summary>
+        internal static string SERVICES_CTRL_CONTINUE_Description {
+            get {
+                return ResourceManager.GetString("SERVICES_CTRL_CONTINUE_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pause the selected service(s).
+        /// </summary>
+        internal static string SERVICES_CTRL_PAUSE_Description {
+            get {
+                return ResourceManager.GetString("SERVICES_CTRL_PAUSE_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Restart the selected service(s).
+        /// </summary>
+        internal static string SERVICES_CTRL_RESTART_Description {
+            get {
+                return ResourceManager.GetString("SERVICES_CTRL_RESTART_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start the selected service(s).
+        /// </summary>
+        internal static string SERVICES_CTRL_START_Description {
+            get {
+                return ResourceManager.GetString("SERVICES_CTRL_START_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stop the selected service(s).
+        /// </summary>
+        internal static string SERVICES_CTRL_STOP_Description {
+            get {
+                return ResourceManager.GetString("SERVICES_CTRL_STOP_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to About.
         /// </summary>
         internal static string UNINSTALLER_C_AboutLink {
@@ -975,6 +1065,51 @@ namespace pserv4.Properties {
         internal static string WINDOW_C_Title {
             get {
                 return ResourceManager.GetString("WINDOW_C_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Maximize Window.
+        /// </summary>
+        internal static string WINDOWS_CTRL_CONTINUE_Description {
+            get {
+                return ResourceManager.GetString("WINDOWS_CTRL_CONTINUE_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Minimize Window.
+        /// </summary>
+        internal static string WINDOWS_CTRL_PAUSE_Description {
+            get {
+                return ResourceManager.GetString("WINDOWS_CTRL_PAUSE_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bring Window To Top.
+        /// </summary>
+        internal static string WINDOWS_CTRL_RESTART_Description {
+            get {
+                return ResourceManager.GetString("WINDOWS_CTRL_RESTART_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show Window.
+        /// </summary>
+        internal static string WINDOWS_CTRL_START_Description {
+            get {
+                return ResourceManager.GetString("WINDOWS_CTRL_START_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hide Window.
+        /// </summary>
+        internal static string WINDOWS_CTRL_STOP_Description {
+            get {
+                return ResourceManager.GetString("WINDOWS_CTRL_STOP_Description", resourceCulture);
             }
         }
     }

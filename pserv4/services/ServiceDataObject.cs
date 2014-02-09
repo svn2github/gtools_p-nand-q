@@ -33,6 +33,7 @@ namespace pserv4.services
         public string CheckPoint { get; private set; }
         public string WaitHint { get; private set; }
         public string ServiceFlags { get; private set; }
+        public string PID { get; private set; }
 
         public string CurrentStateString
         { 
@@ -83,42 +84,18 @@ namespace pserv4.services
             }
         }
 
-        private string _pid;
-        public string PID
-        {
-            get
-            {
-                return _pid;
-            }
-            private set
-            {
-                string v = value;
-                if (v.Equals("0"))
-                    v = "";
-
-                if (_pid == null)
-                    _pid = "";
-
-                if( !_pid.Equals(v))
-                {
-                    _pid = v;
-                    NotifyPropertyChanged("PID");
-                }
-            }
-        }
-
         public void UpdateFrom(ENUM_SERVICE_STATUS_PROCESS essp)
         {
             CurrentState = essp.CurrentState;
             ControlsAccepted = essp.ControlsAccepted;
-            PID = essp.ProcessID.ToString();
+            SetStringProperty("PID", essp.ProcessID);
         }
 
         public void UpdateFrom(SERVICE_STATUS_PROCESS ssp)
         {
             CurrentState = ssp.CurrentState;
             ControlsAccepted = ssp.ControlsAccepted;
-            PID = ssp.ProcessID.ToString();
+            SetStringProperty("PID", ssp.ProcessID);
         }
 
         public ServiceDataObject(NativeService service, ENUM_SERVICE_STATUS_PROCESS essp)
@@ -162,6 +139,7 @@ namespace pserv4.services
             }
             ToolTip = Description = service.Description;
             ToolTipCaption = DisplayName;
+            ConstructionIsFinished = true;
         }
     }
 

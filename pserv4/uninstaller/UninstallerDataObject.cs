@@ -23,37 +23,56 @@ namespace pserv4.uninstaller
         public string AboutLink { get; private set; }
         public string Action { get; private set; }
         
-        public UninstallerDataObject(RegistryKey rootKey, string keyPath, string keyName)
-            :   base(keyName)
+        public void Refresh(RegistryKey rootKey, string keyPath, string keyName)
         {
             using (RegistryKey hkKey = rootKey.OpenSubKey(keyPath, false))
             {
-                ApplicationName = hkKey.GetValue("DisplayName") as string;
-                if (string.IsNullOrEmpty(ApplicationName))
+                string applicationName = hkKey.GetValue("DisplayName") as string;
+                if (string.IsNullOrEmpty(applicationName))
                 {
-                    ApplicationName = hkKey.GetValue("QuietDisplayName") as string;
+                    applicationName = hkKey.GetValue("QuietDisplayName") as string;
                 }
-                if (string.IsNullOrEmpty(ApplicationName))
+                if (string.IsNullOrEmpty(applicationName))
                 {
-                    ApplicationName = keyName;
+                    applicationName = keyName;
                 }
-                
-                InstallLocation = hkKey.GetValue("InstallLocation") as string;
-                Version = hkKey.GetValue("DisplayVersion") as string;
-                Publisher = hkKey.GetValue("Publisher") as string;
-                HelpLink = hkKey.GetValue("HelpLink") as string;
-                AboutLink = hkKey.GetValue("URLInfoAbout") as string;
-                Action = hkKey.GetValue("UninstallString") as string;                
-                
+                if(SetStringProperty("ApplicationName", applicationName))
+                {
+                    ToolTipCaption = applicationName;
+                    NotifyPropertyChanged("ToolTipCaption");
+                }
+
+                SetStringProperty("InstallLocation", hkKey.GetValue("InstallLocation") as string);
+                SetStringProperty("Version", hkKey.GetValue("DisplayVersion") as string);
+                SetStringProperty("Publisher", hkKey.GetValue("Publisher") as string);
+                SetStringProperty("HelpLink", hkKey.GetValue("HelpLink") as string);
+                SetStringProperty("AboutLink", hkKey.GetValue("URLInfoAbout") as string);
+                if(SetStringProperty("Action", hkKey.GetValue("UninstallString") as string))
+                {
+                    ToolTip = Action;
+                    NotifyPropertyChanged("ToolTip");
+                }
+
+                bool isDisabled = false;
+                bool isRunning = false;
                 if (string.IsNullOrEmpty(Action))
                 {
-                    IsDisabled = true;
+                    isDisabled = true;
                 }
                 else if (!string.IsNullOrEmpty(InstallLocation))
                 {
-                    IsRunning = true;
+                    isRunning = true;
                 }
+                SetRunning(isRunning);
+                SetDisabled(isDisabled);
             }
+        }
+
+        public UninstallerDataObject(RegistryKey rootKey, string keyPath, string keyName)
+            :   base(keyName)
+        {
+            Refresh(rootKey, keyPath, keyName);
+            ConstructionIsFinished = true;
         }
 
     }

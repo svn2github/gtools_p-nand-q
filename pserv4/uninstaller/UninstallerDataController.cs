@@ -14,7 +14,14 @@ namespace pserv4.uninstaller
         private static List<DataObjectColumn> ActualColumns;
 
         public UninstallerDataController()
-            : base("Programs", "Program")
+            : base(
+                "Programs", 
+                "Program",
+                "",
+                "",
+                "",
+                "",
+                "")
         {
         }
 
@@ -40,28 +47,22 @@ namespace pserv4.uninstaller
 
         public override void Refresh(ObservableCollection<DataObject> objects)
         {
-            Dictionary<string, UninstallerDataObject> existingObjects = new Dictionary<string, UninstallerDataObject>();
-
-            foreach (DataObject o in objects)
+            using (var manager = new RefreshManager<UninstallerDataObject>(objects))
             {
-                UninstallerDataObject sdo = o as UninstallerDataObject;
-                if (sdo != null)
-                {
-                    existingObjects[sdo.InternalID] = sdo;
-                }
+                RefreshEntries(manager, Registry.LocalMachine, "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall");
+                RefreshEntries(manager, Registry.CurrentUser, "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall");
             }
-            RefreshEntries(existingObjects, objects, Registry.LocalMachine, "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall");
-            RefreshEntries(existingObjects, objects, Registry.CurrentUser, "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall");
+
         }
         
-        private void RefreshEntries(Dictionary<string, UninstallerDataObject> existingObjects, ObservableCollection<DataObject> objects, RegistryKey rootKey, string keyName)
+        private void RefreshEntries(RefreshManager<UninstallerDataObject> manager, RegistryKey rootKey, string keyName)
         {
             using(RegistryKey hkKey = rootKey.OpenSubKey(keyName,false))
             {
                 foreach (string subKeyName in hkKey.GetSubKeyNames())
                 {
                     UninstallerDataObject mdo;
-                    if (existingObjects.TryGetValue(subKeyName, out mdo))
+                    if (manager.Contains(subKeyName, out mdo))
                     {
                         // todo: refresh existing instance from updated data
                     }
@@ -70,7 +71,7 @@ namespace pserv4.uninstaller
                         mdo = new UninstallerDataObject(rootKey, string.Format("{0}\\{1}", keyName, subKeyName), subKeyName);
                         if( !string.IsNullOrEmpty(mdo.ApplicationName) )
                         {
-                            objects.Add(mdo);
+                            manager.Objects.Add(mdo);
                         }
                     }
                 }

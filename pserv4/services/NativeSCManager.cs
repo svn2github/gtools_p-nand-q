@@ -65,7 +65,7 @@ namespace pserv4.services
                         ref ResumeHandle,
                         null))
                 {
-                    Trace.TraceInformation("Got {0} services in last chunk", ServicesReturned);
+                    //Trace.TraceInformation("Got {0} services in last chunk", ServicesReturned);
                     repeat = false;
                 }
                 else
@@ -73,11 +73,11 @@ namespace pserv4.services
                     int LastError = Marshal.GetLastWin32Error();
                     if (LastError == NativeServiceFunctions.ERROR_MORE_DATA)
                     {
-                        Trace.TraceInformation("Got {0} services in this chunk", ServicesReturned);
+                        //Trace.TraceInformation("Got {0} services in this chunk", ServicesReturned);
                     }
                     else
                     {
-                        Trace.TraceInformation("ERROR {0}, unable to query list", LastError);
+                        //Trace.TraceInformation("ERROR {0}, unable to query list", LastError);
                         break;
                     }
                 }

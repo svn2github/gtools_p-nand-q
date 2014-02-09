@@ -49,70 +49,74 @@ namespace pserv4.processes
 
         public readonly int ID;
 
-        public ProcessDataObject(Process p)
-            :   base(p.Id.ToString())
+        public void Refresh(Process p)
         {
-            ID = p.Id;
-            Path = NativeProcessFunctions.GetSafeProcessName(p);
-            Name = p.ProcessName;
-            User = NativeProcessFunctions.GetUserInfo(p);
+            SetStringProperty("Path", NativeProcessFunctions.GetSafeProcessName(p));
+            SetStringProperty("Name", p.ProcessName);
+            SetStringProperty("User", NativeProcessFunctions.GetUserInfo(p));
+
+            bool isRunning = false;
+            bool isDisabled = false;
+
             if (Environment.UserName.Equals(User))
             {
-                IsRunning = true;
+                isRunning = true;
             }
 
             try
             {
                 if (p.Id >= 10)
                 {
-                    FileDescription = p.MainModule.FileVersionInfo.FileDescription;
-                    
-                    
-                    FileVersion = p.MainModule.FileVersionInfo.FileVersion;
-                    Product = p.MainModule.FileVersionInfo.ProductName;
-                    ProductVersion = p.MainModule.FileVersionInfo.ProductVersion;
-                    MainWindowHandle = p.MainWindowHandle.ToString();
-                    MainWindowTitle = p.MainWindowTitle;
-                    Responding = p.Responding.ToString();
-
-                    StartTime = p.StartTime.TimeOfDay.ToString();
-                    TotalRunTime = (DateTime.Now - p.StartTime).ToString();
-                    TotalProcessorTime = p.TotalProcessorTime.ToString();
-
-                    PrivilegedProcessorTime = p.PrivilegedProcessorTime.ToString();
-
-                    ThreadCount = p.Threads.Count.ToString();
-                    HandleCount = p.HandleCount.ToString();
-
-                    ProcessPriorityClass = p.PriorityClass.ToString();
-                    SessionId = p.SessionId.ToString();
-                    StartInfoArguments = p.StartInfo.Arguments;
-
-
-                    NonpagedSystemMemorySize64 = Localisation.BytesToSize(p.NonpagedSystemMemorySize64);
-                    PagedMemorySize64 = Localisation.BytesToSize(p.PagedMemorySize64);
-                    PagedSystemMemorySize64 = Localisation.BytesToSize(p.PagedSystemMemorySize64);
-                    PeakPagedMemorySize64 = Localisation.BytesToSize(p.PeakPagedMemorySize64);
-                    PeakVirtualMemorySize64 = Localisation.BytesToSize(p.PeakVirtualMemorySize64);
-                    PeakWorkingSet64 = Localisation.BytesToSize(p.PeakWorkingSet64);
-                    PrivateMemorySize64 = Localisation.BytesToSize(p.PrivateMemorySize64);
-                    VirtualMemorySize64 = Localisation.BytesToSize(p.VirtualMemorySize64);
-                    WorkingSet64 = Localisation.BytesToSize(p.WorkingSet64);
+                    SetStringProperty("FileDescription", p.MainModule.FileVersionInfo.FileDescription);
+                    SetStringProperty("FileVersion", p.MainModule.FileVersionInfo.FileVersion);
+                    SetStringProperty("Product", p.MainModule.FileVersionInfo.ProductName);
+                    SetStringProperty("ProductVersion", p.MainModule.FileVersionInfo.ProductVersion);
+                    SetStringProperty("MainWindowHandle", p.MainWindowHandle);
+                    SetStringProperty("MainWindowTitle", p.MainWindowTitle);
+                    SetStringProperty("Responding", p.Responding);
+                    SetStringProperty("StartTime", p.StartTime.TimeOfDay);
+                    SetStringProperty("TotalRunTime", DateTime.Now - p.StartTime);
+                    SetStringProperty("TotalProcessorTime", p.TotalProcessorTime);
+                    SetStringProperty("PrivilegedProcessorTime", p.PrivilegedProcessorTime);
+                    SetStringProperty("ThreadCount", p.Threads.Count);
+                    SetStringProperty("HandleCount", p.HandleCount);
+                    SetStringProperty("ProcessPriorityClass", p.PriorityClass);
+                    SetStringProperty("SessionId", p.SessionId);
+                    SetStringProperty("StartInfoArguments", p.StartInfo.Arguments);
+                    SetStringProperty("NonpagedSystemMemorySize64", Localisation.BytesToSize(p.NonpagedSystemMemorySize64));
+                    SetStringProperty("PagedMemorySize64", Localisation.BytesToSize(p.PagedMemorySize64));
+                    SetStringProperty("PagedSystemMemorySize64", Localisation.BytesToSize(p.PagedSystemMemorySize64));
+                    SetStringProperty("PeakPagedMemorySize64", Localisation.BytesToSize(p.PeakPagedMemorySize64));
+                    SetStringProperty("PeakVirtualMemorySize64", Localisation.BytesToSize(p.PeakVirtualMemorySize64));
+                    SetStringProperty("PeakWorkingSet64", Localisation.BytesToSize(p.PeakWorkingSet64));
+                    SetStringProperty("PrivateMemorySize64", Localisation.BytesToSize(p.PrivateMemorySize64));
+                    SetStringProperty("VirtualMemorySize64", Localisation.BytesToSize(p.VirtualMemorySize64));
+                    SetStringProperty("WorkingSet64", Localisation.BytesToSize(p.WorkingSet64));
                 }
                 else
                 {
-                    IsDisabled = true;
+                    isDisabled = true;
                 }
             }
             catch (Exception)
             {
             }
 
-            if (User.Equals("SYSTEM", StringComparison.OrdinalIgnoreCase) )
+            if (User.Equals("SYSTEM", StringComparison.OrdinalIgnoreCase))
             {
-                IsDisabled = true;
+                isDisabled = true;
             }
-                        
+
+            SetRunning(isRunning);
+            SetDisabled(isDisabled);
+        }
+
+        public ProcessDataObject(Process p)
+            :   base(p.Id.ToString())
+        {
+            ID = p.Id;
+            Refresh(p);
+            ConstructionIsFinished = true;
         }
     }
 

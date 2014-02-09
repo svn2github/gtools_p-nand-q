@@ -9,6 +9,8 @@ using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
 using System.Xml;
+using System.Diagnostics;
+using System.Windows.Media.Imaging;
 
 namespace pserv4
 {
@@ -18,10 +20,33 @@ namespace pserv4
         private readonly string ControllerName;
         private readonly string ItemName;
 
-        public DataController(string controllerName, string itemName)
+        public bool AnythingPaused { get; protected set; }
+        public bool AnythingRunning { get; protected set; }
+        public bool AnythingStopped { get; protected set; }
+
+        public readonly string ControlStartDescription;
+        public readonly string ControlStopDescription;
+        public readonly string ControlRestartDescription;
+        public readonly string ControlPauseDescription;
+        public readonly string ControlContinueDescription;
+
+        public DataController(
+            string controllerName, 
+            string itemName,
+            string controlStartDescription,
+            string controlStopDescription,
+            string controlRestartDescription,
+            string controlPauseDescription,
+            string controlContinueDescription
+            )
         {
             ItemName = itemName;
             ControllerName = controllerName;
+            ControlStartDescription = controlStartDescription;
+            ControlStopDescription = controlStopDescription;
+            ControlRestartDescription = controlRestartDescription;
+            ControlPauseDescription = controlPauseDescription;
+            ControlContinueDescription = controlContinueDescription;
         }
 
         public ListView MainListView;
@@ -31,7 +56,23 @@ namespace pserv4
         /// </summary>
         /// <param name="objects"></param>
         public abstract void Refresh(ObservableCollection<DataObject> objects);
-        
+
+        protected void AppendMenuItem(ContextMenu menu, string header, BitmapImage[] images, bool enabled, RoutedEventHandler callback)
+        {
+            MenuItem mi = new MenuItem();
+            mi.Header = header;
+            if (images != null)
+            {
+                Image i = new Image();
+                i.Source = enabled ? images[1] : images[0];
+                mi.Icon = i;
+            }
+            mi.IsEnabled = enabled;
+            mi.Click += callback;
+            menu.Items.Add(mi);
+        }
+
+
         /// <summary>
         /// Return the context menu used for all items on this list
         /// </summary>
@@ -39,16 +80,54 @@ namespace pserv4
         {
             get
             {
-                return null;
+                if (string.IsNullOrEmpty(ControlStartDescription))
+                    return null;
+
+                ContextMenu menu = new ContextMenu();
+
+                AppendMenuItem(
+                    menu,
+                    ControlStartDescription,
+                    MainWindow.BIStart,
+                    AnythingStopped || AnythingPaused,
+                    OnControlStart);
+                AppendMenuItem(
+                    menu,
+                    ControlStopDescription,
+                    MainWindow.BIStop,
+                    AnythingRunning || AnythingPaused,
+                    OnControlStop);
+                AppendMenuItem(
+                    menu,
+                    ControlRestartDescription,
+                    MainWindow.BIRestart,
+                    AnythingRunning,
+                    OnControlRestart);
+                AppendMenuItem(
+                    menu,
+                    ControlPauseDescription,
+                    MainWindow.BIPause,
+                    AnythingRunning,
+                    OnControlPause);
+                AppendMenuItem(
+                    menu,
+                    ControlContinueDescription,
+                    MainWindow.BIContinue,
+                    AnythingPaused,
+                    OnControlContinue);
+                return menu;
             }
         }
 
-        public virtual void OnContextMenuOpening(System.Collections.IList selectedItems, ContextMenu menu)
+        public virtual void OnSelectionChanged(IList selectedItems)
         {
-            // default implementation: do nothing
         }
 
-        public virtual void SaveAsXml(string filename, System.Collections.IList items)
+        public virtual void OnContextMenuOpening(IList selectedItems, ContextMenu menu)
+        {
+        }
+
+        public virtual void SaveAsXml(string filename, IList items)
         {
             XmlWriterSettings settings = new XmlWriterSettings();
             settings.Indent = true;
@@ -100,5 +179,33 @@ namespace pserv4
                 xtw.WriteEndElement();
             }
         }
+
+        public virtual void OnControlStart(object sender, RoutedEventArgs e)
+        {
+            Trace.TraceWarning("Warning: OnControlStart not implemented for {0}", this);
+        }
+
+        public virtual void OnControlStop(object sender, RoutedEventArgs e)
+        {
+            Trace.TraceWarning("Warning: OnControlStop not implemented for {0}", this);
+        }
+
+        public virtual void OnControlRestart(object sender, RoutedEventArgs e)
+        {
+            Trace.TraceWarning("Warning: OnControlRestart not implemented for {0}", this);
+        }
+
+        public virtual void OnControlPause(object sender, RoutedEventArgs e)
+        {
+            Trace.TraceWarning("Warning: OnControlPause not implemented for {0}", this);
+        }
+
+        public virtual void OnControlContinue(object sender, RoutedEventArgs e)
+        {
+            Trace.TraceWarning("Warning: OnControlContinue not implemented for {0}", this);
+        }
+
+
     }
 }
+
