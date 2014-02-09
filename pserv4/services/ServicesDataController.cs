@@ -32,16 +32,16 @@ namespace pserv4.services
                     ActualColumns = new List<DataObjectColumn>();
                     ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.SERVICE_C_DisplayName, "DisplayName"));
                     ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.SERVICE_C_ServiceName, "InternalID"));
-                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.SERVICE_C_ServiceType, "ServiceType"));
                     ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.SERVICE_C_ProcessID, "PID"));
+                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.SERVICE_C_CurrentState, "CurrentStateString"));
+                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.SERVICE_C_User, "User"));
+                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.SERVICE_C_ServiceType, "ServiceType"));
                     ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.SERVICE_C_StartType, "StartType"));
                     ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.SERVICE_C_BinaryPathName, "BinaryPathName"));
                     ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.SERVICE_C_LoadOrderGroup, "LoadOrderGroup"));
                     ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.SERVICE_C_ErrorControl, "ErrorControl"));
                     ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.SERVICE_C_TagId, "TagId"));
                     ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.SERVICE_C_Description, "Description"));
-                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.SERVICE_C_User, "User"));
-                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.SERVICE_C_CurrentState, "CurrentStateString"));
                     ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.SERVICE_C_Win32ExitCode, "Win32ExitCode"));
                     ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.SERVICE_C_ServiceSpecificExitCode, "ServiceSpecificExitCode"));
                     ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.SERVICE_C_CheckPoint, "CheckPoint"));
@@ -234,15 +234,27 @@ namespace pserv4.services
 
                         if (existingObjects.TryGetValue(essp.ServiceName, out sdo))
                         {
-                            // todo: refresh existing instance from updated data
+                            sdo.UpdateFrom(essp);
+
+                            // ensure that objects not refreshed are marked as stale 
+                            if(!existingObjects.Remove(essp.ServiceName))
+                            {
+                                Trace.TraceError("Something went seriously wrong: I found {0} in existingObjects, but was later unable to remove it?!", essp.ServiceName);
+                            }
                         }
                         else
                         {
                             objects.Add(new ServiceDataObject(ns, essp));
                         }
                     }
-
                 }
+            }
+
+            foreach (string key in existingObjects.Keys)
+            {
+                ServiceDataObject sdo = existingObjects[key];
+                Trace.TraceWarning("Removing stale service: {0}", sdo);
+                objects.Remove(sdo);
             }
         }
     }

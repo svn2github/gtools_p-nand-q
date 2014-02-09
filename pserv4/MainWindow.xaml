@@ -7,8 +7,9 @@
             <Setter Property="MaxWidth" Value="400" />
         </Style>
     </Window.Resources>
+
     <Grid >
-        
+
         <Grid.RowDefinitions>
             <RowDefinition Height="25" />
             <RowDefinition Height="*" />
@@ -36,7 +37,7 @@
                 <ColumnDefinition Width="16*"/>
                 <ColumnDefinition Width="16*"/>
             </Grid.ColumnDefinitions>
-            <Button Name="ButtonServices" Grid.Column="0" BorderThickness="0" Margin="0" FontFamily="Segoe UI" FontSize="14" Background="White" FontWeight="Normal" Click="SwitchToServices">
+            <Button Name="ButtonServices" Grid.Column="0" BorderThickness="0" Margin="0" FontFamily="Segoe UI" FontSize="14" Background="White" FontWeight="Normal" Click="SwitchToServices">                
                 <Button.ToolTip>
                     <ToolTip>
                         <StackPanel>
@@ -47,7 +48,7 @@
                 </Button.ToolTip>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                     <Image Source="images\server.png" RenderOptions.BitmapScalingMode="NearestNeighbor" Height="16" Margin="0 0 5 0"/>
-                    <TextBlock TextWrapping="Wrap" TextAlignment="Left">Services</TextBlock>
+                    <AccessText>_Services</AccessText>
                 </StackPanel>
             </Button>
             <Button Name="ButtonDevices" Grid.Column="1" BorderThickness="0" Margin="0"  FontFamily="Segoe UI" FontSize="14"  Background="White" Click="SwitchToDevices" >
@@ -61,7 +62,7 @@
                 </Button.ToolTip>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                     <Image Source="images\wrench.png" RenderOptions.BitmapScalingMode="NearestNeighbor" Height="16" Margin="0 0 5 0"/>
-                    <TextBlock TextWrapping="Wrap" TextAlignment="Left">Devices</TextBlock>
+                    <AccessText>_Devices</AccessText>
                 </StackPanel>
             </Button>
             <Button Name="ButtonWindows" Grid.Column="2" BorderThickness="0" Margin="0" FontFamily="Segoe UI" FontSize="14" Background="White" Click="SwitchToWindows">
@@ -75,7 +76,7 @@
                 </Button.ToolTip>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                     <Image Source="images\application_cascade.png" RenderOptions.BitmapScalingMode="NearestNeighbor" Height="16" Margin="0 0 5 0"/>
-                    <TextBlock TextWrapping="Wrap" TextAlignment="Left">Windows</TextBlock>
+                    <AccessText>_Windows</AccessText>
                 </StackPanel>
             </Button>
             <Button Name="ButtonUninstaller" Grid.Column="3" BorderThickness="0" Margin="0" FontFamily="Segoe UI" FontSize="14" Background="White" Click="SwitchToUninstaller">
@@ -89,7 +90,7 @@
                 </Button.ToolTip>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                     <Image Source="images\package_delete.png" RenderOptions.BitmapScalingMode="NearestNeighbor" Height="16" Margin="0 0 5 0"/>
-                    <TextBlock TextWrapping="Wrap" TextAlignment="Left">Programs</TextBlock>
+                    <AccessText>_Uninstaller</AccessText>
                 </StackPanel>
             </Button>
             <Button Name="ButtonProcesses" Grid.Column="4" BorderThickness="0" Margin="0" FontFamily="Segoe UI" FontSize="14" Background="White" Click="SwitchToProcesses">
@@ -103,7 +104,7 @@
                 </Button.ToolTip>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                     <Image Source="images\server_uncompressed.png" RenderOptions.BitmapScalingMode="NearestNeighbor" Height="16" Margin="0 0 5 0"/>
-                    <TextBlock TextWrapping="Wrap" TextAlignment="Left">Processes</TextBlock>
+                    <AccessText>_Processes</AccessText>
                 </StackPanel>
             </Button>
             <Button Name="ButtonModules" Grid.Column="5" BorderThickness="0" Margin="0" FontFamily="Segoe UI" FontSize="14" Background="White" Click="SwitchToModules">
@@ -117,7 +118,7 @@
                 </Button.ToolTip>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                     <Image Source="images\server_database.png" RenderOptions.BitmapScalingMode="NearestNeighbor" Height="16" Margin="0 0 5 0"/>
-                    <TextBlock TextWrapping="Wrap" TextAlignment="Left">Modules</TextBlock>
+                    <AccessText>_Modules</AccessText>
                 </StackPanel>
             </Button>
             <Button Grid.Column="6" BorderThickness="0" Margin="0" FontFamily="Segoe UI" FontSize="14" Background="White">
@@ -138,7 +139,9 @@
             <Button Grid.Column="11" BorderThickness="0" Margin="0" FontFamily="Segoe UI" FontSize="14" Background="White">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                     <Image Source="images\find.png" RenderOptions.BitmapScalingMode="NearestNeighbor" Height="16" Margin="0 0 5 0"/>
-                    <TextBlock TextWrapping="Wrap" TextAlignment="Right">Filter:</TextBlock>
+                    <Label Target="{Binding ElementName=FindThisText}" Margin="0" Padding="0">
+                        <AccessText>_Filter:</AccessText>
+                    </Label>
                 </StackPanel>
             </Button>
             <TextBox Grid.Column="12" x:Name="FindThisText" Margin="3" TextChanged="FindThisText_TextChanged"/>
@@ -154,7 +157,7 @@
                 </Button.ToolTip>
                 <Image Source="images\database_gear.png" RenderOptions.BitmapScalingMode="NearestNeighbor" Height="16" Margin="0 0 5 0"/>
             </Button>
-            <Button Grid.Column="14" BorderThickness="0" Margin="0" FontFamily="Segoe UI" FontSize="14" Background="White">
+            <Button Grid.Column="14" Name="BtRefresh" BorderThickness="0" Margin="0" FontFamily="Segoe UI" FontSize="14" Background="White" Click="RefreshDisplay">
                 <Button.ToolTip>
                     <ToolTip>
                         <StackPanel>
@@ -165,7 +168,7 @@
                 </Button.ToolTip>
                 <Image Source="images\arrow_refresh.png" RenderOptions.BitmapScalingMode="NearestNeighbor" Height="16" Margin="0 0 5 0"/>
             </Button>
-            <Button Grid.Column="15" BorderThickness="0" Margin="0" FontFamily="Segoe UI" FontSize="14" Background="White">
+            <Button Grid.Column="15" BorderThickness="0" Margin="0" FontFamily="Segoe UI" FontSize="14" Background="White" Click="SaveAsXML">
                 <Button.ToolTip>
                     <ToolTip>
                         <StackPanel>
@@ -193,7 +196,7 @@
                   MouseDoubleClick="MainListView_MouseDoubleClick" 
                   SelectionChanged="MainListView_SelectionChanged"
                   PreviewMouseWheel="Zoom_MouseWheel"
-                  GridViewColumnHeader.Click="MainListView_GridViewColumnHeaderClickedHandler">
+                  GridViewColumnHeader.Click="MainListView_GridViewColumnHeaderClickedHandler" KeyDown="MainListView_KeyDown">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="Foreground" Value="Black" />
@@ -221,7 +224,6 @@
             </ListView.ItemContainerStyle>
             <ListView.View>
                 <GridView x:Name="MainGridView">
-                   
 
                 </GridView>
             </ListView.View>

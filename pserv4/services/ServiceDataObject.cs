@@ -11,7 +11,7 @@ namespace pserv4.services
     {
         public string DisplayName { get; private set; }
         public string ServiceType { get; private set; }
-        public string PID { get; private set; }
+        
         public string StartType { get; private set; }
         public string BinaryPathName { get; private set; }
         public string LoadOrderGroup { get; private set; }
@@ -42,33 +42,83 @@ namespace pserv4.services
             }
         }
 
-        public SC_RUNTIME_STATUS CurrentState { get; private set; }
-        public SC_CONTROLS_ACCEPTED ControlsAccepted { get; private set; }
+        private SC_RUNTIME_STATUS _CurrentState;
+        public SC_RUNTIME_STATUS CurrentState
+        {
+            get
+            {
+                return _CurrentState;
+            }
+            private set
+            {
+                if( _CurrentState != value )
+                {
+                    _CurrentState = value;
+                    NotifyPropertyChanged("CurrentStateString");
+
+                    bool isRunning = (_CurrentState == SC_RUNTIME_STATUS.SERVICE_RUNNING);
+                    if( isRunning != IsRunning )
+                    {
+                        IsRunning = isRunning;
+                        NotifyPropertyChanged("IsRunning");
+                    }
+                }
+            }
+        }
+
+        private SC_CONTROLS_ACCEPTED _ControlsAccepted;
+        public SC_CONTROLS_ACCEPTED ControlsAccepted
+        {
+            get
+            {
+                return _ControlsAccepted;
+            }
+            private set
+            {
+                if (_ControlsAccepted != value)
+                {
+                    _ControlsAccepted = value;
+                    NotifyPropertyChanged("ControlsAcceptedString");
+                }
+            }
+        }
+
+        private string _pid;
+        public string PID
+        {
+            get
+            {
+                return _pid;
+            }
+            private set
+            {
+                string v = value;
+                if (v.Equals("0"))
+                    v = "";
+
+                if (_pid == null)
+                    _pid = "";
+
+                if( !_pid.Equals(v))
+                {
+                    _pid = v;
+                    NotifyPropertyChanged("PID");
+                }
+            }
+        }
+
+        public void UpdateFrom(ENUM_SERVICE_STATUS_PROCESS essp)
+        {
+            CurrentState = essp.CurrentState;
+            ControlsAccepted = essp.ControlsAccepted;
+            PID = essp.ProcessID.ToString();
+        }
 
         public void UpdateFrom(SERVICE_STATUS_PROCESS ssp)
         {
-            if( CurrentState != ssp.CurrentState )
-            {
-                CurrentState = ssp.CurrentState;
-                NotifyPropertyChanged("CurrentStateString");
-                NotifyPropertyChanged("IsRunning");
-            }
-            
-            if( ControlsAccepted != ssp.ControlsAccepted)
-            {
-                ControlsAccepted = ssp.ControlsAccepted;
-                NotifyPropertyChanged("ControlsAcceptedString");
-            }
-
-            string pid = "";
-            if (ssp.ProcessID != 0)
-                pid = ssp.ProcessID.ToString();
-
-            if( !PID.Equals(pid))
-            {
-                PID = pid;
-                NotifyPropertyChanged("PID");
-            }
+            CurrentState = ssp.CurrentState;
+            ControlsAccepted = ssp.ControlsAccepted;
+            PID = ssp.ProcessID.ToString();
         }
 
         public ServiceDataObject(NativeService service, ENUM_SERVICE_STATUS_PROCESS essp)

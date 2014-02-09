@@ -73,6 +73,7 @@
     <Compile Include="processes\NativeProcessFunctions.cs" />
     <Compile Include="processes\ProcessDataObject.cs" />
     <Compile Include="processes\ProcessesDataController.cs" />
+    <Compile Include="RefreshManager.cs" />
     <Compile Include="services\NativeSCManager.cs" />
     <Compile Include="services\NativeService.cs" />
     <Compile Include="services\NativeServiceFunctions.cs" />

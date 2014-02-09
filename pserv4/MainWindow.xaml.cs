@@ -16,6 +16,9 @@ using System.Windows.Shapes;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Reflection;
+using System.Collections;
+using Microsoft.Win32;
+using System.Windows.Threading;
 
 namespace pserv4
 {
@@ -56,8 +59,18 @@ namespace pserv4
             KnownViews[MainViewType.Modules] = new DataView(new modules.ModulesDataController(), ButtonModules);
         }
 
+        private void timer_Tick(object sender, EventArgs e)
+        {
+            Trace.TraceInformation("*** BEGIN TIMER TICK: {0}", System.Threading.Thread.CurrentThread.ManagedThreadId);
+
+            RefreshDisplay(sender, null);
+
+            Trace.TraceInformation("*** END TIMER TICK: {0}", System.Threading.Thread.CurrentThread.ManagedThreadId);
+        }
+
         private void SwitchController(MainViewType newViewType)
         {
+            Trace.TraceInformation("*** SwitchController {0}", System.Threading.Thread.CurrentThread.ManagedThreadId);
             if (CurrentViewType == newViewType)
                 return;
 
@@ -146,6 +159,12 @@ namespace pserv4
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             SwitchController(InitialControl);
+            DispatcherTimer dt = new DispatcherTimer();
+            dt.Tick += new EventHandler(timer_Tick);
+            dt.Interval = new TimeSpan(0, 0, 5); // execute every hour
+            dt.Start();
+
+            Trace.TraceInformation("*** START TICK: {0}", System.Threading.Thread.CurrentThread.ManagedThreadId);
         }
 
         private void Zoom_MouseWheel(object sender, MouseWheelEventArgs e)
@@ -346,13 +365,86 @@ namespace pserv4
             dataView.Refresh();
         }
 
+        private IList GetExportItems()
+        {
+            IList list = MainListView.SelectedItems;
+            if (list.Count == 0)
+                list = MainListView.Items;
+            return list;
+        }
+
         private void CopyToClipboard(object sender, RoutedEventArgs e)
         {
-            System.Collections.IList list = MainListView.SelectedItems;
-            if( list.Count == 0 )
-                list = MainListView.Items;
+            CurrentController.SaveAsXml(null, GetExportItems());
+        }
 
-            CurrentController.SaveAsXml(null, list);
+        private void SaveAsXML(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog dialog = new SaveFileDialog();
+
+            // Set filter for file extension and default file extension 
+            dialog.DefaultExt = ".xml";
+            dialog.Filter = "XML Files (*.xml)|*.xml|All Files (*.*)|*.*";
+
+            // Display OpenFileDialog by calling ShowDialog method 
+            bool? result = dialog.ShowDialog();
+            if( result.HasValue && result.Value)
+            {
+                CurrentController.SaveAsXml(dialog.FileName, GetExportItems());
+            }
+        }
+
+        public static IEnumerable<ListViewItem> GetListViewItemsFromList(ListView lv)
+        {
+            return FindChildrenOfType<ListViewItem>(lv);
+        }
+
+        public static IEnumerable<T> FindChildrenOfType<T>(DependencyObject ob)
+            where T : class
+        {
+            foreach (var child in GetChildren(ob))
+            {
+                T castedChild = child as T;
+                if (castedChild != null)
+                {
+                    yield return castedChild;
+                }
+                else
+                {
+                    foreach (var internalChild in FindChildrenOfType<T>(child))
+                    {
+                        yield return internalChild;
+                    }
+                }
+            }
+        }
+
+        public static IEnumerable<DependencyObject> GetChildren(DependencyObject ob)
+        {
+            int childCount = VisualTreeHelper.GetChildrenCount(ob);
+
+            for (int i = 0; i < childCount; i++)
+            {
+                yield return VisualTreeHelper.GetChild(ob, i);
+            }
+        }
+
+        private void RefreshDisplay(object sender, RoutedEventArgs e)
+        {
+            Trace.TraceInformation("BEGIN RefreshDisplay()");
+            Trace.Indent();
+            CurrentController.Refresh(Items);
+
+            Trace.Unindent();
+            Trace.TraceInformation("END RefreshDisplay()");
+        }
+
+        private void MainListView_KeyDown(object sender, KeyEventArgs e)
+        {
+            if( e.Key == Key.F5 )
+            {
+                RefreshDisplay(null, null);
+            }
         }
     }
 }

@@ -27,11 +27,11 @@ namespace pserv4.windows
                     ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.WINDOW_C_HWND, "InternalID"));
                     ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.WINDOW_C_Title, "Title"));
                     ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.WINDOW_C_Class, "Class"));
+                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.WINDOW_C_Size, "Size"));
+                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.WINDOW_C_Position, "Position"));
                     ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.WINDOW_C_Style, "Style"));
                     ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.WINDOW_C_ExStyle, "ExStyle"));
                     ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.WINDOW_C_ID, "ID"));
-                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.WINDOW_C_Size, "Size"));
-                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.WINDOW_C_Position, "Position"));
                     ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.WINDOW_C_ProcessID, "ProcessID"));
                     ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.WINDOW_C_ThreadID, "ThreadID"));
                     ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.WINDOW_C_Process, "Process"));
