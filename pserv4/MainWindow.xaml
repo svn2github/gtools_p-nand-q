@@ -121,7 +121,7 @@
                     <AccessText>_Modules</AccessText>
                 </StackPanel>
             </Button>
-            <Button Name="BtStart" Grid.Column="6" IsEnabled="False" BorderThickness="0" Margin="0" FontFamily="Segoe UI" FontSize="14" Background="White" Click="OnControlStart">
+            <Button Name="BtStart" Grid.Column="6" IsEnabled="False" BorderThickness="0" Margin="0" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="OnControlStart">
                 <Image Source="images\control_play.png" RenderOptions.BitmapScalingMode="NearestNeighbor" Height="16" Margin="0 0 5 0"/>
                 <Button.ToolTip>
                     <ToolTip>
@@ -132,7 +132,7 @@
                     </ToolTip>
                 </Button.ToolTip>
             </Button>
-            <Button Name="BtStop" Grid.Column="7" IsEnabled="False" BorderThickness="0" Margin="0" FontFamily="Segoe UI" FontSize="14" Background="White" Click="OnControlStop">
+            <Button Name="BtStop" Grid.Column="7" IsEnabled="False" BorderThickness="0" Margin="0" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="OnControlStop">
                 <Image Source="images\control_stop.png" RenderOptions.BitmapScalingMode="NearestNeighbor" Height="16" Margin="0 0 5 0"/>
                 <Button.ToolTip>
                     <ToolTip>
@@ -143,7 +143,7 @@
                     </ToolTip>
                 </Button.ToolTip>
             </Button>
-            <Button Name="BtRestart" Grid.Column="8" IsEnabled="False" BorderThickness="0" Margin="0" FontFamily="Segoe UI" FontSize="14" Background="White" Click="OnControlRestart">
+            <Button Name="BtRestart" Grid.Column="8" IsEnabled="False" BorderThickness="0" Margin="0" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="OnControlRestart">
                 <Image Source="images\control_repeat.png" RenderOptions.BitmapScalingMode="NearestNeighbor" Height="16" Margin="0 0 5 0"/>
                 <Button.ToolTip>
                     <ToolTip>
@@ -154,7 +154,7 @@
                     </ToolTip>
                 </Button.ToolTip>
             </Button>
-            <Button Name="BtPause" Grid.Column="9" IsEnabled="False" BorderThickness="0" Margin="0" FontFamily="Segoe UI" FontSize="14" Background="White" Click="OnControlPause">
+            <Button Name="BtPause" Grid.Column="9" IsEnabled="False" BorderThickness="0" Margin="0" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="OnControlPause">
                 <Image Source="images\control_pause.png" RenderOptions.BitmapScalingMode="NearestNeighbor" Height="16" Margin="0 0 5 0"/>
                 <Button.ToolTip>
                     <ToolTip>
@@ -165,7 +165,7 @@
                     </ToolTip>
                 </Button.ToolTip>
             </Button>
-            <Button Name="BtContinue" Grid.Column="10" IsEnabled="False" BorderThickness="0" Margin="0" FontFamily="Segoe UI" FontSize="14" Background="White" Click="OnControlContinue">
+            <Button Name="BtContinue" Grid.Column="10" IsEnabled="False" BorderThickness="0" Margin="0" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="OnControlContinue">
                 <Image Source="images\control_fastforward.png" RenderOptions.BitmapScalingMode="NearestNeighbor" Height="16" Margin="0 0 5 0"/>
                 <Button.ToolTip>
                     <ToolTip>
@@ -176,7 +176,7 @@
                     </ToolTip>
                 </Button.ToolTip>
             </Button>
-            <Button Grid.Column="11" BorderThickness="0" Margin="0" FontFamily="Segoe UI" FontSize="14" Background="White">
+            <Button Grid.Column="11" BorderThickness="0" Margin="0" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                     <Image Source="images\find.png" RenderOptions.BitmapScalingMode="NearestNeighbor" Height="16" Margin="0 0 5 0"/>
                     <Label Target="{Binding ElementName=FindThisText}" Margin="0" Padding="0">
@@ -192,9 +192,9 @@
                     </ToolTip>
                 </Button.ToolTip>
             </Button>
-            <TextBox Grid.Column="12" x:Name="FindThisText" Margin="3" TextChanged="FindThisText_TextChanged"/>
+            <TextBox Grid.Column="12" x:Name="FindThisText" Margin="3" TextChanged="FindThisText_TextChanged" />
 
-            <Button Grid.Column="13" BorderThickness="0" Margin="0" FontFamily="Segoe UI" FontSize="14" Background="White">
+            <Button Grid.Column="13" BorderThickness="0" Margin="0" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="ShowProperties">
                 <Button.ToolTip>
                     <ToolTip>
                         <StackPanel>
@@ -205,7 +205,7 @@
                 </Button.ToolTip>
                 <Image Source="images\database_gear.png" RenderOptions.BitmapScalingMode="NearestNeighbor" Height="16" Margin="0 0 5 0"/>
             </Button>
-            <Button Grid.Column="14" Name="BtRefresh" BorderThickness="0" Margin="0" FontFamily="Segoe UI" FontSize="14" Background="White" Click="RefreshDisplay">
+            <Button Grid.Column="14" Name="BtRefresh" BorderThickness="0" Margin="0" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="RefreshDisplay">
                 <Button.ToolTip>
                     <ToolTip>
                         <StackPanel>
@@ -216,7 +216,7 @@
                 </Button.ToolTip>
                 <Image Source="images\arrow_refresh.png" RenderOptions.BitmapScalingMode="NearestNeighbor" Height="16" Margin="0 0 5 0"/>
             </Button>
-            <Button Grid.Column="15" BorderThickness="0" Margin="0" FontFamily="Segoe UI" FontSize="14" Background="White" Click="SaveAsXML">
+            <Button Grid.Column="15" BorderThickness="0" Margin="0" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="SaveAsXML">
                 <Button.ToolTip>
                     <ToolTip>
                         <StackPanel>
@@ -227,7 +227,7 @@
                 </Button.ToolTip>
                 <Image Source="images\database_save.png" RenderOptions.BitmapScalingMode="NearestNeighbor" Height="16" Margin="0 0 5 0"/>
             </Button>
-            <Button Grid.Column="16" BorderThickness="0" Margin="0" FontFamily="Segoe UI" FontSize="14" Background="White" Click="CopyToClipboard">
+            <Button Grid.Column="16" BorderThickness="0" Margin="0" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="CopyToClipboard">
                 <Button.ToolTip>
                     <ToolTip>
                         <StackPanel>

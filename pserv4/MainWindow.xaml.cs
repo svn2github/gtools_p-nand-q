@@ -42,7 +42,7 @@ namespace pserv4
 
         private readonly Dictionary<MainViewType, DataView> KnownViews = new Dictionary<MainViewType, DataView>();
         private ObservableCollection<DataObject> Items = new ObservableCollection<DataObject>();
-        private DataController CurrentController;
+        public static DataController CurrentController;
         private readonly MainViewType InitialControl;
         private MainViewType CurrentViewType;
 
@@ -167,6 +167,11 @@ namespace pserv4
             }
         }
 
+        private void ShowProperties(object sender, RoutedEventArgs e)
+        {
+            CurrentController.ShowProperties(sender, e);
+        }
+
         private void SwitchToServices(object sender, RoutedEventArgs e)
         {
             SwitchController(MainViewType.Services);
@@ -267,7 +272,7 @@ namespace pserv4
             DataObject item = ((FrameworkElement)e.OriginalSource).DataContext as DataObject;
             if (item != null)
             {
-                //EditItem(item); TODO: pass on to controller for editing
+                ShowProperties(sender, e);
             }
         }
 

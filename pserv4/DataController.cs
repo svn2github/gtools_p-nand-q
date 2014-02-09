@@ -11,6 +11,7 @@ using System.Windows.Controls;
 using System.Xml;
 using System.Diagnostics;
 using System.Windows.Media.Imaging;
+using pserv4.Properties;
 
 namespace pserv4
 {
@@ -19,6 +20,7 @@ namespace pserv4
         public abstract IEnumerable<DataObjectColumn> Columns { get; }
         private readonly string ControllerName;
         private readonly string ItemName;
+        protected bool HasProperties;
 
         public bool AnythingPaused { get; protected set; }
         public bool AnythingRunning { get; protected set; }
@@ -41,6 +43,7 @@ namespace pserv4
             )
         {
             ItemName = itemName;
+            HasProperties = false;
             ControllerName = controllerName;
             ControlStartDescription = controlStartDescription;
             ControlStopDescription = controlStopDescription;
@@ -68,6 +71,18 @@ namespace pserv4
                 mi.Icon = i;
             }
             mi.IsEnabled = enabled;
+            mi.Click += callback;
+            menu.Items.Add(mi);
+        }
+
+        protected void AppendMenuItem(ContextMenu menu, string header, string imageName, RoutedEventHandler callback)
+        {
+            MenuItem mi = new MenuItem();
+            mi.Header = header;
+            Image i = new Image();
+            string filename = string.Format(@"pack://application:,,,/images/{0}.png", imageName);
+            i.Source = new BitmapImage(new Uri(filename));
+            mi.Icon = i;
             mi.Click += callback;
             menu.Items.Add(mi);
         }
@@ -115,6 +130,13 @@ namespace pserv4
                     MainWindow.BIContinue,
                     AnythingPaused,
                     OnControlContinue);
+
+                if(HasProperties)
+                {
+                    menu.Items.Add(new Separator());
+                    AppendMenuItem(menu, Resources.IDS_PROPERTIES, "database_gear", ShowProperties);
+                    
+                }
                 return menu;
             }
         }
@@ -178,6 +200,19 @@ namespace pserv4
                 }
                 xtw.WriteEndElement();
             }
+        }
+
+        public void ShowProperties(object sender, RoutedEventArgs e)
+        {
+            if(HasProperties && (MainListView.SelectedItems.Count > 0))
+            {
+                new PropertiesWindow().Show();
+            }
+        }
+
+        public virtual UserControl CreateDetailsPage(DataObject o)
+        {
+            return null;
         }
 
         public virtual void OnControlStart(object sender, RoutedEventArgs e)

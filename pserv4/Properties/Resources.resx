@@ -132,6 +132,9 @@
   <data name="DEVICES_CTRL_STOP_Description" xml:space="preserve">
     <value>Stop the selected device(s)</value>
   </data>
+  <data name="IDS_PROPERTIES" xml:space="preserve">
+    <value>Properties</value>
+  </data>
   <data name="MODULE_C_FileDescription" xml:space="preserve">
     <value>File Description</value>
   </data>

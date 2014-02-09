@@ -12,7 +12,30 @@ namespace pserv4.services
         public string DisplayName { get; private set; }
         public string ServiceType { get; private set; }
         
-        public string StartType { get; private set; }
+        public string StartTypeString
+        {
+            get
+            {
+                return ServicesLocalisation.Localized(StartType);
+            }
+        }
+        private SC_START_TYPE _StartType;
+        public SC_START_TYPE StartType
+        {
+            get
+            {
+                return _StartType;
+            }
+            private set
+            {
+                if (_StartType != value)
+                {
+                    _StartType = value;
+                    NotifyPropertyChanged("StartTypeString");
+                }
+            }
+        }
+
         public string BinaryPathName { get; private set; }
         public string LoadOrderGroup { get; private set; }
         public string ErrorControl { get; private set; }
@@ -91,6 +114,35 @@ namespace pserv4.services
             SetStringProperty("PID", essp.ProcessID);
         }
 
+        public void ApplyStartupChanges(NativeSCManager scm, SC_START_TYPE startupType)
+        {
+            if (startupType != StartType)
+            {
+                
+
+                using (NativeService ns = new NativeService(scm,
+                    InternalID,
+                    ACCESS_MASK.SERVICE_CHANGE_CONFIG | ACCESS_MASK.SERVICE_QUERY_STATUS))
+                {
+                    bool success = NativeServiceFunctions.ChangeServiceConfig(ns.Handle,
+                        SC_SERVICE_TYPE.SERVICE_NO_CHANGE,
+                        startupType,
+                        SC_ERROR_CONTROL.SERVICE_NO_CHANGE,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null);
+                    if( success )
+                    {
+                        StartType = startupType;
+                    }
+                }
+            }
+        }
+
         public void UpdateFrom(SERVICE_STATUS_PROCESS ssp)
         {
             CurrentState = ssp.CurrentState;
@@ -129,7 +181,7 @@ namespace pserv4.services
                 {
                     IsDisabled = true;
                 }
-                StartType = ServicesLocalisation.Localized(config.StartType);
+                StartType = config.StartType;
                 BinaryPathName = config.BinaryPathName;
                 LoadOrderGroup = config.LoadOrderGroup;
                 ErrorControl = ServicesLocalisation.Localized(config.ErrorControl);

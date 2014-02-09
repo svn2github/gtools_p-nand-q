@@ -106,6 +106,15 @@ namespace pserv4.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Properties.
+        /// </summary>
+        internal static string IDS_PROPERTIES {
+            get {
+                return ResourceManager.GetString("IDS_PROPERTIES", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to File Description.
         /// </summary>
         internal static string MODULE_C_FileDescription {

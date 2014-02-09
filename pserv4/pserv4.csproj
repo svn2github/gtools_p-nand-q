@@ -73,6 +73,9 @@
     <Compile Include="processes\NativeProcessFunctions.cs" />
     <Compile Include="processes\ProcessDataObject.cs" />
     <Compile Include="processes\ProcessesDataController.cs" />
+    <Compile Include="PropertiesWindow.xaml.cs">
+      <DependentUpon>PropertiesWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="RefreshManager.cs" />
     <Compile Include="services\NativeSCManager.cs" />
     <Compile Include="services\NativeService.cs" />
@@ -83,6 +86,9 @@
     <Compile Include="services\RequestServiceRestart.cs" />
     <Compile Include="services\RequestServiceStop.cs" />
     <Compile Include="services\RequestServiceStart.cs" />
+    <Compile Include="services\ServiceDetails.xaml.cs">
+      <DependentUpon>ServiceDetails.xaml</DependentUpon>
+    </Compile>
     <Compile Include="services\ServicesDataController.cs" />
     <Compile Include="services\ServiceDataObject.cs" />
     <Compile Include="services\ServicesLocalisation.cs" />
@@ -110,6 +116,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="PropertiesWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="services\ServiceDetails.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -183,6 +197,14 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="images\database_lightning.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\application.png" />
+    <Resource Include="images\application_go.png" />
+    <Resource Include="images\application_key.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\delete.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

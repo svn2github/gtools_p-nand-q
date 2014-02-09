@@ -43,6 +43,7 @@ namespace pserv4.services
                     _(controlContinueDescription,Resources.SERVICES_CTRL_CONTINUE_Description))
         {
             ServicesType = servicesType;
+            HasProperties = true;
         }
 
         public override IEnumerable<DataObjectColumn> Columns
@@ -58,7 +59,7 @@ namespace pserv4.services
                     ActualColumns.Add(new DataObjectColumn(Resources.SERVICE_C_CurrentState, "CurrentStateString"));
                     ActualColumns.Add(new DataObjectColumn(Resources.SERVICE_C_User, "User"));
                     ActualColumns.Add(new DataObjectColumn(Resources.SERVICE_C_ServiceType, "ServiceType"));
-                    ActualColumns.Add(new DataObjectColumn(Resources.SERVICE_C_StartType, "StartType"));
+                    ActualColumns.Add(new DataObjectColumn(Resources.SERVICE_C_StartType, "StartTypeString"));
                     ActualColumns.Add(new DataObjectColumn(Resources.SERVICE_C_BinaryPathName, "BinaryPathName"));
                     ActualColumns.Add(new DataObjectColumn(Resources.SERVICE_C_LoadOrderGroup, "LoadOrderGroup"));
                     ActualColumns.Add(new DataObjectColumn(Resources.SERVICE_C_ErrorControl, "ErrorControl"));
@@ -82,10 +83,47 @@ namespace pserv4.services
             {
                 ContextMenu menu = base.ContextMenu;
 
-                // TODO: add service-specific stuff
+                menu.Items.Add(new Separator());
+
+                AppendMenuItem(menu, "Startup: Automatic", "application_go", OnSetStartupAutomatic);
+                AppendMenuItem(menu, "Startup: Manual", "application", OnSetStartupManual);
+                AppendMenuItem(menu, "Startup: Disabled", "application_key", OnSetStartupDisabled);
+                menu.Items.Add(new Separator());
+                AppendMenuItem(menu, "Uninstall", "delete", ShowProperties);
+
                 return menu;
             }
         }
+
+        private void ApplyStartupChanges(SC_START_TYPE startupType)
+        {
+            using (new WaitCursor())
+            {
+                using (NativeSCManager scm = new NativeSCManager())
+                {
+                    foreach (ServiceDataObject sdo in MainListView.SelectedItems)
+                    {
+                        sdo.ApplyStartupChanges(scm, startupType);
+                    }
+                }
+            }
+        }
+
+        public void OnSetStartupAutomatic(object sender, RoutedEventArgs e)
+        {
+            ApplyStartupChanges(SC_START_TYPE.SERVICE_AUTO_START);
+        }
+
+        public void OnSetStartupManual(object sender, RoutedEventArgs e)
+        {
+            ApplyStartupChanges(SC_START_TYPE.SERVICE_DEMAND_START);
+        }
+
+        public void OnSetStartupDisabled(object sender, RoutedEventArgs e)
+        {
+            ApplyStartupChanges(SC_START_TYPE.SERVICE_DISABLED);
+        }
+
 
         public override void OnSelectionChanged(IList selectedItems)
         {
@@ -166,6 +204,11 @@ namespace pserv4.services
         public override void OnControlContinue(object sender, RoutedEventArgs e)
         {
             OnChangeServiceStatus(new RequestServiceContinue());
+        }
+
+        public override UserControl CreateDetailsPage(DataObject o)
+        {
+            return new ServiceDetails(o as ServiceDataObject);
         }
 
         public override void Refresh(ObservableCollection<DataObject> objects)
