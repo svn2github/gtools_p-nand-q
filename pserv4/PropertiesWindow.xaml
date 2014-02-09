@@ -1,19 +1,41 @@
 ﻿<Window x:Class="pserv4.PropertiesWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Properties" Height="500" Width="800" Loaded="Window_Loaded">
+        Title="Properties" Height="500" Width="600" Loaded="Window_Loaded">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
-            <RowDefinition Height="50" />
+            <RowDefinition Height="40" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="120"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="90"/>
-            <ColumnDefinition Width="90"/>
+            <ColumnDefinition Width="120"/>
+            <ColumnDefinition Width="120"/>
         </Grid.ColumnDefinitions>
-        <TabControl Name="MyTabControl" Grid.Row="0" Grid.ColumnSpan="3">
+        <TabControl Name="MyTabControl" Grid.Row="0" Grid.ColumnSpan="4" Margin="5">
             
         </TabControl>
+        <Button Name="RevertButton" Grid.Column="0" Grid.Row="1" Margin="5"  FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="OnRevert" >
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                <Image Source="images\arrow_refresh.png" RenderOptions.BitmapScalingMode="NearestNeighbor" Height="16" Margin="0 0 5 0"/>
+                <AccessText>Revert</AccessText>
+            </StackPanel>
+        </Button>
+
+        
+        <Button Name="OKButton" Grid.Column="2" Grid.Row="1" Margin="5"  FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="OnOK" IsDefault="True">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                <Image Source="images\accept.png" RenderOptions.BitmapScalingMode="NearestNeighbor" Height="16" Margin="0 0 5 0"/>
+                <AccessText>_OK</AccessText>
+            </StackPanel>
+        </Button>
+
+        <Button Name="CancelButton" Grid.Column="3" Grid.Row="1" Margin="5"  FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="OnCancel"  IsCancel="True">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                <Image Source="images\delete.png" RenderOptions.BitmapScalingMode="NearestNeighbor" Height="16" Margin="0 0 5 0"/>
+                <AccessText>_Cancel</AccessText>
+            </StackPanel>
+        </Button>
     </Grid>
 </Window>

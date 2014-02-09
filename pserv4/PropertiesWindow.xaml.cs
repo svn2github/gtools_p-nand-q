@@ -35,10 +35,52 @@ namespace pserv4
                 {
                     MyTabControl.Items.Add(tabitem);
                 }
+                IDataObjectDetails details = tabitem.Content as IDataObjectDetails;
+                if (details != null)
+                {
+                    details.BindTabItem(tabitem);
+                }
             }
             MyTabControl.SelectedIndex = 0;
         }
 
+        private void OnOK(object sender, RoutedEventArgs e)
+        {
+            List<IDataObjectDetails> changedItems = new List<IDataObjectDetails>();
+
+            foreach(TabItem tabitem in MyTabControl.Items)
+            {
+                IDataObjectDetails details = tabitem.Content as IDataObjectDetails;
+                if (details != null)
+                {
+                    if(details.HasAnyChanges())
+                    {
+                        changedItems.Add(details);
+                    }
+                }
+            }
+
+            MainWindow.CurrentController.ApplyChanges(changedItems);
+            Close();
+        }
+        
+        private void OnRevert(object sender, RoutedEventArgs e)
+        {
+            TabItem tabitem = MyTabControl.SelectedItem as TabItem;
+            if( tabitem != null )
+            {
+                IDataObjectDetails details = tabitem.Content as IDataObjectDetails;
+                if( details != null )
+                {
+                    details.RevertChanges();
+                }
+            }
+        }
+
+        private void OnCancel(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
 
     }
 }

@@ -75,6 +75,11 @@ namespace pserv4
             menu.Items.Add(mi);
         }
 
+        public virtual void ApplyChanges(List<IDataObjectDetails> changedItems)
+        {
+            // default implementation: do nothing
+        }
+
         protected void AppendMenuItem(ContextMenu menu, string header, string imageName, RoutedEventHandler callback)
         {
             MenuItem mi = new MenuItem();

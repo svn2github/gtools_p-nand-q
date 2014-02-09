@@ -543,16 +543,16 @@ namespace pserv4.services
         [DllImport("advapi32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
         public static extern unsafe bool ChangeServiceConfig(
             IntPtr serviceHandle,
-            SC_SERVICE_TYPE ServiceType,
-            SC_START_TYPE StartType,
-            SC_ERROR_CONTROL ErrorControl,
-            string BinaryPathName,
-            string LoadOrderGroup,
-            string TagId,
-            string Dependencies,
-            string ServiceStartName,
-            string Password,
-            string DisplayName);
+            SC_SERVICE_TYPE ServiceType = SC_SERVICE_TYPE.SERVICE_NO_CHANGE,
+            SC_START_TYPE StartType = SC_START_TYPE.SERVICE_NO_CHANGE,
+            SC_ERROR_CONTROL ErrorControl = SC_ERROR_CONTROL.SERVICE_NO_CHANGE,
+            string BinaryPathName = null,
+            string LoadOrderGroup = null,
+            string TagId = null,
+            string Dependencies = null,
+            string ServiceStartName = null,
+            string Password = null,
+            string DisplayName = null);
 
         [DllImport("advapi32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
         public static extern unsafe bool ChangeServiceConfig2(

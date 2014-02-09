@@ -111,30 +111,50 @@ namespace pserv4.services
         {
             CurrentState = essp.CurrentState;
             ControlsAccepted = essp.ControlsAccepted;
-            SetStringProperty("PID", essp.ProcessID);
+            SetNonZeroStringProperty("PID", essp.ProcessID);
+        }
+
+
+        public void ApplyChanges(
+            NativeSCManager scm, 
+            SC_START_TYPE startupType,
+            string displayName,
+            string binaryPathName,
+            string Description)
+        {
+            using (NativeService ns = new NativeService(scm,
+                InternalID,
+                ACCESS_MASK.SERVICE_CHANGE_CONFIG | ACCESS_MASK.SERVICE_QUERY_STATUS))
+            {
+                bool success = NativeServiceFunctions.ChangeServiceConfig(ns.Handle,
+                    StartType: startupType,
+                    DisplayName: displayName,
+                    BinaryPathName: binaryPathName);
+                if (success)
+                {
+                    StartType = startupType;
+                    if( displayName != null )
+                    {
+                        SetStringProperty("DisplayName", displayName);
+                    }
+                    if( binaryPathName != null )
+                    {
+                        SetStringProperty("BinaryPathName", binaryPathName);
+                    }
+                }
+            }
         }
 
         public void ApplyStartupChanges(NativeSCManager scm, SC_START_TYPE startupType)
         {
             if (startupType != StartType)
             {
-                
-
                 using (NativeService ns = new NativeService(scm,
                     InternalID,
                     ACCESS_MASK.SERVICE_CHANGE_CONFIG | ACCESS_MASK.SERVICE_QUERY_STATUS))
                 {
                     bool success = NativeServiceFunctions.ChangeServiceConfig(ns.Handle,
-                        SC_SERVICE_TYPE.SERVICE_NO_CHANGE,
-                        startupType,
-                        SC_ERROR_CONTROL.SERVICE_NO_CHANGE,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null);
+                        StartType: startupType);
                     if( success )
                     {
                         StartType = startupType;
@@ -147,7 +167,7 @@ namespace pserv4.services
         {
             CurrentState = ssp.CurrentState;
             ControlsAccepted = ssp.ControlsAccepted;
-            SetStringProperty("PID", ssp.ProcessID);
+            SetNonZeroStringProperty("PID", ssp.ProcessID);
         }
 
         public ServiceDataObject(NativeService service, ENUM_SERVICE_STATUS_PROCESS essp)

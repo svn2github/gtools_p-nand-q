@@ -71,5 +71,23 @@ namespace pserv4
             return false;
         }
 
+        protected bool SetNonZeroStringProperty(string bindingName, object newValue)
+        {
+            string stringValue = (newValue == null) ? "" : newValue.ToString();
+            if (stringValue.Equals("0"))
+                stringValue = "";
+
+            Type t = GetType();
+
+            string actualValue = t.GetProperty(bindingName).GetValue(this) as string;
+            if (!ConstructionIsFinished || !stringValue.Equals(actualValue))
+            {
+                t.GetProperty(bindingName).SetValue(this, stringValue);
+                NotifyPropertyChanged(bindingName);
+                return true;
+            }
+            return false;
+        }
+
     }
 }

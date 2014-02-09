@@ -61,6 +61,7 @@
     <Compile Include="BackgroundAction.cs" />
     <Compile Include="devices\DevicesDataController.cs" />
     <Compile Include="DataObject.cs" />
+    <Compile Include="IDataObjectDetails.cs" />
     <Compile Include="Localisation.cs" />
     <Compile Include="LongRunningFunctionWindow.xaml.cs">
       <DependentUpon>LongRunningFunctionWindow.xaml</DependentUpon>
@@ -205,6 +206,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="images\delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\accept.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\folder_find.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

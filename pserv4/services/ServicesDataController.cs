@@ -109,6 +109,20 @@ namespace pserv4.services
             }
         }
 
+        public override void ApplyChanges(List<IDataObjectDetails> changedItems)
+        {
+            using (new WaitCursor())
+            {
+                using (NativeSCManager scm = new NativeSCManager())
+                {
+                    foreach (IDataObjectDetails dod in changedItems)
+                    {
+                        dod.ApplyChanges(scm);
+                    }
+                }
+            }
+        }
+
         public void OnSetStartupAutomatic(object sender, RoutedEventArgs e)
         {
             ApplyStartupChanges(SC_START_TYPE.SERVICE_AUTO_START);
