@@ -46,7 +46,7 @@ namespace pserv4.modules
 
         public override void Refresh(ObservableCollection<DataObject> objects)
         {
-
+            DateTime now = DateTime.Now;
             using (var manager = new RefreshManager<ModuleDataObject>(objects))
             {
                 foreach (Process p in Process.GetProcesses())
@@ -54,7 +54,14 @@ namespace pserv4.modules
                     bool isDisabled = false;
                     if (p.Id < 10)
                     {
-                        isDisabled = true;
+                        continue;
+                    }
+                    else if (p.ProcessName.Equals("smss") ||
+                        p.ProcessName.Equals("svchost") ||
+                        p.ProcessName.Equals("services") ||
+                        p.ProcessName.Equals("csrss"))
+                    {
+                        continue;
                     }
                     else
                     {
@@ -69,9 +76,10 @@ namespace pserv4.modules
                     {
                         pmc = p.Modules;
                     }
-                    catch(Exception)
+                    catch(Exception e)
                     {
-
+                        Trace.TraceError("Exception {0}: problem accessing modules of process {1}", e, p);
+                        Trace.TraceWarning(e.StackTrace);
                     }
                     if( pmc != null )
                     {
@@ -92,6 +100,7 @@ namespace pserv4.modules
                     }
                 }
             }
+            Trace.TraceInformation("Time to scan modules: {0}", DateTime.Now - now);
         }
     }
 }

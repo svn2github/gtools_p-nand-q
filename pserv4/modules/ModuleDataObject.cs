@@ -28,10 +28,15 @@ namespace pserv4.modules
             SetStringProperty("Name", System.IO.Path.GetFileName(m.FileName));
             SetStringProperty("Path", System.IO.Path.GetDirectoryName(m.FileName));
             SetStringProperty("ModuleMemorySize", Localisation.BytesToSize(m.ModuleMemorySize));
-            SetStringProperty("FileDescription", m.FileVersionInfo.FileDescription);
-            SetStringProperty("FileVersion", m.FileVersionInfo.FileVersion);
-            SetStringProperty("Product", m.FileVersionInfo.ProductName);
-            SetStringProperty("ProductVersion", m.FileVersionInfo.ProductVersion);
+
+            FileVersionInfoCache.CacheInfo ci = FileVersionInfoCache.Get(m.FileName, m);
+            if( ci != null )
+            {
+                SetStringProperty("FileDescription", ci.FileDescription);
+                SetStringProperty("FileVersion", ci.FileVersion);
+                SetStringProperty("Product", ci.ProductName);
+                SetStringProperty("ProductVersion", ci.ProductVersion);
+            }
 
             SetRunning(!Path.ToLower().Contains(Environment.GetEnvironmentVariable("windir").ToLower()));
             SetDisabled(isDisabled);
