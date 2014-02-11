@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Diagnostics;
 
@@ -61,10 +60,10 @@ namespace pserv4
 
             Type t = GetType();
 
-            string actualValue = t.GetProperty(bindingName).GetValue(this) as string;
+            string actualValue = t.GetProperty(bindingName).GetValue(this, null) as string;
             if (!ConstructionIsFinished || !stringValue.Equals(actualValue))
             {
-                t.GetProperty(bindingName).SetValue(this, stringValue);
+                t.GetProperty(bindingName).SetValue(this, stringValue, null);
                 NotifyPropertyChanged(bindingName);
                 return true;
             }
@@ -79,10 +78,10 @@ namespace pserv4
 
             Type t = GetType();
 
-            string actualValue = t.GetProperty(bindingName).GetValue(this) as string;
+            string actualValue = t.GetProperty(bindingName).GetValue(this, null) as string;
             if (!ConstructionIsFinished || !stringValue.Equals(actualValue))
             {
-                t.GetProperty(bindingName).SetValue(this, stringValue);
+                t.GetProperty(bindingName).SetValue(this, stringValue, null);
                 NotifyPropertyChanged(bindingName);
                 return true;
             }
