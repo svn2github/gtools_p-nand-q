@@ -17,6 +17,10 @@ namespace pserv4.services
         private static List<DataObjectColumn> ActualColumns;
         private readonly SC_SERVICE_TYPE ServicesType;
 
+        private bool AnythingPaused;
+        private bool AnythingRunning;
+        private bool AnythingStopped;
+
         private static string _(string s, string a)
         {
             return (s == null) ? a : s;
@@ -70,6 +74,7 @@ namespace pserv4.services
                     ActualColumns.Add(new DataObjectColumn(Resources.SERVICE_C_WaitHint, "WaitHint"));
                     ActualColumns.Add(new DataObjectColumn(Resources.SERVICE_C_ServiceFlags, "ServiceFlags"));
                     ActualColumns.Add(new DataObjectColumn(Resources.SERVICE_C_ControlsAccepted, "ControlsAcceptedString"));
+                    ActualColumns.Add(new DataObjectColumn(Resources.SERVICE_C_InstallLocation, "InstallLocation"));
                 }
                 return ActualColumns;
             }
@@ -88,6 +93,11 @@ namespace pserv4.services
                 AppendMenuItem(menu, Resources.SERVICES_SET_START_MANUAL, "application", OnSetStartupManual);
                 AppendMenuItem(menu, Resources.SERVICES_SET_START_DISABLED, "application_key", OnSetStartupDisabled);
                 menu.Items.Add(new Separator());
+                AppendMenuItem(menu, Resources.SERVICES_BRING_UP_REGEDIT, "report_go", OnBringUpRegistryEditor);
+                AppendMenuItem(menu, Resources.SERVICES_BRING_UP_EXPLORER, "folder_find", OnBringUpExplorer);
+                AppendMenuItem(menu, Resources.SERVICES_START_CMD, "application_xp_terminal", OnBringUpTerminal);
+                menu.Items.Add(new Separator());
+
                 AppendMenuItem(menu, Resources.SERVICES_UNINSTALL, "delete", ShowProperties);
                 menu.Items.Add(new Separator());
                 AppendMenuItem(menu, Resources.IDS_PROPERTIES, "database_gear", ShowProperties);
@@ -162,25 +172,23 @@ namespace pserv4.services
                         break;
                 }
             }
+
+            IsControlStartEnabled  = AnythingStopped || AnythingPaused;
+            IsControlStopEnabled  = AnythingRunning || AnythingPaused;
+            IsControlRestartEnabled  = true;
+            IsControlPauseEnabled  = AnythingRunning;
+            IsControlContinueEnabled  = AnythingPaused;
         }
 
         public override void OnContextMenuOpening(IList selectedItems, ContextMenu menu)
         {
-            SetMenuItemEnabled(menu, 0, AnythingStopped || AnythingPaused); /* start service */
-            SetMenuItemEnabled(menu, 1, AnythingRunning || AnythingPaused); /* stop service */
-            SetMenuItemEnabled(menu, 2, true); /* restart service */
-            SetMenuItemEnabled(menu, 3, AnythingRunning);
-            SetMenuItemEnabled(menu, 4, AnythingPaused);
+            SetMenuItemEnabled(menu, 0, IsControlStartEnabled);
+            SetMenuItemEnabled(menu, 1, IsControlStopEnabled);
+            SetMenuItemEnabled(menu, 2, IsControlRestartEnabled);
+            SetMenuItemEnabled(menu, 3, IsControlPauseEnabled);
+            SetMenuItemEnabled(menu, 4, IsControlContinueEnabled);
         }
 
-        private void SetMenuItemEnabled(ContextMenu menu, int index, bool enabled)
-        {
-            MenuItem mi = menu.Items[index] as MenuItem;
-            if(mi != null)
-            {
-                mi.IsEnabled = enabled;
-            }
-        }
 
         private void OnChangeServiceStatus(ServiceStateRequest ssr)
         {
@@ -224,6 +232,32 @@ namespace pserv4.services
         {
             return new ServiceProperties(o as ServiceDataObject);
         }
+
+        private delegate bool ServiceCallback(ServiceDataObject sdo);
+
+        private void DispatchCallback(ServiceCallback callback)
+        {
+            foreach (ServiceDataObject sdo in MainListView.SelectedItems)
+            {
+                callback(sdo);
+            }
+        }
+
+        public void OnBringUpRegistryEditor(object sender, RoutedEventArgs e)
+        {
+            DispatchCallback((sdo) => { return sdo.ShowRegistryEditor(); });
+        }
+
+        public void OnBringUpExplorer(object sender, RoutedEventArgs e)
+        {
+            DispatchCallback((sdo) => { return sdo.BringUpExplorerInInstallLocation(); });
+        }
+
+        public void OnBringUpTerminal(object sender, RoutedEventArgs e)
+        {
+            DispatchCallback((sdo) => { return sdo.BringUpTerminalInInstallLocation(); });
+        }
+
 
         public override void Refresh(ObservableCollection<DataObject> objects)
         {

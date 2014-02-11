@@ -88,51 +88,22 @@ namespace pserv4.uninstaller
 
         private void OnBrowseFilename(object sender, RoutedEventArgs e)
         {
+            UDO.BringUpExplorer(TbInstallLocation.Text);
         }
 
         private void OnShowHelpLink(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                Process.Start(TbHelpLink.Text);
-            }
-            catch (Exception)
-            {
-
-            }
+            UDO.ShowLink(TbHelpLink.Text);
         }
 
         private void OnShowAboutLink(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                Process.Start(TbAboutLink.Text);
-            }
-            catch (Exception)
-            {
-
-            }
+            UDO.ShowLink(TbAboutLink.Text);
         }
 
         private void OnShowRegistry(object sender, RoutedEventArgs e)
         {
-            string key = string.Format("{0}\\{1}\\{2}", 
-                (UDO.BasedInLocalMachine ? "HKEY_LOCAL_MACHINE" : "HKEY_CURRENT_USER"),
-                UninstallerDataController.UNINSTALLER_SECTION,
-                UDO.InternalID);
-
-            using (RegistryKey hkKey = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Applets\Regedit", true))
-            {
-                hkKey.SetValue("Lastkey", key);
-            }
-            try
-            {
-                Process.Start("regedit.exe");
-            }
-            catch (Exception)
-            {
-
-            }
+            UDO.ShowRegistryEditor();
         }
 
         private void TbApplicationName_TextChanged(object sender, TextChangedEventArgs e)
@@ -225,6 +196,20 @@ namespace pserv4.uninstaller
 
         public void ApplyChanges(object context)
         {
+            if( IsLoaded )
+            {
+                UserControl_Unloaded(null, null);
+            }
+
+            UDO.ApplyChanges(
+                applicationName: ApplicationName,
+                installLocation: InstallLocation,
+                version: Version,
+                publisher: Publisher,
+                helpLink: HelpLink,
+                aboutLink: AboutLink,
+                modifyPath: ModifyPath,
+                action: Action);
 
         }
     }

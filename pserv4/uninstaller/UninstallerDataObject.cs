@@ -23,7 +23,7 @@ namespace pserv4.uninstaller
         public string Action { get; private set; }
         public string ModifyPath { get; private set; }
         public readonly bool BasedInLocalMachine;
-        
+                
         public void Refresh(RegistryKey rootKey, string keyPath, string keyName)
         {
             using (RegistryKey hkKey = rootKey.OpenSubKey(keyPath, false))
@@ -70,9 +70,195 @@ namespace pserv4.uninstaller
             }
         }
 
+        public void ApplyChanges(
+            string applicationName, 
+            string installLocation,
+            string version,
+            string publisher,
+            string helpLink,
+            string aboutLink,
+            string modifyPath,
+            string action
+            )
+        {
+            RegistryKey rootKey = BasedInLocalMachine ? Registry.LocalMachine : Registry.CurrentUser;
+
+            using (RegistryKey regkey = rootKey.OpenSubKey(UninstallerDataController.UNINSTALLER_SECTION, true))
+            {
+                using (RegistryKey hkKey = regkey.OpenSubKey(InternalID, true))
+                {
+                    if (SetStringProperty("ApplicationName", applicationName))
+                    {
+                        hkKey.SetValue("DisplayName", applicationName);
+                        ToolTipCaption = applicationName;
+                        NotifyPropertyChanged("ToolTipCaption");
+                    }
+
+                    if(SetStringProperty("InstallLocation", installLocation))
+                    {
+                        hkKey.SetValue("InstallLocation", installLocation);
+                    }
+                    if(SetStringProperty("Version", version))
+                    {
+                        hkKey.SetValue("DisplayVersion", installLocation);
+                    }
+                    if(SetStringProperty("Publisher", publisher))
+                    {
+                        hkKey.SetValue("Publisher", installLocation);
+                    }
+                    if(SetStringProperty("HelpLink", helpLink))
+                    {
+                        hkKey.SetValue("HelpLink", installLocation);
+                    }
+                    if (SetStringProperty("ModifyPath", modifyPath))
+                    {
+                        hkKey.SetValue("ModifyPath", installLocation);
+                    }
+                    if(SetStringProperty("AboutLink", aboutLink))
+                    {
+                        hkKey.SetValue("URLInfoAbout", installLocation);
+                    }
+                    if (SetStringProperty("Action", action))
+                    {
+                        hkKey.SetValue("UninstallString", installLocation);
+                        ToolTip = Action;
+                        NotifyPropertyChanged("ToolTip");
+                    }
+                }
+            }
+        }
+
+        public bool ShowAboutLink()
+        {
+            return ShowLink(AboutLink);
+        }
+        
+        public bool BringUpExplorerInInstallLocation()
+        {
+            return BringUpExplorer(InstallLocation);
+        }
+
+        public bool BringUpTerminalInInstallLocation()
+        {
+            return BringUpTerminal(InstallLocation);
+        }
+
+        public bool ShowLink(string link)
+        {
+            Trace.TraceInformation("{0}.ShowLink({1}) called", this, link);
+            try
+            {
+                if (string.IsNullOrEmpty(link))
+                {
+                    Trace.TraceWarning("Warning, link is empty - assume function failed");
+                    return false;
+                }
+                using (Process p = Process.Start(link))
+                {
+                    if (p == null)
+                    {
+                        Trace.TraceWarning("Warning, Process.Start() returned null, assuming function failed");
+                        return false;
+                    }
+                }
+                return true;
+            }
+            catch (Exception e)
+            {
+                Trace.TraceError("Exception {0}: unable to bring up browser for URL {1}", e, link);
+                Trace.TraceWarning(e.StackTrace);
+                return false;
+            }
+        }
+
+        public bool ShowHelpLink()
+        {
+            return ShowLink(HelpLink);
+        }
+
+        public bool PerformUninstallAction()
+        {
+            return PerformAction(Action);
+        }
+
+        public bool PerformModifyAction()
+        {
+            return PerformAction(ModifyPath);
+        }
+
+        private bool PerformAction(string action)
+        {
+            Trace.TraceInformation("{0}.PerformAction({1}) called", this, action);
+            try
+            {
+                if (string.IsNullOrEmpty(action))
+                {
+                    Trace.TraceWarning("Warning, action is empty - assume function failed");
+                    return false;
+                }
+
+                string cmd = PathSanitizer.GetExecutable(action);
+                string args = PathSanitizer.GetArguments(action);
+                Trace.TraceInformation("CMD: {0}, ARGS: {1}", cmd, args);
+
+                using (Process p = Process.Start(cmd, args))
+                {
+                    if (p == null)
+                    {
+                        Trace.TraceWarning("Warning, Process.Start() returned null, assuming function failed");
+                        return false;
+                    }
+                }
+                return true;
+            }
+            catch (Exception e)
+            {
+                Trace.TraceError("Exception {0}: unable to run action {1}", e, action);
+                Trace.TraceWarning(e.StackTrace);
+                return false;
+            }
+        }
+
+        public string RegistryKey
+        {
+            get
+            {
+                return string.Format("{0}\\{1}\\{2}",
+                    (BasedInLocalMachine ? "HKEY_LOCAL_MACHINE" : "HKEY_CURRENT_USER"),
+                    UninstallerDataController.UNINSTALLER_SECTION,
+                    InternalID);
+            }
+        }
+
+
+        public bool ShowRegistryEditor()
+        {
+            return ShowRegistryEditor(RegistryKey);
+        }
+
         public bool RemoveFromRegistry()
         {
-            return false;
+            try
+            {
+                RegistryKey rootKey = BasedInLocalMachine ? Registry.LocalMachine : Registry.CurrentUser;
+
+                Trace.TraceInformation("RemoveFromRegistry: {0}", RegistryKey);
+
+                using (RegistryKey regkey = rootKey.OpenSubKey(UninstallerDataController.UNINSTALLER_SECTION, true))
+                {
+                    if (regkey.OpenSubKey(InternalID) != null)
+                    {
+                        regkey.DeleteSubKeyTree(InternalID);
+                    }
+                }
+                return true;
+            }
+            catch (Exception e)
+            {
+                Trace.TraceError("Exception {0}: unable to remove registry key {1}", e, RegistryKey);
+                Trace.TraceWarning(e.StackTrace);
+                return false;
+            }
         }
 
         public UninstallerDataObject(RegistryKey rootKey, string keyPath, string keyName)

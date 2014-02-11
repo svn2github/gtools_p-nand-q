@@ -36,7 +36,7 @@
                 <ToolTip>
                     <StackPanel>
                         <TextBlock FontWeight="Bold">Browse install location</TextBlock>
-                        <TextBlock>Bring up the folder browser in the install location</TextBlock>
+                        <TextBlock>Bring up Explorer in the install location</TextBlock>
                     </StackPanel>
                 </ToolTip>
             </Button.ToolTip>

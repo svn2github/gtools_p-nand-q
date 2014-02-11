@@ -132,8 +132,14 @@
   <data name="DEVICES_CTRL_STOP_Description" xml:space="preserve">
     <value>Stop the selected device(s)</value>
   </data>
+  <data name="IDS_CONFIRMATION" xml:space="preserve">
+    <value>Confirmation</value>
+  </data>
   <data name="IDS_PROPERTIES" xml:space="preserve">
     <value>Properties</value>
+  </data>
+  <data name="IDS_UNINSTALLER_SureToRemoveKey" xml:space="preserve">
+    <value>Are you sure you want to remove this product: {0}?</value>
   </data>
   <data name="MODULE_C_FileDescription" xml:space="preserve">
     <value>File Description</value>
@@ -246,6 +252,12 @@
   <data name="PROCESS_C_WorkingSet64" xml:space="preserve">
     <value>Working Set</value>
   </data>
+  <data name="SERVICES_BRING_UP_EXPLORER" xml:space="preserve">
+    <value>Bring up Explorer in installation path</value>
+  </data>
+  <data name="SERVICES_BRING_UP_REGEDIT" xml:space="preserve">
+    <value>Bring up Registry Editor for service key</value>
+  </data>
   <data name="SERVICES_CTRL_CONTINUE_Description" xml:space="preserve">
     <value>Continue the selected service(s)</value>
   </data>
@@ -269,6 +281,9 @@
   </data>
   <data name="SERVICES_SET_START_MANUAL" xml:space="preserve">
     <value>Startup: Manual</value>
+  </data>
+  <data name="SERVICES_START_CMD" xml:space="preserve">
+    <value>Start CMD.EXE in installation path</value>
   </data>
   <data name="SERVICES_UNINSTALL" xml:space="preserve">
     <value>Uninstall</value>
@@ -328,6 +343,9 @@
   </data>
   <data name="SERVICE_C_ErrorControl" xml:space="preserve">
     <value>Error Control</value>
+  </data>
+  <data name="SERVICE_C_InstallLocation" xml:space="preserve">
+    <value>Installation Path</value>
   </data>
   <data name="SERVICE_C_LoadOrderGroup" xml:space="preserve">
     <value>Load Order Group</value>
@@ -434,6 +452,12 @@
     <value>Shared Process</value>
     <comment>The service shares a process with other services.</comment>
   </data>
+  <data name="UNINSTALLER_BRING_UP_EXPLORER" xml:space="preserve">
+    <value>Bring up Explorer in install location</value>
+  </data>
+  <data name="UNINSTALLER_BRING_UP_REGEDIT" xml:space="preserve">
+    <value>Bring up Registry Editor for uninstall key</value>
+  </data>
   <data name="UNINSTALLER_CTRL_CONTINUE_Description" xml:space="preserve">
     <value>Show about link</value>
   </data>
@@ -478,6 +502,12 @@
   </data>
   <data name="UNINSTALLER_FORCE_UNINSTALL" xml:space="preserve">
     <value>Remove project from the registry (*)</value>
+  </data>
+  <data name="UNINSTALLER_START_CMD" xml:space="preserve">
+    <value>Start CMD.EXE in install location</value>
+  </data>
+  <data name="UNINSTALLER_START_CMD_ADMIN" xml:space="preserve">
+    <value>Start CMD.EXE in install location, with administrative privileges</value>
   </data>
   <data name="WINDOWS_CTRL_CONTINUE_Description" xml:space="preserve">
     <value>Maximize Window</value>

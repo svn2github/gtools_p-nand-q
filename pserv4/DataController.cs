@@ -21,9 +21,11 @@ namespace pserv4
         private readonly string ItemName;
         protected bool HasProperties;
 
-        public bool AnythingPaused { get; protected set; }
-        public bool AnythingRunning { get; protected set; }
-        public bool AnythingStopped { get; protected set; }
+        public bool IsControlStartEnabled { get; protected set; }
+        public bool IsControlStopEnabled { get; protected set; }
+        public bool IsControlRestartEnabled { get; protected set; }
+        public bool IsControlPauseEnabled { get; protected set; }
+        public bool IsControlContinueEnabled { get; protected set; }
 
         public readonly string ControlStartDescription;
         public readonly string ControlStopDescription;
@@ -58,6 +60,15 @@ namespace pserv4
         /// </summary>
         /// <param name="objects"></param>
         public abstract void Refresh(ObservableCollection<DataObject> objects);
+
+        protected void SetMenuItemEnabled(ContextMenu menu, int index, bool enabled)
+        {
+            MenuItem mi = menu.Items[index] as MenuItem;
+            if (mi != null)
+            {
+                mi.IsEnabled = enabled;
+            }
+        }
 
         protected void AppendMenuItem(ContextMenu menu, string header, BitmapImage[] images, bool enabled, RoutedEventHandler callback)
         {
@@ -103,36 +114,35 @@ namespace pserv4
                     return null;
 
                 ContextMenu menu = new ContextMenu();
-
                 AppendMenuItem(
                     menu,
                     ControlStartDescription,
                     MainWindow.BIStart,
-                    AnythingStopped || AnythingPaused,
+                    IsControlStartEnabled,
                     OnControlStart);
                 AppendMenuItem(
                     menu,
                     ControlStopDescription,
                     MainWindow.BIStop,
-                    AnythingRunning || AnythingPaused,
+                    IsControlStopEnabled,
                     OnControlStop);
                 AppendMenuItem(
                     menu,
                     ControlRestartDescription,
                     MainWindow.BIRestart,
-                    AnythingRunning,
+                    IsControlRestartEnabled,
                     OnControlRestart);
                 AppendMenuItem(
                     menu,
                     ControlPauseDescription,
                     MainWindow.BIPause,
-                    AnythingRunning,
+                    IsControlPauseEnabled,
                     OnControlPause);
                 AppendMenuItem(
                     menu,
                     ControlContinueDescription,
                     MainWindow.BIContinue,
-                    AnythingPaused,
+                    IsControlContinueEnabled,
                     OnControlContinue);
 
                 return menu;

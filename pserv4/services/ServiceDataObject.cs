@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 
 namespace pserv4.services
 {
@@ -139,6 +140,7 @@ namespace pserv4.services
                     if( binaryPathName != null )
                     {
                         SetStringProperty("BinaryPathName", binaryPathName);
+                        NotifyPropertyChanged("InstallLocation");
                     }
                 }
             }
@@ -167,6 +169,30 @@ namespace pserv4.services
             CurrentState = ssp.CurrentState;
             ControlsAccepted = ssp.ControlsAccepted;
             SetNonZeroStringProperty("PID", ssp.ProcessID);
+        }
+
+        public bool ShowRegistryEditor()
+        {
+            return ShowRegistryEditor(string.Format("HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\{0}",
+                InternalID));
+        }
+
+        public string InstallLocation
+        {
+            get
+            {
+                return PathSanitizer.GetDirectory(BinaryPathName);
+            }
+        }
+
+        public bool BringUpExplorerInInstallLocation()
+        {
+            return BringUpExplorer(InstallLocation);
+        }
+
+        public bool BringUpTerminalInInstallLocation()
+        {
+            return BringUpTerminal(InstallLocation);
         }
 
         public ServiceDataObject(NativeService service, ENUM_SERVICE_STATUS_PROCESS essp)

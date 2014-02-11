@@ -23,9 +23,11 @@ namespace pserv4.windows
                     Resources.WINDOWS_CTRL_PAUSE_Description,
                     Resources.WINDOWS_CTRL_CONTINUE_Description)    
         {
-            AnythingPaused = true;
-            AnythingRunning = true;
-            AnythingStopped = true;
+            IsControlStartEnabled = true;
+            IsControlStopEnabled = true;
+            IsControlRestartEnabled = true;
+            IsControlPauseEnabled = true; 
+            IsControlContinueEnabled = true; 
         }
 
         public override IEnumerable<DataObjectColumn> Columns

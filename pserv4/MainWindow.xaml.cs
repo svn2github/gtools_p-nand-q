@@ -299,11 +299,11 @@ namespace pserv4
 
             CurrentController.OnSelectionChanged(MainListView.SelectedItems);
 
-            SetControlButton(BtStart, BIStart, CurrentController.AnythingStopped || CurrentController.AnythingPaused);
-            SetControlButton(BtStop, BIStop, CurrentController.AnythingRunning || CurrentController.AnythingPaused);
-            SetControlButton(BtRestart, BIRestart, CurrentController.AnythingRunning);
-            SetControlButton(BtPause, BIPause, CurrentController.AnythingRunning);
-            SetControlButton(BtContinue, BIContinue, CurrentController.AnythingPaused);
+            SetControlButton(BtStart, BIStart, CurrentController.IsControlStartEnabled);
+            SetControlButton(BtStop, BIStop, CurrentController.IsControlStopEnabled);
+            SetControlButton(BtRestart, BIRestart, CurrentController.IsControlRestartEnabled);
+            SetControlButton(BtPause, BIPause, CurrentController.IsControlPauseEnabled);
+            SetControlButton(BtContinue, BIContinue, CurrentController.IsControlContinueEnabled);
 
             SbSelected.Text = string.Format("{0} selected", MainListView.SelectedItems.Count);
         }

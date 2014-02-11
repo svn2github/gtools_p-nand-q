@@ -67,6 +67,7 @@
     <Compile Include="modules\ModulesDataController.cs" />
     <Compile Include="DataObjectColumn.cs" />
     <Compile Include="DataController.cs" />
+    <Compile Include="PathSanitizer.cs" />
     <Compile Include="processes\NativeProcessFunctions.cs" />
     <Compile Include="processes\ProcessDataObject.cs" />
     <Compile Include="processes\ProcessesDataController.cs" />
@@ -219,6 +220,9 @@
   <ItemGroup>
     <Resource Include="images\computer_link.png" />
     <Resource Include="images\report_go.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\application_xp_terminal.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

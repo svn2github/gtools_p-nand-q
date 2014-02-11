@@ -106,11 +106,29 @@ namespace pserv4.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Confirmation.
+        /// </summary>
+        internal static string IDS_CONFIRMATION {
+            get {
+                return ResourceManager.GetString("IDS_CONFIRMATION", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Properties.
         /// </summary>
         internal static string IDS_PROPERTIES {
             get {
                 return ResourceManager.GetString("IDS_PROPERTIES", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to remove this product: {0}?.
+        /// </summary>
+        internal static string IDS_UNINSTALLER_SureToRemoveKey {
+            get {
+                return ResourceManager.GetString("IDS_UNINSTALLER_SureToRemoveKey", resourceCulture);
             }
         }
         
@@ -547,6 +565,15 @@ namespace pserv4.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Installation Path.
+        /// </summary>
+        internal static string SERVICE_C_InstallLocation {
+            get {
+                return ResourceManager.GetString("SERVICE_C_InstallLocation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Load Order Group.
         /// </summary>
         internal static string SERVICE_C_LoadOrderGroup {
@@ -862,6 +889,24 @@ namespace pserv4.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bring up Explorer in installation path.
+        /// </summary>
+        internal static string SERVICES_BRING_UP_EXPLORER {
+            get {
+                return ResourceManager.GetString("SERVICES_BRING_UP_EXPLORER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bring up Registry Editor for service key.
+        /// </summary>
+        internal static string SERVICES_BRING_UP_REGEDIT {
+            get {
+                return ResourceManager.GetString("SERVICES_BRING_UP_REGEDIT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Continue the selected service(s).
         /// </summary>
         internal static string SERVICES_CTRL_CONTINUE_Description {
@@ -934,11 +979,38 @@ namespace pserv4.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Start CMD.EXE in installation path.
+        /// </summary>
+        internal static string SERVICES_START_CMD {
+            get {
+                return ResourceManager.GetString("SERVICES_START_CMD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Uninstall.
         /// </summary>
         internal static string SERVICES_UNINSTALL {
             get {
                 return ResourceManager.GetString("SERVICES_UNINSTALL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bring up Explorer in install location.
+        /// </summary>
+        internal static string UNINSTALLER_BRING_UP_EXPLORER {
+            get {
+                return ResourceManager.GetString("UNINSTALLER_BRING_UP_EXPLORER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bring up Registry Editor for uninstall key.
+        /// </summary>
+        internal static string UNINSTALLER_BRING_UP_REGEDIT {
+            get {
+                return ResourceManager.GetString("UNINSTALLER_BRING_UP_REGEDIT", resourceCulture);
             }
         }
         
@@ -1074,6 +1146,24 @@ namespace pserv4.Properties {
         internal static string UNINSTALLER_FORCE_UNINSTALL {
             get {
                 return ResourceManager.GetString("UNINSTALLER_FORCE_UNINSTALL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start CMD.EXE in install location.
+        /// </summary>
+        internal static string UNINSTALLER_START_CMD {
+            get {
+                return ResourceManager.GetString("UNINSTALLER_START_CMD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start CMD.EXE in install location, with administrative privileges.
+        /// </summary>
+        internal static string UNINSTALLER_START_CMD_ADMIN {
+            get {
+                return ResourceManager.GetString("UNINSTALLER_START_CMD_ADMIN", resourceCulture);
             }
         }
         
