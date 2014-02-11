@@ -3,14 +3,34 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
-
+using System.Reflection;
+using System.Runtime.InteropServices;
+using Microsoft.Win32.SafeHandles;
 namespace pserv4
 {
     public static class PathSanitizer
     {
+        [DllImport("shell32.dll")]
+        private static extern bool SHGetSpecialFolderPath(IntPtr hwndOwner, [Out] StringBuilder lpszPath, int nFolder, bool fCreate);
+
+        private static string Get32BitSystemDirectory()
+        {
+            StringBuilder path = new StringBuilder(260);
+            SHGetSpecialFolderPath(IntPtr.Zero,path,0x0029,false);
+            return path.ToString();
+        }
+
+        private static Dictionary<string, string> Cache = new Dictionary<string, string>();
+
         public static string GetDirectory(string userPath)
         {
-            string result = GetExecutable(userPath);
+            string result;
+            if( Cache.TryGetValue(userPath, out result) )
+            {
+                return result;
+            }
+
+            result = GetExecutable(userPath);
             int i = result.LastIndexOf('\\');
             if (i >= 0)
             {
@@ -26,6 +46,23 @@ namespace pserv4
                     result = result.Substring(0, i);
                 }
             }
+            if(result.StartsWith("\\??\\"))
+            {
+                result = result.Substring(4);
+            }
+            if( result.StartsWith("\\Systemroot\\system32", StringComparison.OrdinalIgnoreCase))
+            {
+                result = Environment.SystemDirectory + result.Substring(20);
+            }
+            else if (result.StartsWith("system32\\", StringComparison.OrdinalIgnoreCase))
+            {
+                result = Environment.SystemDirectory + result.Substring(8);
+            }
+            else if (result.StartsWith("syswow64\\", StringComparison.OrdinalIgnoreCase))
+            {
+                result = Get32BitSystemDirectory() + result.Substring(8);
+            }
+            Cache[userPath] = result;
             return result;
         }
 
