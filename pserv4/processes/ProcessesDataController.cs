@@ -32,7 +32,8 @@ namespace pserv4.processes
                     ActualColumns = new List<DataObjectColumn>();
                     ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_ID, "InternalID"));
                     ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_Name, "Name"));
-                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_Path, "Path"));
+                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_MainExecutable, "MainExecutable"));
+                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_InstallLocation, "InstallLocation"));
                     ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_User, "User"));
                     ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_FileDescription, "FileDescription"));
                     ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_FileVersion, "FileVersion"));
@@ -66,22 +67,31 @@ namespace pserv4.processes
 
         public override void Refresh(ObservableCollection<DataObject> objects)
         {
+            DateTime now = DateTime.Now;
             using (var manager = new RefreshManager<ProcessDataObject>(objects))
             {
                 foreach (Process p in Process.GetProcesses())
                 {
                     ProcessDataObject pdo = null;
-
-                    if (manager.Contains(p.Id.ToString(), out pdo))
+                    try
                     {
-                        pdo.Refresh(p);
+                        if (manager.Contains(p.Id.ToString(), out pdo))
+                        {
+                            pdo.Refresh(p);
+                        }
+                        else
+                        {
+                            objects.Add(new ProcessDataObject(p));
+                        }
                     }
-                    else
+                    catch(Exception e)
                     {
-                        objects.Add(new ProcessDataObject(p));
+                        Trace.TraceError("Exception {0}: error analysing process {1}", e, p);
+                        Trace.TraceWarning(e.StackTrace);
                     }
                 }
             }
+            Trace.TraceInformation("Time to scan processes: {0}", DateTime.Now - now);
         }
     }
 }

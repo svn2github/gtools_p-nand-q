@@ -57,6 +57,7 @@
     <Compile Include="BackgroundAction.cs" />
     <Compile Include="devices\DevicesDataController.cs" />
     <Compile Include="DataObject.cs" />
+    <Compile Include="FileVersionInfoCache.cs" />
     <Compile Include="IDataObjectDetails.cs" />
     <Compile Include="Localisation.cs" />
     <Compile Include="LongRunningFunctionWindow.xaml.cs">

@@ -241,6 +241,24 @@ namespace pserv4.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Installation Path.
+        /// </summary>
+        internal static string PROCESS_C_InstallLocation {
+            get {
+                return ResourceManager.GetString("PROCESS_C_InstallLocation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Main Executable.
+        /// </summary>
+        internal static string PROCESS_C_MainExecutable {
+            get {
+                return ResourceManager.GetString("PROCESS_C_MainExecutable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Main Window Handle.
         /// </summary>
         internal static string PROCESS_C_MainWindowHandle {
@@ -291,15 +309,6 @@ namespace pserv4.Properties {
         internal static string PROCESS_C_PagedSystemMemorySize64 {
             get {
                 return ResourceManager.GetString("PROCESS_C_PagedSystemMemorySize64", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Path.
-        /// </summary>
-        internal static string PROCESS_C_Path {
-            get {
-                return ResourceManager.GetString("PROCESS_C_Path", resourceCulture);
             }
         }
         

@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using Microsoft.Win32;
 using System.Collections.ObjectModel;
 using pserv4.Properties;
+using System.Diagnostics;
 
 namespace pserv4.uninstaller
 {
@@ -244,7 +245,8 @@ namespace pserv4.uninstaller
                     }
                     catch(Exception e)
                     {
-
+                        Trace.TraceError("Exception {0}: unable to analyse {1}", e, keyPath);
+                        Trace.TraceWarning(e.StackTrace);
                     }
 
                 }

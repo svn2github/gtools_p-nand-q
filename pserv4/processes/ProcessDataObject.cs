@@ -18,7 +18,7 @@ namespace pserv4.processes
     public class ProcessDataObject : DataObject
     {
         public string Name { get; private set; }
-        public string Path { get; private set; }
+        public string MainExecutable { get; private set; }
         public string User { get; private set; }
         public string FileDescription { get; private set; }
         public string FileVersion { get; private set; }
@@ -50,8 +50,28 @@ namespace pserv4.processes
 
         public void Refresh(Process p)
         {
-            SetStringProperty("Path", NativeProcessFunctions.GetSafeProcessName(p));
+            string repr = p.ToString();
+            if (p.ProcessName.Equals("smss") ||
+                p.ProcessName.Equals("svchost") ||
+                p.ProcessName.Equals("services") ||
+                p.ProcessName.Equals("csrss"))
+            {
+                SetStringProperty("MainExecutable", p.ProcessName);
+                SetStringProperty("Name", p.ProcessName);
+                SetStringProperty("User", "SYSTEM");
+                SetRunning(false);
+                SetDisabled(true);
+                return;
+            }
+
+            if (SetStringProperty("MainExecutable", NativeProcessFunctions.GetSafeProcessName(p)))
+            {
+                NotifyPropertyChanged("InstallLocation");
+                ToolTip = MainExecutable;
+                NotifyPropertyChanged("ToolTip");
+            }
             SetStringProperty("Name", p.ProcessName);
+
             SetStringProperty("User", NativeProcessFunctions.GetUserInfo(p));
 
             bool isRunning = false;
@@ -66,10 +86,14 @@ namespace pserv4.processes
             {
                 if (p.Id >= 10)
                 {
-                    SetStringProperty("FileDescription", p.MainModule.FileVersionInfo.FileDescription);
-                    SetStringProperty("FileVersion", p.MainModule.FileVersionInfo.FileVersion);
-                    SetStringProperty("Product", p.MainModule.FileVersionInfo.ProductName);
-                    SetStringProperty("ProductVersion", p.MainModule.FileVersionInfo.ProductVersion);
+                    FileVersionInfoCache.CacheInfo ci = FileVersionInfoCache.Get(MainExecutable, p.MainModule);
+                    if( ci != null )
+                    {
+                        SetStringProperty("FileDescription", ci.FileDescription);
+                        SetStringProperty("FileVersion", ci.FileVersion);
+                        SetStringProperty("Product", ci.ProductName);
+                        SetStringProperty("ProductVersion", ci.ProductVersion);
+                    }
                     SetStringProperty("MainWindowHandle", p.MainWindowHandle);
                     SetStringProperty("MainWindowTitle", p.MainWindowTitle);
                     SetStringProperty("Responding", p.Responding);
@@ -97,17 +121,36 @@ namespace pserv4.processes
                     isDisabled = true;
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Trace.TraceError("Exception {0}: problem decoding process {1}", e, MainExecutable);
+                Trace.TraceWarning(e.StackTrace);
             }
 
             if (User.Equals("SYSTEM", StringComparison.OrdinalIgnoreCase))
             {
                 isDisabled = true;
             }
+            string toolTipCaption = FileDescription;
+            if (string.IsNullOrEmpty(toolTipCaption))
+                toolTipCaption = Name;
+            if( !toolTipCaption.Equals(ToolTipCaption))
+            {
+                ToolTipCaption = toolTipCaption;
+                NotifyPropertyChanged("ToolTipCaption");
+            }
+
 
             SetRunning(isRunning);
             SetDisabled(isDisabled);
+        }
+
+        public string InstallLocation
+        {
+            get
+            {
+                return PathSanitizer.GetDirectory(MainExecutable);
+            }
         }
 
         public ProcessDataObject(Process p)

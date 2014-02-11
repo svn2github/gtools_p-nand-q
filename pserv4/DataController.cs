@@ -33,6 +33,8 @@ namespace pserv4
         public readonly string ControlPauseDescription;
         public readonly string ControlContinueDescription;
 
+        public string Caption {get; protected set; }
+
         public DataController(
             string controllerName, 
             string itemName,
@@ -44,6 +46,7 @@ namespace pserv4
             )
         {
             ItemName = itemName;
+            Caption = controllerName;
             HasProperties = false;
             ControllerName = controllerName;
             ControlStartDescription = controlStartDescription;

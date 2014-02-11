@@ -200,7 +200,8 @@ namespace pserv4.processes
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Trace.TraceError("Exception {0}: DumpAccountSid failed on {1}", ex, SID);
+                Trace.TraceWarning(ex.StackTrace);
             }
             finally
             {
@@ -216,9 +217,10 @@ namespace pserv4.processes
                 if (p.Id >= 10)
                     result = p.MainModule.FileName;
             }
-            catch
+            catch(Exception e)
             {
-
+                Trace.TraceError("Exception {0}: GetSafeProcessName failed on {1}", e, p.ProcessName);
+                Trace.TraceWarning(e.StackTrace);
             }
             if (result.StartsWith("\\??\\"))
                 result = result.Substring(4);

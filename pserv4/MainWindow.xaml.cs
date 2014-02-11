@@ -148,6 +148,8 @@ namespace pserv4
                 TbControlPause.Text = CurrentController.ControlPauseDescription;
                 TbControlContinue.Text = CurrentController.ControlContinueDescription;
 
+                Title = string.Format("pserv 4.0: {0}", CurrentController.Caption);
+
                 CreateInitialSort();
                 CurrentViewType = newViewType;
                 KnownViews[CurrentViewType].Button.Background = SelectedBackgroundColor;

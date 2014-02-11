@@ -177,6 +177,12 @@
   <data name="PROCESS_C_ID" xml:space="preserve">
     <value>Process ID</value>
   </data>
+  <data name="PROCESS_C_InstallLocation" xml:space="preserve">
+    <value>Installation Path</value>
+  </data>
+  <data name="PROCESS_C_MainExecutable" xml:space="preserve">
+    <value>Main Executable</value>
+  </data>
   <data name="PROCESS_C_MainWindowHandle" xml:space="preserve">
     <value>Main Window Handle</value>
   </data>
@@ -194,9 +200,6 @@
   </data>
   <data name="PROCESS_C_PagedSystemMemorySize64" xml:space="preserve">
     <value>Paged System Memory</value>
-  </data>
-  <data name="PROCESS_C_Path" xml:space="preserve">
-    <value>Path</value>
   </data>
   <data name="PROCESS_C_PeakPagedMemorySize64" xml:space="preserve">
     <value>Peak Paged Memory</value>
