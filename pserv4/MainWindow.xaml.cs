@@ -40,7 +40,7 @@ namespace pserv4
         }
 
         private readonly Dictionary<MainViewType, DataView> KnownViews = new Dictionary<MainViewType, DataView>();
-        private ObservableCollection<DataObject> Items = new ObservableCollection<DataObject>();
+        public static ObservableCollection<DataObject> Items = new ObservableCollection<DataObject>();
         public static DataController CurrentController;
         private readonly MainViewType InitialControl;
         private MainViewType CurrentViewType;
@@ -74,7 +74,7 @@ namespace pserv4
             KnownViews[MainViewType.Services] = new DataView(new services.ServicesDataController(), ButtonServices);
             KnownViews[MainViewType.Devices] = new DataView(new devices.DevicesDataController(), ButtonDevices);
             KnownViews[MainViewType.Windows] = new DataView(new windows.WindowsDataController(), ButtonWindows);
-            KnownViews[MainViewType.Programs] = new DataView(new uninstaller.UninstallerDataController(), ButtonUninstaller);
+            KnownViews[MainViewType.Uninstaller] = new DataView(new uninstaller.UninstallerDataController(), ButtonUninstaller);
             KnownViews[MainViewType.Processes] = new DataView(new processes.ProcessesDataController(), ButtonProcesses);
             KnownViews[MainViewType.Modules] = new DataView(new modules.ModulesDataController(), ButtonModules);
 
@@ -86,7 +86,7 @@ namespace pserv4
 
             UnselectedBackgroundColor = new SolidColorBrush(Color.FromArgb(255, 0xF5, 0xF5, 0xF5));
             UnselectedForegroundColor = new SolidColorBrush(Colors.Black);
-            SelectedBackgroundColor = new SolidColorBrush(Colors.DarkSlateGray);
+            SelectedBackgroundColor = new SolidColorBrush(Colors.CornflowerBlue);
             SelectedForegroundColor = new SolidColorBrush(Colors.White);
 
         }
@@ -188,7 +188,7 @@ namespace pserv4
 
         private void SwitchToUninstaller(object sender, RoutedEventArgs e)
         {
-            SwitchController(MainViewType.Programs);
+            SwitchController(MainViewType.Uninstaller);
         }
 
         private void SwitchToProcesses(object sender, RoutedEventArgs e)

@@ -84,12 +84,13 @@ namespace pserv4.services
 
                 menu.Items.Add(new Separator());
 
-                AppendMenuItem(menu, "Startup: Automatic", "application_go", OnSetStartupAutomatic);
-                AppendMenuItem(menu, "Startup: Manual", "application", OnSetStartupManual);
-                AppendMenuItem(menu, "Startup: Disabled", "application_key", OnSetStartupDisabled);
+                AppendMenuItem(menu, Resources.SERVICES_SET_START_AUTOMATIC, "application_go", OnSetStartupAutomatic);
+                AppendMenuItem(menu, Resources.SERVICES_SET_START_MANUAL, "application", OnSetStartupManual);
+                AppendMenuItem(menu, Resources.SERVICES_SET_START_DISABLED, "application_key", OnSetStartupDisabled);
                 menu.Items.Add(new Separator());
-                AppendMenuItem(menu, "Uninstall", "delete", ShowProperties);
-
+                AppendMenuItem(menu, Resources.SERVICES_UNINSTALL, "delete", ShowProperties);
+                menu.Items.Add(new Separator());
+                AppendMenuItem(menu, Resources.IDS_PROPERTIES, "database_gear", ShowProperties);
                 return menu;
             }
         }
@@ -221,7 +222,7 @@ namespace pserv4.services
 
         public override UserControl CreateDetailsPage(DataObject o)
         {
-            return new ServiceDetails(o as ServiceDataObject);
+            return new ServiceProperties(o as ServiceDataObject);
         }
 
         public override void Refresh(ObservableCollection<DataObject> objects)

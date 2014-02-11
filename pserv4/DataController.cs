@@ -135,12 +135,6 @@ namespace pserv4
                     AnythingPaused,
                     OnControlContinue);
 
-                if(HasProperties)
-                {
-                    menu.Items.Add(new Separator());
-                    AppendMenuItem(menu, Resources.IDS_PROPERTIES, "database_gear", ShowProperties);
-                    
-                }
                 return menu;
             }
         }

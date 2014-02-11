@@ -907,6 +907,42 @@ namespace pserv4.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Startup: Automatic.
+        /// </summary>
+        internal static string SERVICES_SET_START_AUTOMATIC {
+            get {
+                return ResourceManager.GetString("SERVICES_SET_START_AUTOMATIC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Startup: Disabled.
+        /// </summary>
+        internal static string SERVICES_SET_START_DISABLED {
+            get {
+                return ResourceManager.GetString("SERVICES_SET_START_DISABLED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Startup: Manual.
+        /// </summary>
+        internal static string SERVICES_SET_START_MANUAL {
+            get {
+                return ResourceManager.GetString("SERVICES_SET_START_MANUAL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Uninstall.
+        /// </summary>
+        internal static string SERVICES_UNINSTALL {
+            get {
+                return ResourceManager.GetString("SERVICES_UNINSTALL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to About.
         /// </summary>
         internal static string UNINSTALLER_C_AboutLink {
@@ -961,6 +997,15 @@ namespace pserv4.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Modify.
+        /// </summary>
+        internal static string UNINSTALLER_C_ModifyPath {
+            get {
+                return ResourceManager.GetString("UNINSTALLER_C_ModifyPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Publisher.
         /// </summary>
         internal static string UNINSTALLER_C_Publisher {
@@ -975,6 +1020,60 @@ namespace pserv4.Properties {
         internal static string UNINSTALLER_C_Version {
             get {
                 return ResourceManager.GetString("UNINSTALLER_C_Version", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show about link.
+        /// </summary>
+        internal static string UNINSTALLER_CTRL_CONTINUE_Description {
+            get {
+                return ResourceManager.GetString("UNINSTALLER_CTRL_CONTINUE_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show help link.
+        /// </summary>
+        internal static string UNINSTALLER_CTRL_PAUSE_Description {
+            get {
+                return ResourceManager.GetString("UNINSTALLER_CTRL_PAUSE_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bring up registry editor.
+        /// </summary>
+        internal static string UNINSTALLER_CTRL_RESTART_Description {
+            get {
+                return ResourceManager.GetString("UNINSTALLER_CTRL_RESTART_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Uninstall.
+        /// </summary>
+        internal static string UNINSTALLER_CTRL_START_Description {
+            get {
+                return ResourceManager.GetString("UNINSTALLER_CTRL_START_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Modify.
+        /// </summary>
+        internal static string UNINSTALLER_CTRL_STOP_Description {
+            get {
+                return ResourceManager.GetString("UNINSTALLER_CTRL_STOP_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove project from the registry (*).
+        /// </summary>
+        internal static string UNINSTALLER_FORCE_UNINSTALL {
+            get {
+                return ResourceManager.GetString("UNINSTALLER_FORCE_UNINSTALL", resourceCulture);
             }
         }
         

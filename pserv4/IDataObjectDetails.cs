@@ -12,5 +12,6 @@ namespace pserv4
         void ApplyChanges(object context);
         bool HasAnyChanges();
         void BindTabItem(TabItem tabItem);
+        string Caption { get; }
     }
 }

@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DEVICES_CTRL_CONTINUE_Description" xml:space="preserve">
     <value>Continue the selected device(s)</value>
@@ -260,6 +260,18 @@
   </data>
   <data name="SERVICES_CTRL_STOP_Description" xml:space="preserve">
     <value>Stop the selected service(s)</value>
+  </data>
+  <data name="SERVICES_SET_START_AUTOMATIC" xml:space="preserve">
+    <value>Startup: Automatic</value>
+  </data>
+  <data name="SERVICES_SET_START_DISABLED" xml:space="preserve">
+    <value>Startup: Disabled</value>
+  </data>
+  <data name="SERVICES_SET_START_MANUAL" xml:space="preserve">
+    <value>Startup: Manual</value>
+  </data>
+  <data name="SERVICES_UNINSTALL" xml:space="preserve">
+    <value>Uninstall</value>
   </data>
   <data name="SERVICE_ACCEPT_PAUSE_CONTINUE" xml:space="preserve">
     <value>Pause|Continue</value>
@@ -422,6 +434,21 @@
     <value>Shared Process</value>
     <comment>The service shares a process with other services.</comment>
   </data>
+  <data name="UNINSTALLER_CTRL_CONTINUE_Description" xml:space="preserve">
+    <value>Show about link</value>
+  </data>
+  <data name="UNINSTALLER_CTRL_PAUSE_Description" xml:space="preserve">
+    <value>Show help link</value>
+  </data>
+  <data name="UNINSTALLER_CTRL_RESTART_Description" xml:space="preserve">
+    <value>Bring up registry editor</value>
+  </data>
+  <data name="UNINSTALLER_CTRL_START_Description" xml:space="preserve">
+    <value>Uninstall</value>
+  </data>
+  <data name="UNINSTALLER_CTRL_STOP_Description" xml:space="preserve">
+    <value>Modify</value>
+  </data>
   <data name="UNINSTALLER_C_AboutLink" xml:space="preserve">
     <value>About</value>
   </data>
@@ -440,11 +467,17 @@
   <data name="UNINSTALLER_C_Key" xml:space="preserve">
     <value>Key</value>
   </data>
+  <data name="UNINSTALLER_C_ModifyPath" xml:space="preserve">
+    <value>Modify</value>
+  </data>
   <data name="UNINSTALLER_C_Publisher" xml:space="preserve">
     <value>Publisher</value>
   </data>
   <data name="UNINSTALLER_C_Version" xml:space="preserve">
     <value>Version</value>
+  </data>
+  <data name="UNINSTALLER_FORCE_UNINSTALL" xml:space="preserve">
+    <value>Remove project from the registry (*)</value>
   </data>
   <data name="WINDOWS_CTRL_CONTINUE_Description" xml:space="preserve">
     <value>Maximize Window</value>

@@ -83,8 +83,8 @@
     <Compile Include="services\RequestServiceRestart.cs" />
     <Compile Include="services\RequestServiceStop.cs" />
     <Compile Include="services\RequestServiceStart.cs" />
-    <Compile Include="services\ServiceDetails.xaml.cs">
-      <DependentUpon>ServiceDetails.xaml</DependentUpon>
+    <Compile Include="services\ServiceProperties.xaml.cs">
+      <DependentUpon>ServiceProperties.xaml</DependentUpon>
     </Compile>
     <Compile Include="services\ServicesDataController.cs" />
     <Compile Include="services\ServiceDataObject.cs" />
@@ -93,6 +93,9 @@
     <Compile Include="services\ServiceStatus.cs" />
     <Compile Include="uninstaller\UninstallerDataController.cs" />
     <Compile Include="uninstaller\UninstallerDataObject.cs" />
+    <Compile Include="uninstaller\UninstallerProperties.xaml.cs">
+      <DependentUpon>UninstallerProperties.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WaitCursor.cs" />
     <Compile Include="windows\NativeWindowFunctions.cs" />
     <Compile Include="windows\WindowsDataController.cs" />
@@ -117,7 +120,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="services\ServiceDetails.xaml">
+    <Page Include="services\ServiceProperties.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="uninstaller\UninstallerProperties.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -208,6 +215,10 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="images\folder_find.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\computer_link.png" />
+    <Resource Include="images\report_go.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

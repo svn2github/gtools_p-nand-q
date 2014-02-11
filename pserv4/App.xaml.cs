@@ -34,8 +34,8 @@ namespace pserv4
                         initialView = MainViewType.Modules;
                     else if (key.Equals("PROCESSES"))
                         initialView = MainViewType.Processes;
-                    else if (key.Equals("PROGRAMS"))
-                        initialView = MainViewType.Programs;
+                    else if (key.Equals("UNINSTALLER"))
+                        initialView = MainViewType.Uninstaller;
                     else if (key.Equals("WINDOWS"))
                         initialView = MainViewType.Windows;
                     else if (key.Equals("DUMPXML"))

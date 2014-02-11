@@ -9,7 +9,6 @@
     </Window.Resources>
 
     <Grid >
-
         <Grid.RowDefinitions>
             <RowDefinition Height="25" />
             <RowDefinition Height="*" />
@@ -17,27 +16,27 @@
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="90"/>
-                <ColumnDefinition Width="90"/>
-                <ColumnDefinition Width="90"/>
-                <ColumnDefinition Width="90"/>
-                <ColumnDefinition Width="90"/>
-                <ColumnDefinition Width="90"/>
+                <ColumnDefinition Width="110"/>
+                <ColumnDefinition Width="110"/>
+                <ColumnDefinition Width="110"/>
+                <ColumnDefinition Width="110"/>
+                <ColumnDefinition Width="110"/>
+                <ColumnDefinition Width="110"/>
 
-                <ColumnDefinition Width="24"/>
-                <ColumnDefinition Width="24"/>
-                <ColumnDefinition Width="24"/>
-                <ColumnDefinition Width="24"/>
-                <ColumnDefinition Width="24"/>
+                <ColumnDefinition Width="32"/>
+                <ColumnDefinition Width="32"/>
+                <ColumnDefinition Width="32"/>
+                <ColumnDefinition Width="32"/>
+                <ColumnDefinition Width="32"/>
 
-                <ColumnDefinition Width="70"/>
-                <ColumnDefinition Width="100*"/>
-                <ColumnDefinition Width="24"/>
-                <ColumnDefinition Width="24"/>
-                <ColumnDefinition Width="24"/>
-                <ColumnDefinition Width="24"/>
+                <ColumnDefinition Width="90"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="32"/>
+                <ColumnDefinition Width="32"/>
+                <ColumnDefinition Width="32"/>
+                <ColumnDefinition Width="32"/>
             </Grid.ColumnDefinitions>
-            <Button Name="ButtonServices" Grid.Column="0" BorderThickness="0" Margin="0" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" FontWeight="Normal" Click="SwitchToServices">                
+            <Button Name="ButtonServices" Grid.Column="0" BorderThickness="0" Margin="0" BorderBrush="White" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" FontWeight="Normal" Click="SwitchToServices">                
                 <Button.ToolTip>
                     <ToolTip>
                         <StackPanel>
@@ -51,7 +50,7 @@
                     <AccessText>_Services</AccessText>
                 </StackPanel>
             </Button>
-            <Button Name="ButtonDevices" Grid.Column="1" BorderThickness="0" Margin="0"  FontFamily="Segoe UI" FontSize="14"  Background="#F5F5F5" Click="SwitchToDevices" >
+            <Button Name="ButtonDevices" Grid.Column="1" BorderThickness="0" Margin="0" BorderBrush="White" FontFamily="Segoe UI" FontSize="14"  Background="#F5F5F5" Click="SwitchToDevices" >
                 <Button.ToolTip>
                     <ToolTip>
                         <StackPanel>
@@ -65,7 +64,7 @@
                     <AccessText>_Devices</AccessText>
                 </StackPanel>
             </Button>
-            <Button Name="ButtonWindows" Grid.Column="2" BorderThickness="0" Margin="0" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="SwitchToWindows">
+            <Button Name="ButtonWindows" Grid.Column="2" BorderThickness="0" Margin="0" BorderBrush="White" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="SwitchToWindows">
                 <Button.ToolTip>
                     <ToolTip>
                         <StackPanel>
@@ -79,11 +78,11 @@
                     <AccessText>_Windows</AccessText>
                 </StackPanel>
             </Button>
-            <Button Name="ButtonUninstaller" Grid.Column="3" BorderThickness="0" Margin="0" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="SwitchToUninstaller">
+            <Button Name="ButtonUninstaller" Grid.Column="3" BorderThickness="0" Margin="0" BorderBrush="White" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="SwitchToUninstaller">
                 <Button.ToolTip>
                     <ToolTip>
                         <StackPanel>
-                            <TextBlock FontWeight="Bold">Show all programs</TextBlock>
+                            <TextBlock FontWeight="Bold">Show all installed programs</TextBlock>
                             <TextBlock>Shows all programs registered as installed on your system, much like the Add/Remove Programs control panel applet.</TextBlock>
                         </StackPanel>
                     </ToolTip>
@@ -93,7 +92,7 @@
                     <AccessText>_Uninstaller</AccessText>
                 </StackPanel>
             </Button>
-            <Button Name="ButtonProcesses" Grid.Column="4" BorderThickness="0" Margin="0" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="SwitchToProcesses">
+            <Button Name="ButtonProcesses" Grid.Column="4" BorderThickness="0" Margin="0" BorderBrush="White" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="SwitchToProcesses">
                 <Button.ToolTip>
                     <ToolTip>
                         <StackPanel>
@@ -107,7 +106,7 @@
                     <AccessText>_Processes</AccessText>
                 </StackPanel>
             </Button>
-            <Button Name="ButtonModules" Grid.Column="5" BorderThickness="0" Margin="0" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="SwitchToModules">
+            <Button Name="ButtonModules" Grid.Column="5" BorderThickness="0" Margin="0" BorderBrush="White" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="SwitchToModules">
                 <Button.ToolTip>
                     <ToolTip>
                         <StackPanel>
@@ -121,80 +120,65 @@
                     <AccessText>_Modules</AccessText>
                 </StackPanel>
             </Button>
-            <Button Name="BtStart" Grid.Column="6" IsEnabled="False" BorderThickness="0" Margin="0" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="OnControlStart">
+            <Button Name="BtStart" Grid.Column="6" IsEnabled="False" BorderThickness="0" Margin="0" BorderBrush="White" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="OnControlStart">
                 <Image Source="images\control_play.png" RenderOptions.BitmapScalingMode="NearestNeighbor" Height="16" Margin="0 0 5 0"/>
                 <Button.ToolTip>
                     <ToolTip>
                         <StackPanel>
-                            <TextBlock FontWeight="Bold">Start</TextBlock>
                             <TextBlock Name="TbControlStart">Start the selected service(s)</TextBlock>
                         </StackPanel>
                     </ToolTip>
                 </Button.ToolTip>
             </Button>
-            <Button Name="BtStop" Grid.Column="7" IsEnabled="False" BorderThickness="0" Margin="0" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="OnControlStop">
+            <Button Name="BtStop" Grid.Column="7" IsEnabled="False" BorderThickness="0" Margin="0" BorderBrush="White" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="OnControlStop">
                 <Image Source="images\control_stop.png" RenderOptions.BitmapScalingMode="NearestNeighbor" Height="16" Margin="0 0 5 0"/>
                 <Button.ToolTip>
                     <ToolTip>
                         <StackPanel>
-                            <TextBlock FontWeight="Bold">Stop</TextBlock>
                             <TextBlock Name="TbControlStop">Stop the selected service(s)</TextBlock>
                         </StackPanel>
                     </ToolTip>
                 </Button.ToolTip>
             </Button>
-            <Button Name="BtRestart" Grid.Column="8" IsEnabled="False" BorderThickness="0" Margin="0" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="OnControlRestart">
+            <Button Name="BtRestart" Grid.Column="8" IsEnabled="False" BorderThickness="0" Margin="0" BorderBrush="White" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="OnControlRestart">
                 <Image Source="images\control_repeat.png" RenderOptions.BitmapScalingMode="NearestNeighbor" Height="16" Margin="0 0 5 0"/>
                 <Button.ToolTip>
                     <ToolTip>
                         <StackPanel>
-                            <TextBlock FontWeight="Bold">Restart</TextBlock>
                             <TextBlock Name="TbControlRestart">Restart the selected service(s)</TextBlock>
                         </StackPanel>
                     </ToolTip>
                 </Button.ToolTip>
             </Button>
-            <Button Name="BtPause" Grid.Column="9" IsEnabled="False" BorderThickness="0" Margin="0" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="OnControlPause">
+            <Button Name="BtPause" Grid.Column="9" IsEnabled="False" BorderThickness="0" Margin="0" BorderBrush="White" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="OnControlPause">
                 <Image Source="images\control_pause.png" RenderOptions.BitmapScalingMode="NearestNeighbor" Height="16" Margin="0 0 5 0"/>
                 <Button.ToolTip>
                     <ToolTip>
                         <StackPanel>
-                            <TextBlock FontWeight="Bold">Pause</TextBlock>
                             <TextBlock Name="TbControlPause">Pause the selected service(s)</TextBlock>
                         </StackPanel>
                     </ToolTip>
                 </Button.ToolTip>
             </Button>
-            <Button Name="BtContinue" Grid.Column="10" IsEnabled="False" BorderThickness="0" Margin="0" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="OnControlContinue">
+            <Button Name="BtContinue" Grid.Column="10" IsEnabled="False" BorderThickness="0" Margin="0" BorderBrush="White" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="OnControlContinue">
                 <Image Source="images\control_fastforward.png" RenderOptions.BitmapScalingMode="NearestNeighbor" Height="16" Margin="0 0 5 0"/>
                 <Button.ToolTip>
                     <ToolTip>
                         <StackPanel>
-                            <TextBlock FontWeight="Bold">Continue</TextBlock>
                             <TextBlock Name="TbControlContinue">Continue the selected service(s)</TextBlock>
                         </StackPanel>
                     </ToolTip>
                 </Button.ToolTip>
             </Button>
-            <Button Grid.Column="11" BorderThickness="0" Margin="0" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5">
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <Image Source="images\find.png" RenderOptions.BitmapScalingMode="NearestNeighbor" Height="16" Margin="0 0 5 0"/>
-                    <Label Target="{Binding ElementName=FindThisText}" Margin="0" Padding="0">
-                        <AccessText>_Filter:</AccessText>
-                    </Label>
-                </StackPanel>
-                <Button.ToolTip>
-                    <ToolTip>
-                        <StackPanel>
-                            <TextBlock FontWeight="Bold">Filter Expression</TextBlock>
-                            <TextBlock>Any entry NOT matching the expression will be filtered out. If empty, shows all entries</TextBlock>
-                        </StackPanel>
-                    </ToolTip>
-                </Button.ToolTip>
-            </Button>
+            <StackPanel Grid.Column="11" Margin="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Image Source="images\find.png" RenderOptions.BitmapScalingMode="NearestNeighbor" Height="16" Margin="0 0 5 0"/>
+                <Label VerticalAlignment="Center"  Target="{Binding ElementName=FindThisText}" Margin="0" Padding="0">
+                    <AccessText>_Filter:</AccessText>
+                </Label>
+            </StackPanel>
             <TextBox Grid.Column="12" x:Name="FindThisText" Margin="3" TextChanged="FindThisText_TextChanged" />
 
-            <Button Grid.Column="13" BorderThickness="0" Margin="0" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="ShowProperties">
+            <Button Grid.Column="13" BorderThickness="0" Margin="0" BorderBrush="White" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="ShowProperties">
                 <Button.ToolTip>
                     <ToolTip>
                         <StackPanel>
@@ -205,7 +189,7 @@
                 </Button.ToolTip>
                 <Image Source="images\database_gear.png" RenderOptions.BitmapScalingMode="NearestNeighbor" Height="16" Margin="0 0 5 0"/>
             </Button>
-            <Button Grid.Column="14" Name="BtRefresh" BorderThickness="0" Margin="0" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="RefreshDisplay">
+            <Button Grid.Column="14" Name="BtRefresh" BorderThickness="0" Margin="0" BorderBrush="White" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="RefreshDisplay">
                 <Button.ToolTip>
                     <ToolTip>
                         <StackPanel>
@@ -216,7 +200,7 @@
                 </Button.ToolTip>
                 <Image Source="images\arrow_refresh.png" RenderOptions.BitmapScalingMode="NearestNeighbor" Height="16" Margin="0 0 5 0"/>
             </Button>
-            <Button Grid.Column="15" BorderThickness="0" Margin="0" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="SaveAsXML">
+            <Button Grid.Column="15" BorderThickness="0" Margin="0" BorderBrush="White" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="SaveAsXML">
                 <Button.ToolTip>
                     <ToolTip>
                         <StackPanel>
@@ -227,7 +211,7 @@
                 </Button.ToolTip>
                 <Image Source="images\database_save.png" RenderOptions.BitmapScalingMode="NearestNeighbor" Height="16" Margin="0 0 5 0"/>
             </Button>
-            <Button Grid.Column="16" BorderThickness="0" Margin="0" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="CopyToClipboard">
+            <Button Grid.Column="16" BorderThickness="0" Margin="0" BorderBrush="White" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="CopyToClipboard">
                 <Button.ToolTip>
                     <ToolTip>
                         <StackPanel>
@@ -249,7 +233,6 @@
                 <Style TargetType="ListViewItem">
                     <Setter Property="Foreground" Value="Black" />
                     <Setter Property="FontFamily" Value="Segoe UI" />
-                    <Setter Property="FontSize" Value="11" />
                     <Setter Property="ToolTip">
                         <Setter.Value>
                             <ToolTip MaxWidth="400">

@@ -17,7 +17,7 @@ namespace pserv4.services
     /// <summary>
     /// Interaction logic for ServiceDetails.xaml
     /// </summary>
-    public partial class ServiceDetails : UserControl, IDataObjectDetails
+    public partial class ServiceProperties : UserControl, IDataObjectDetails
     {
         private SolidColorBrush UnmodifiedForeground;
         private SolidColorBrush ModifiedForeground;
@@ -30,7 +30,7 @@ namespace pserv4.services
         private string BinaryPathName;
         private SC_START_TYPE StartType; 
 
-        public ServiceDetails(ServiceDataObject sdo)
+        public ServiceProperties(ServiceDataObject sdo)
         {
             InitializeComponent();
             First = true;
@@ -38,6 +38,15 @@ namespace pserv4.services
             ModifiedForeground = new SolidColorBrush(Colors.Blue);
             UnmodifiedForeground = new SolidColorBrush(Colors.Black);
         }
+
+        public string Caption
+        {
+            get
+            {
+                return SDO.InternalID;
+            }
+        }
+
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {

@@ -16,7 +16,16 @@
         <TabControl Name="MyTabControl" Grid.Row="0" Grid.ColumnSpan="4" Margin="5">
             
         </TabControl>
+        
         <Button Name="RevertButton" Grid.Column="0" Grid.Row="1" Margin="5"  FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="OnRevert" >
+            <Button.ToolTip>
+                <ToolTip>
+                    <StackPanel>
+                        <TextBlock FontWeight="Bold">Revert all changes</TextBlock>
+                        <TextBlock>Revert all changes made on the current object.</TextBlock>
+                    </StackPanel>
+                </ToolTip>
+            </Button.ToolTip>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                 <Image Source="images\arrow_refresh.png" RenderOptions.BitmapScalingMode="NearestNeighbor" Height="16" Margin="0 0 5 0"/>
                 <AccessText>Revert</AccessText>

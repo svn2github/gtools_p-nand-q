@@ -28,17 +28,18 @@ namespace pserv4
             foreach(DataObject o in MainWindow.CurrentController.MainListView.SelectedItems)
             {
                 TabItem tabitem = new TabItem();
-                tabitem.Header = o.InternalID;
                 tabitem.Content = MainWindow.CurrentController.CreateDetailsPage(o);
                 if (tabitem.Content != null)
                 {
-                    MyTabControl.Items.Add(tabitem);
+                    IDataObjectDetails details = tabitem.Content as IDataObjectDetails;
+                    if (details != null)
+                    {
+                        details.BindTabItem(tabitem);
+                        tabitem.Header = details.Caption;
+                        MyTabControl.Items.Add(tabitem);
+                    }
                 }
-                IDataObjectDetails details = tabitem.Content as IDataObjectDetails;
-                if (details != null)
-                {
-                    details.BindTabItem(tabitem);
-                }
+                
             }
             MyTabControl.SelectedIndex = 0;
         }
@@ -80,6 +81,5 @@ namespace pserv4
         {
             Close();
         }
-
     }
 }

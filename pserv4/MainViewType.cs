@@ -11,7 +11,7 @@ namespace pserv4
         Services = 0,
         Devices,
         Windows,
-        Programs,
+        Uninstaller,
         Processes,
         Modules
     }

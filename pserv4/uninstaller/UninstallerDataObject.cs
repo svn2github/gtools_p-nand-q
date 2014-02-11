@@ -21,6 +21,8 @@ namespace pserv4.uninstaller
         public string HelpLink { get; private set; }
         public string AboutLink { get; private set; }
         public string Action { get; private set; }
+        public string ModifyPath { get; private set; }
+        public readonly bool BasedInLocalMachine;
         
         public void Refresh(RegistryKey rootKey, string keyPath, string keyName)
         {
@@ -45,6 +47,7 @@ namespace pserv4.uninstaller
                 SetStringProperty("Version", hkKey.GetValue("DisplayVersion") as string);
                 SetStringProperty("Publisher", hkKey.GetValue("Publisher") as string);
                 SetStringProperty("HelpLink", hkKey.GetValue("HelpLink") as string);
+                SetStringProperty("ModifyPath", hkKey.GetValue("ModifyPath") as string);
                 SetStringProperty("AboutLink", hkKey.GetValue("URLInfoAbout") as string);
                 if(SetStringProperty("Action", hkKey.GetValue("UninstallString") as string))
                 {
@@ -67,9 +70,15 @@ namespace pserv4.uninstaller
             }
         }
 
+        public bool RemoveFromRegistry()
+        {
+            return false;
+        }
+
         public UninstallerDataObject(RegistryKey rootKey, string keyPath, string keyName)
             :   base(keyName)
         {
+            BasedInLocalMachine = (rootKey == Registry.LocalMachine);
             Refresh(rootKey, keyPath, keyName);
             ConstructionIsFinished = true;
         }
