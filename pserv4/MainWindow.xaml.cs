@@ -150,13 +150,18 @@ namespace pserv4
                 TbControlPause.Text = CurrentController.ControlPauseDescription;
                 TbControlContinue.Text = CurrentController.ControlContinueDescription;
 
-                Title = string.Format("pserv 4.0: {0}", CurrentController.Caption);
+                UpdateTitle();
 
                 CreateInitialSort();
                 CurrentViewType = newViewType;
                 KnownViews[CurrentViewType].Button.Background = SelectedBackgroundColor;
                 KnownViews[CurrentViewType].Button.Foreground = SelectedForegroundColor;
             }
+        }
+
+        public void UpdateTitle()
+        {
+            Title = string.Format("pserv 4.0: {0}", CurrentController.Caption);
         }
 
         void MainListView_ContextMenuOpening(object sender, ContextMenuEventArgs e)
@@ -527,7 +532,7 @@ namespace pserv4
             }
         }
 
-        private void RefreshDisplay(object sender, RoutedEventArgs e)
+        public void RefreshDisplay(object sender, RoutedEventArgs e)
         {
             Trace.TraceInformation("BEGIN RefreshDisplay()");
             Trace.Indent();

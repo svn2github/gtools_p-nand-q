@@ -95,6 +95,10 @@ namespace pserv4.services
                 }
                 return null;
             }
+            set
+            {
+                NativeServiceFunctions.ChangeServiceDescription(Handle, value);
+            }
         }
 
         #region IDisposable Members

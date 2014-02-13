@@ -21,7 +21,9 @@ namespace pserv4.services
         {
             ACCESS_MASK ServiceAccessMask = SSR.GetServiceAccessMask() | ACCESS_MASK.STANDARD_RIGHTS_READ | ACCESS_MASK.SERVICE_QUERY_STATUS;
 
-            using (NativeSCManager scm = new NativeSCManager())
+            ServicesDataController sdc = MainWindow.CurrentController as ServicesDataController;
+
+            using (NativeSCManager scm = new NativeSCManager(sdc.MachineName))
             {
                 int serviceIndex = 0;
                 foreach (ServiceDataObject so in Services)

@@ -17,8 +17,8 @@ namespace pserv4
     public abstract class DataController
     {
         public abstract IEnumerable<DataObjectColumn> Columns { get; }
-        private readonly string ControllerName;
-        private readonly string ItemName;
+        protected readonly string ControllerName;
+        protected readonly string ItemName;
         protected bool HasProperties;
 
         public bool IsControlStartEnabled { get; protected set; }

@@ -4,13 +4,39 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.Diagnostics;
+using Microsoft.Win32;
 
 namespace pserv4.services
 {
     public class ServiceDataObject : DataObject
     {
         public string DisplayName { get; private set; }
-        public string ServiceType { get; private set; }
+
+        public string ServiceTypeString
+        {
+            get
+            {
+                return ServicesLocalisation.Localized(ServiceType);
+            }
+        }
+
+        private SC_SERVICE_TYPE _ServiceType;
+        public SC_SERVICE_TYPE ServiceType
+        {
+            get
+            {
+                return _ServiceType;
+            }
+            private set
+            {
+                if (_ServiceType != value)
+                {
+                    _ServiceType = value;
+                    NotifyPropertyChanged("ServiceTypeString");
+                }
+            }
+        }
         
         public string StartTypeString
         {
@@ -19,6 +45,7 @@ namespace pserv4.services
                 return ServicesLocalisation.Localized(StartType);
             }
         }
+
         private SC_START_TYPE _StartType;
         public SC_START_TYPE StartType
         {
@@ -42,6 +69,15 @@ namespace pserv4.services
         public string TagId { get; private set; }
         public string Description { get; private set; }
         public string User { get; private set; }
+
+        public bool IsSystemAccount
+        {
+            get
+            {
+                return string.IsNullOrEmpty(User) ||
+                        User.Equals("LocalSystem", StringComparison.OrdinalIgnoreCase);
+            }
+        }
 
         public string ControlsAcceptedString
         {
@@ -120,7 +156,7 @@ namespace pserv4.services
             SC_START_TYPE startupType,
             string displayName,
             string binaryPathName,
-            string Description)
+            string description)
         {
             using (NativeService ns = new NativeService(scm,
                 InternalID,
@@ -142,6 +178,12 @@ namespace pserv4.services
                         SetStringProperty("BinaryPathName", binaryPathName);
                         NotifyPropertyChanged("InstallLocation");
                     }
+
+                    if ((description != null) && !description.Equals(Description))
+                    {
+                        ns.Description = description;
+                        SetStringProperty("Description", description);
+                    }     
                 }
             }
         }
@@ -161,6 +203,24 @@ namespace pserv4.services
                         StartType = startupType;
                     }
                 }
+            }
+        }
+
+        public bool Uninstall(NativeSCManager scm)
+        {
+            try
+            {
+                using (NativeService ns = new NativeService(scm,
+                        InternalID,
+                        ACCESS_MASK.SERVICE_CHANGE_CONFIG | ACCESS_MASK.SERVICE_QUERY_STATUS | ACCESS_MASK.DELETE))
+                {
+                    return NativeServiceFunctions.DeleteService(ns.Handle);
+                }
+            }
+            catch(Exception e)
+            {
+                Trace.TraceInformation(e.ToString());
+                return false;
             }
         }
 
@@ -195,6 +255,30 @@ namespace pserv4.services
             return BringUpTerminal(InstallLocation);
         }
 
+        public bool RemoveRegistryKey()
+        {
+            try
+            {
+                Trace.TraceInformation("RemoveRegistryKey {0}", this);
+                RegistryKey rootKey = Registry.LocalMachine;
+
+                using (RegistryKey regkey = rootKey.OpenSubKey("SYSTEM\\CurrentControlSet\\Services", true))
+                {
+                    if (regkey.OpenSubKey(InternalID) != null)
+                    {
+                        regkey.DeleteSubKeyTree(InternalID);
+                    }
+                }
+                return true;
+            }
+            catch (Exception e)
+            {
+                Trace.TraceError("Exception {0}: unable to remove registry key {1}", e, this);
+                Trace.TraceWarning(e.StackTrace);
+                return false;
+            }
+        }
+
         public ServiceDataObject(NativeService service, ENUM_SERVICE_STATUS_PROCESS essp)
             :   base(essp.ServiceName)
         {
@@ -207,8 +291,7 @@ namespace pserv4.services
             CheckPoint = essp.CheckPoint.ToString();
             WaitHint = essp.WaitHint.ToString();
             ServiceFlags = essp.ServiceFlags.ToString();
-
-            ServiceType = ServicesLocalisation.Localized(essp.ServiceType);
+            ServiceType = essp.ServiceType;
             if (essp.ProcessID != 0)
                 PID = essp.ProcessID.ToString();
             else

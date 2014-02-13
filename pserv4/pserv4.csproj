@@ -57,6 +57,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="BackgroundAction.cs" />
+    <Compile Include="ConnectMachineDialog.xaml.cs">
+      <DependentUpon>ConnectMachineDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="devices\DevicesDataController.cs" />
     <Compile Include="DataObject.cs" />
     <Compile Include="FileVersionInfoCache.cs" />
@@ -106,6 +109,10 @@
     <Compile Include="windows\NativeWindowFunctions.cs" />
     <Compile Include="windows\WindowsDataController.cs" />
     <Compile Include="windows\WindowDataObject.cs" />
+    <Page Include="ConnectMachineDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="LongRunningFunctionWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -237,6 +244,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="images\application_form_delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\computer_add.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\computer.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

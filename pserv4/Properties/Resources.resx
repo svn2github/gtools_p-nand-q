@@ -156,6 +156,24 @@
   <data name="IDS_SAVE_AS_XML" xml:space="preserve">
     <value>Save as XML</value>
   </data>
+  <data name="IDS_SERVICES_CAPTION_LOCAL_MACHINE" xml:space="preserve">
+    <value>{0} on \\\\{1} (this machine)</value>
+  </data>
+  <data name="IDS_SERVICES_CAPTION_REMOTE_MACHINE" xml:space="preserve">
+    <value>{0} on \\\\{1}</value>
+  </data>
+  <data name="IDS_SERVICES_CONNECT_LOCAL_MACHINE" xml:space="preserve">
+    <value>Connect to local machine</value>
+  </data>
+  <data name="IDS_SERVICES_CONNECT_REMOTE_MACHINE" xml:space="preserve">
+    <value>Connect to remote machine</value>
+  </data>
+  <data name="IDS_SERVICE_SureToDeleteRegistry" xml:space="preserve">
+    <value>Are you sure you want to remove the registry key for this service? This action cannot be done.</value>
+  </data>
+  <data name="IDS_SERVICE_SureToUninstall" xml:space="preserve">
+    <value>Are you sure you want to uninstall {0} ({1})?This action cannot be undone.</value>
+  </data>
   <data name="IDS_UNINSTALLER_SureToRemoveKey" xml:space="preserve">
     <value>Are you sure you want to remove this product: {0}?</value>
   </data>

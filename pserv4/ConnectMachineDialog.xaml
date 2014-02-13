@@ -1,0 +1,55 @@
+﻿<Window x:Class="pserv4.ConnectMachineDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Connect to remote machine" Height="150" Width="600">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25" />
+            <RowDefinition Height="25" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="40" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <RadioButton Click="RbLocalMachine_Click" Name="RbLocalMachine" Margin="10 0 0 0" VerticalAlignment="Center">Connect to local machine</RadioButton>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <RadioButton Click="RbRemoteMachine_Click" Name="RbRemoteMachine" Margin="10 0 0 0" VerticalAlignment="Center">Connect to this machine:</RadioButton>
+            <TextBox Name="TbRemoteMachine" Grid.Column="1" Margin="2"></TextBox>
+        </Grid>
+
+        <Grid Grid.Row="4">
+        
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="120"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Name="OKButton" Grid.Column="1" Margin="5" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="OnOK" IsDefault="True">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                    <Image Source="images\accept.png" RenderOptions.BitmapScalingMode="NearestNeighbor" Height="16" Margin="0 0 5 0"/>
+                    <AccessText>_OK</AccessText>
+                </StackPanel>
+            </Button>
+
+            <Button Name="CancelButton" Grid.Column="2" Margin="5" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="OnCancel"  IsCancel="True">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                    <Image Source="images\delete.png" RenderOptions.BitmapScalingMode="NearestNeighbor" Height="16" Margin="0 0 5 0"/>
+                    <AccessText>_Cancel</AccessText>
+                </StackPanel>
+            </Button>
+        </Grid>
+    </Grid>
+</Window>

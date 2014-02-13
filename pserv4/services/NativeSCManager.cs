@@ -10,7 +10,7 @@ namespace pserv4.services
     {
         public IntPtr Handle;
 
-        public NativeSCManager(string machineName = null)
+        public NativeSCManager(string machineName)
         {
             if (string.IsNullOrEmpty(machineName))
                 machineName = Environment.MachineName;

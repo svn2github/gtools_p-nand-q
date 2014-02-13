@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.Win32;
 
 namespace pserv4.services
 {
@@ -21,6 +22,8 @@ namespace pserv4.services
     {
         private SolidColorBrush UnmodifiedForeground;
         private SolidColorBrush ModifiedForeground;
+
+        private readonly string INTERNAL_PASSWORD_TEXT = "\x01\x08\x06\x00";
 
         private bool First;
         private readonly ServiceDataObject SDO;
@@ -52,6 +55,7 @@ namespace pserv4.services
         {
             if( First )
             {
+                
                 RevertChanges();
                 First = false;
             }
@@ -74,6 +78,17 @@ namespace pserv4.services
 
         private void OnBrowseFilename(object sender, RoutedEventArgs e)
         {
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.DefaultExt = ".exe";
+            dlg.Filter = "Executables (.exe)|*.exe";
+            dlg.InitialDirectory = SDO.InstallLocation;
+            dlg.FileName = SDO.BinaryPathName;
+
+            bool? result = dlg.ShowDialog();
+            if( result.HasValue && result.Value )
+            {
+                TbImagePath.Text = dlg.FileName;
+            }
         }
 
         private void TbDisplayName_TextChanged(object sender, TextChangedEventArgs e)
@@ -107,6 +122,20 @@ namespace pserv4.services
             BinaryPathName = TbImagePath.Text = SDO.BinaryPathName;
             CbStartupType.SelectedIndex = (int)SDO.StartType;
             StartType = SDO.StartType;
+
+            if (SDO.IsSystemAccount)
+            {
+                RbSystemAccount.IsChecked = true;
+                RbSystemAccount_Click(null, null);
+            }
+            else
+            {
+                RbLogonAs.IsChecked = true;
+                TbAccountName.Text = SDO.User;
+                RbLogonAs_Click(null, null);
+            }
+
+            BtInteractWithDesktop.IsChecked = ((SDO.ServiceType & SC_SERVICE_TYPE.SERVICE_INTERACTIVE_PROCESS) != 0);
         }
 
         public void BindTabItem(TabItem tabItem)
@@ -121,6 +150,22 @@ namespace pserv4.services
                 (TbDescription.Foreground == ModifiedForeground) ||
                 (TbImagePath.Foreground == ModifiedForeground) ||
                 (CbStartupType.Foreground == ModifiedForeground);
+        }
+
+        private void RbSystemAccount_Click(object sender, RoutedEventArgs e)
+        {
+            TbAccountName.IsEnabled = false;
+            TbPassword.IsEnabled = false;
+            TbPasswordConfirm.IsEnabled = false;
+            TbPassword.Password = INTERNAL_PASSWORD_TEXT;
+            TbPasswordConfirm.Password = INTERNAL_PASSWORD_TEXT;
+        }
+
+        private void RbLogonAs_Click(object sender, RoutedEventArgs e)
+        {
+            TbAccountName.IsEnabled = true;
+            TbPassword.IsEnabled = true;
+            TbPasswordConfirm.IsEnabled = true;
         }
 
         public void ApplyChanges(object context)

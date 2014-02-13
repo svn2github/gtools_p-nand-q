@@ -58,9 +58,9 @@
                     <ColumnDefinition Width="10"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <RadioButton VerticalAlignment="Center" Margin="5" Grid.Row="0" GroupName="LogonAs" Content="System Account"/>
-                <RadioButton VerticalAlignment="Center" Margin="5" Grid.Row="1" GroupName="LogonAs"/>
-                <CheckBox Margin="5" Grid.Row="0" Grid.Column="2" Content="Interact with Desktop"/>
+                <RadioButton Click="RbSystemAccount_Click" Name="RbSystemAccount" VerticalAlignment="Center" Margin="5" Grid.Row="0" GroupName="LogonAs" Content="System Account"/>
+                <RadioButton Click="RbLogonAs_Click" Name="RbLogonAs" VerticalAlignment="Center" Margin="5" Grid.Row="1" GroupName="LogonAs"/>
+                <CheckBox Name="BtInteractWithDesktop" Margin="5" Grid.Row="0" Grid.Column="2" Content="Interact with Desktop"/>
                 <TextBox Grid.Column="2" Grid.Row="1" Name="TbAccountName" Margin="5"/>
 
                 <Label Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right">This Account:</Label>

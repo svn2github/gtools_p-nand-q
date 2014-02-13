@@ -17,6 +17,8 @@ namespace pserv4.services
         private static List<DataObjectColumn> ActualColumns;
         private readonly SC_SERVICE_TYPE ServicesType;
 
+        public string MachineName { get; private set; }
+
         private bool AnythingPaused;
         private bool AnythingRunning;
         private bool AnythingStopped;
@@ -45,8 +47,10 @@ namespace pserv4.services
                     _(controlPauseDescription,Resources.SERVICES_CTRL_PAUSE_Description),
                     _(controlContinueDescription,Resources.SERVICES_CTRL_CONTINUE_Description))
         {
+            Caption = string.Format(Resources.IDS_SERVICES_CAPTION_LOCAL_MACHINE, ControllerName, Environment.MachineName);
             ServicesType = servicesType;
             HasProperties = true;
+            MachineName = Environment.MachineName;
         }
 
         public override IEnumerable<DataObjectColumn> Columns
@@ -61,7 +65,7 @@ namespace pserv4.services
                     ActualColumns.Add(new DataObjectColumn(Resources.SERVICE_C_ProcessID, "PID"));
                     ActualColumns.Add(new DataObjectColumn(Resources.SERVICE_C_CurrentState, "CurrentStateString"));
                     ActualColumns.Add(new DataObjectColumn(Resources.SERVICE_C_User, "User"));
-                    ActualColumns.Add(new DataObjectColumn(Resources.SERVICE_C_ServiceType, "ServiceType"));
+                    ActualColumns.Add(new DataObjectColumn(Resources.SERVICE_C_ServiceType, "ServiceTypeString"));
                     ActualColumns.Add(new DataObjectColumn(Resources.SERVICE_C_StartType, "StartTypeString"));
                     ActualColumns.Add(new DataObjectColumn(Resources.SERVICE_C_BinaryPathName, "BinaryPathName"));
                     ActualColumns.Add(new DataObjectColumn(Resources.SERVICE_C_LoadOrderGroup, "LoadOrderGroup"));
@@ -97,9 +101,12 @@ namespace pserv4.services
                 AppendMenuItem(menu, Resources.SERVICES_BRING_UP_EXPLORER, "folder_find", OnBringUpExplorer);
                 AppendMenuItem(menu, Resources.SERVICES_START_CMD, "application_xp_terminal", OnBringUpTerminal);
                 menu.Items.Add(new Separator());
+                AppendMenuItem(menu, Resources.IDS_SERVICES_CONNECT_LOCAL_MACHINE, "computer", OnConnectToLocalMachine);
+                AppendMenuItem(menu, Resources.IDS_SERVICES_CONNECT_REMOTE_MACHINE, "computer_add", OnConnectToRemoteMachine);
+                menu.Items.Add(new Separator());
 
-                AppendMenuItem(menu, Resources.SERVICES_UNINSTALL, "application_form_delete", OnUnstall).IsEnabled = false;
-                AppendMenuItem(menu, Resources.SERVICES_DELETE_REGISTRY, "delete", OnDeleteRegistry).IsEnabled = false;
+                AppendMenuItem(menu, Resources.SERVICES_UNINSTALL, "application_form_delete", OnUnstall);
+                AppendMenuItem(menu, Resources.SERVICES_DELETE_REGISTRY, "delete", OnDeleteRegistry);
                 return AppendDefaultItems(menu);
             }
         }
@@ -108,7 +115,7 @@ namespace pserv4.services
         {
             using (new WaitCursor())
             {
-                using (NativeSCManager scm = new NativeSCManager())
+                using (NativeSCManager scm = new NativeSCManager(MachineName))
                 {
                     foreach (ServiceDataObject sdo in MainListView.SelectedItems)
                     {
@@ -122,13 +129,50 @@ namespace pserv4.services
         {
             using (new WaitCursor())
             {
-                using (NativeSCManager scm = new NativeSCManager())
+                using (NativeSCManager scm = new NativeSCManager(MachineName))
                 {
                     foreach (IDataObjectDetails dod in changedItems)
                     {
                         dod.ApplyChanges(scm);
                     }
                 }
+            }
+        }
+
+        public void ConnectToComputer(string name)
+        {
+            if(!MachineName.Equals(name))
+            {
+                using(new WaitCursor())
+                {
+                    MachineName = name;
+                    if (name.Equals(Environment.MachineName, StringComparison.OrdinalIgnoreCase))
+                    {
+                        Caption = string.Format(Resources.IDS_SERVICES_CAPTION_LOCAL_MACHINE, ControllerName, name);
+                    }
+                    else
+                    {
+                        Caption = string.Format(Resources.IDS_SERVICES_CAPTION_REMOTE_MACHINE, ControllerName, name);
+                    }
+                    MainWindow.Instance.UpdateTitle();
+                    MainWindow.Items.Clear();
+                    MainWindow.Instance.RefreshDisplay(null, null);
+                }
+            }
+        }
+        
+        public void OnConnectToLocalMachine(object sender, RoutedEventArgs e)
+        {
+            ConnectToComputer(Environment.MachineName);
+        }
+
+        public void OnConnectToRemoteMachine(object sender, RoutedEventArgs e)
+        {
+            ConnectMachineDialog window = new ConnectMachineDialog(MachineName);
+            bool? result = window.ShowDialog();
+            if( result.HasValue && result.Value)
+            {
+                ConnectToComputer(window.SelectedMachine);
             }
         }
 
@@ -259,19 +303,70 @@ namespace pserv4.services
 
         public void OnUnstall(object sender, RoutedEventArgs e)
         {
-            // TODO 
+            List<ServiceDataObject> deleteThese = new List<ServiceDataObject>();
+            foreach (ServiceDataObject sdo in MainListView.SelectedItems)
+            {
+                deleteThese.Add(sdo);
+            }
+
+            using (NativeSCManager scm = new NativeSCManager(MachineName))
+            {
+                foreach (ServiceDataObject sdo in deleteThese)
+                {
+                    MessageBoxResult result = MessageBox.Show(
+                        string.Format(Resources.IDS_SERVICE_SureToUninstall, sdo.InternalID, sdo.DisplayName),
+                        Resources.IDS_CONFIRMATION,
+                        MessageBoxButton.YesNoCancel,
+                        MessageBoxImage.Question);
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        if (sdo.Uninstall(scm))
+                        {
+                            MainWindow.Items.Remove(sdo);
+                        }
+                    }
+                    else if (result == MessageBoxResult.Cancel)
+                    {
+                        break;
+                    }
+                }
+            }
         }
 
         public void OnDeleteRegistry(object sender, RoutedEventArgs e)
         {
-            // TODO
+            List<ServiceDataObject> deleteThese = new List<ServiceDataObject>();
+            foreach (ServiceDataObject sdo in MainListView.SelectedItems)
+            {
+                deleteThese.Add(sdo);
+            }
+
+            using (NativeSCManager scm = new NativeSCManager(MachineName))
+            {
+                foreach (ServiceDataObject sdo in deleteThese)
+                {
+                    MessageBoxResult result = MessageBox.Show(
+                        string.Format(Resources.IDS_SERVICE_SureToDeleteRegistry, sdo.InternalID, sdo.DisplayName),
+                        Resources.IDS_CONFIRMATION,
+                        MessageBoxButton.YesNoCancel,
+                        MessageBoxImage.Question);
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        sdo.RemoveRegistryKey();
+                    }
+                    else if (result == MessageBoxResult.Cancel)
+                    {
+                        break;
+                    }
+                }
+            }
         }
 
         public override void Refresh(ObservableCollection<DataObject> objects)
         {
             using(var manager = new RefreshManager<ServiceDataObject>(objects))
             {
-                using (NativeSCManager scm = new NativeSCManager())
+                using (NativeSCManager scm = new NativeSCManager(MachineName))
                 {
                     foreach (ENUM_SERVICE_STATUS_PROCESS essp in scm.Refresh(ServicesType))
                     {

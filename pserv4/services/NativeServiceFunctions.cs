@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Runtime.InteropServices;
 using Microsoft.Win32.SafeHandles;
+using System.Diagnostics;
 
 namespace pserv4.services
 {
@@ -574,6 +575,31 @@ namespace pserv4.services
         [DllImport("advapi32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
         public static extern unsafe bool DeleteService(
             IntPtr serviceHandle);
+
+        public static bool ChangeServiceDescription(IntPtr Handle, string description)
+        {
+            try
+            {
+                SERVICE_DESCRIPTION sd = new SERVICE_DESCRIPTION();
+                sd.Description = description;
+
+                const int cbBufSize = 8 * 1024;
+
+                IntPtr lpMemory = Marshal.AllocHGlobal((int)cbBufSize);
+                Marshal.StructureToPtr(sd, lpMemory, false);
+
+                bool result = NativeServiceFunctions.ChangeServiceConfig2(Handle, SC_SERVICE_CONFIG.SERVICE_CONFIG_DESCRIPTION, lpMemory);
+
+                Marshal.FreeHGlobal(lpMemory);
+
+                return result;
+            }
+            catch(Exception e)
+            {
+                Trace.TraceInformation(e.ToString());
+                return false;
+            }
+        }   
 
         public const int ERROR_MORE_DATA = 234;
 
