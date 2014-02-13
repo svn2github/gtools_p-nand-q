@@ -123,9 +123,7 @@ namespace pserv4.uninstaller
                 AppendMenuItem(menu, Resources.UNINSTALLER_START_CMD, "application_xp_terminal", OnBringUpTerminal);
                 menu.Items.Add(new Separator());
                 AppendMenuItem(menu, Resources.UNINSTALLER_FORCE_UNINSTALL, "delete", OnRemoveFromRegistry);
-                menu.Items.Add(new Separator());
-                AppendMenuItem(menu, Resources.IDS_PROPERTIES, "database_gear", ShowProperties);
-                return menu;
+                return AppendDefaultItems(menu);
             }
         }
 

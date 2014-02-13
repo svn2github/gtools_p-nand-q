@@ -98,10 +98,9 @@ namespace pserv4.services
                 AppendMenuItem(menu, Resources.SERVICES_START_CMD, "application_xp_terminal", OnBringUpTerminal);
                 menu.Items.Add(new Separator());
 
-                AppendMenuItem(menu, Resources.SERVICES_UNINSTALL, "delete", ShowProperties);
-                menu.Items.Add(new Separator());
-                AppendMenuItem(menu, Resources.IDS_PROPERTIES, "database_gear", ShowProperties);
-                return menu;
+                AppendMenuItem(menu, Resources.SERVICES_UNINSTALL, "application_form_delete", OnUnstall).IsEnabled = false;
+                AppendMenuItem(menu, Resources.SERVICES_DELETE_REGISTRY, "delete", OnDeleteRegistry).IsEnabled = false;
+                return AppendDefaultItems(menu);
             }
         }
 
@@ -258,6 +257,15 @@ namespace pserv4.services
             DispatchCallback((sdo) => { return sdo.BringUpTerminalInInstallLocation(); });
         }
 
+        public void OnUnstall(object sender, RoutedEventArgs e)
+        {
+            // TODO 
+        }
+
+        public void OnDeleteRegistry(object sender, RoutedEventArgs e)
+        {
+            // TODO
+        }
 
         public override void Refresh(ObservableCollection<DataObject> objects)
         {

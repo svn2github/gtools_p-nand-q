@@ -22,17 +22,26 @@ namespace pserv4.modules
         public string Product { get; private set; }
         public string ProductVersion { get; private set; }
 
+        public readonly int ID;
+
         public void Refresh(Process p, ProcessModule m, bool isDisabled)
         {
             SetStringProperty("ProcessID", p.Id );
-            SetStringProperty("Name", System.IO.Path.GetFileName(m.FileName));
+            if(SetStringProperty("Name", System.IO.Path.GetFileName(m.FileName)))
+            {
+                SetStringProperty("ToolTipCaption", Name);
+            }
+
             SetStringProperty("Path", System.IO.Path.GetDirectoryName(m.FileName));
             SetStringProperty("ModuleMemorySize", Localisation.BytesToSize(m.ModuleMemorySize));
 
             FileVersionInfoCache.CacheInfo ci = FileVersionInfoCache.Get(m.FileName, m);
             if( ci != null )
             {
-                SetStringProperty("FileDescription", ci.FileDescription);
+                if(SetStringProperty("FileDescription", ci.FileDescription))
+                {
+                    SetStringProperty("ToolTip", ci.FileDescription);
+                }
                 SetStringProperty("FileVersion", ci.FileVersion);
                 SetStringProperty("Product", ci.ProductName);
                 SetStringProperty("ProductVersion", ci.ProductVersion);
@@ -42,10 +51,20 @@ namespace pserv4.modules
             SetDisabled(isDisabled);
         }
 
+        public bool BringUpExplorerInInstallLocation()
+        {
+            return BringUpExplorer(Path);
+        }
+
+        public bool BringUpTerminalInInstallLocation()
+        {
+            return BringUpTerminal(Path);
+        }
 
         public ModuleDataObject(Process p, ProcessModule m, bool isDisabled)
             :   base(string.Format("{0}.{1}", p.Id, m.FileName))
         {
+            ID = p.Id;
             Refresh(p, m, isDisabled);
             ConstructionIsFinished = true;
         }

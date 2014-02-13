@@ -73,7 +73,7 @@ namespace pserv4
             }
         }
 
-        protected void AppendMenuItem(ContextMenu menu, string header, BitmapImage[] images, bool enabled, RoutedEventHandler callback)
+        protected MenuItem AppendMenuItem(ContextMenu menu, string header, BitmapImage[] images, bool enabled, RoutedEventHandler callback)
         {
             MenuItem mi = new MenuItem();
             mi.Header = header;
@@ -86,6 +86,7 @@ namespace pserv4
             mi.IsEnabled = enabled;
             mi.Click += callback;
             menu.Items.Add(mi);
+            return mi;
         }
 
         public virtual void ApplyChanges(List<IDataObjectDetails> changedItems)
@@ -93,7 +94,7 @@ namespace pserv4
             // default implementation: do nothing
         }
 
-        protected void AppendMenuItem(ContextMenu menu, string header, string imageName, RoutedEventHandler callback)
+        protected MenuItem AppendMenuItem(ContextMenu menu, string header, string imageName, RoutedEventHandler callback)
         {
             MenuItem mi = new MenuItem();
             mi.Header = header;
@@ -103,6 +104,17 @@ namespace pserv4
             mi.Icon = i;
             mi.Click += callback;
             menu.Items.Add(mi);
+            return mi;
+        }
+
+        protected ContextMenu AppendDefaultItems(ContextMenu menu)
+        {
+            menu.Items.Add(new Separator());
+            AppendMenuItem(menu, Resources.IDS_SAVE_AS_XML, "database_save", MainWindow.Instance.SaveAsXML);
+            AppendMenuItem(menu, Resources.IDS_COPY_TO_CLIPBOARD, "database_lightning", MainWindow.Instance.CopyToClipboard);
+            menu.Items.Add(new Separator());
+            AppendMenuItem(menu, Resources.IDS_PROPERTIES, "database_gear", ShowProperties);
+            return menu;
         }
 
 

@@ -52,6 +52,17 @@ namespace pserv4.windows
                 return ActualColumns;
             }
         }
+
+        public override ContextMenu ContextMenu
+        {
+            get
+            {
+                ContextMenu menu = base.ContextMenu;
+
+                return AppendDefaultItems(menu);
+            }
+        }
+
         private void OnShowWindow(int state)
         {
             foreach (WindowDataObject wdo in MainListView.SelectedItems)

@@ -141,6 +141,7 @@ namespace pserv4
             }
         }
 
+
         public bool BringUpTerminal(string directory)
         {
             Trace.TraceInformation("{0}.BringUpTerminal({1}) called", this, directory);

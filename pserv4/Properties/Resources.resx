@@ -135,6 +135,9 @@
   <data name="IDS_CONFIRMATION" xml:space="preserve">
     <value>Confirmation</value>
   </data>
+  <data name="IDS_COPY_TO_CLIPBOARD" xml:space="preserve">
+    <value>Copy to clipboard</value>
+  </data>
   <data name="IDS_PROCESS_CSRSS" xml:space="preserve">
     <value>Client Server Runtime Process</value>
   </data>
@@ -149,6 +152,9 @@
   </data>
   <data name="IDS_PROPERTIES" xml:space="preserve">
     <value>Properties</value>
+  </data>
+  <data name="IDS_SAVE_AS_XML" xml:space="preserve">
+    <value>Save as XML</value>
   </data>
   <data name="IDS_UNINSTALLER_SureToRemoveKey" xml:space="preserve">
     <value>Are you sure you want to remove this product: {0}?</value>
@@ -302,6 +308,9 @@
   </data>
   <data name="SERVICES_CTRL_STOP_Description" xml:space="preserve">
     <value>Stop the selected service(s)</value>
+  </data>
+  <data name="SERVICES_DELETE_REGISTRY" xml:space="preserve">
+    <value>Delete Registry (*)</value>
   </data>
   <data name="SERVICES_SET_START_AUTOMATIC" xml:space="preserve">
     <value>Startup: Automatic</value>

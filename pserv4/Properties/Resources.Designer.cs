@@ -115,6 +115,15 @@ namespace pserv4.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Copy to clipboard.
+        /// </summary>
+        internal static string IDS_COPY_TO_CLIPBOARD {
+            get {
+                return ResourceManager.GetString("IDS_COPY_TO_CLIPBOARD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Client Server Runtime Process.
         /// </summary>
         internal static string IDS_PROCESS_CSRSS {
@@ -156,6 +165,15 @@ namespace pserv4.Properties {
         internal static string IDS_PROPERTIES {
             get {
                 return ResourceManager.GetString("IDS_PROPERTIES", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save as XML.
+        /// </summary>
+        internal static string IDS_SAVE_AS_XML {
+            get {
+                return ResourceManager.GetString("IDS_SAVE_AS_XML", resourceCulture);
             }
         }
         
@@ -1038,6 +1056,15 @@ namespace pserv4.Properties {
         internal static string SERVICES_CTRL_STOP_Description {
             get {
                 return ResourceManager.GetString("SERVICES_CTRL_STOP_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete Registry (*).
+        /// </summary>
+        internal static string SERVICES_DELETE_REGISTRY {
+            get {
+                return ResourceManager.GetString("SERVICES_DELETE_REGISTRY", resourceCulture);
             }
         }
         

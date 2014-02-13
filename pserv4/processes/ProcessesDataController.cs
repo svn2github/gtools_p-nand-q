@@ -128,12 +128,12 @@ namespace pserv4.processes
 
         public void OnKillProcess(object sender, RoutedEventArgs e)
         {
-            DispatchCallback((pdo) => { return pdo.KillProcess(); });
+            DispatchCallback((pdo) => { return ProcessExtensions.KillProcessById(pdo.ID); });
         }
 
         public void OnDebugProcess(object sender, RoutedEventArgs e)
         {
-            DispatchCallback((pdo) => { return pdo.DebugProcess(); });
+            DispatchCallback((pdo) => { return ProcessExtensions.DebugProcessById(pdo.ID); });
         }
 
         public override ContextMenu ContextMenu
@@ -142,16 +142,13 @@ namespace pserv4.processes
             {
                 ContextMenu menu = new ContextMenu(); // base.ContextMenu;
 
-                //menu.Items.Add(new Separator());
                 AppendMenuItem(menu, Resources.PROCESS_BRING_UP_EXPLORER, "folder_find", OnBringUpExplorer);
                 AppendMenuItem(menu, Resources.PROCESS_START_CMD, "application_xp_terminal", OnBringUpTerminal);
                 menu.Items.Add(new Separator());
                 AppendMenuItem(menu, Resources.PROCESS_DEBUG_PROCESS, "application_lightning", OnDebugProcess);
                 menu.Items.Add(new Separator());
                 AppendMenuItem(menu, Resources.PROCESS_KILL_PROCESS, "application_form_delete", OnKillProcess);
-                menu.Items.Add(new Separator());
-                AppendMenuItem(menu, Resources.IDS_PROPERTIES, "database_gear", ShowProperties);
-                return menu;
+                return AppendDefaultItems(menu);
             }
         }
     }

@@ -26,7 +26,8 @@ namespace pserv4
     /// </summary>
     public partial class MainWindow : Window
     {
-        
+        public static MainWindow Instance;
+
         protected class DataView
         {
             public readonly DataController Controller;
@@ -69,6 +70,7 @@ namespace pserv4
         public MainWindow(MainViewType initialControl)
         {
             InitializeComponent();
+            Instance = this;
             InitialControl = initialControl;
             CurrentViewType = MainViewType.Invalid;
             KnownViews[MainViewType.Services] = new DataView(new services.ServicesDataController(), ButtonServices);
@@ -469,12 +471,12 @@ namespace pserv4
             return list;
         }
 
-        private void CopyToClipboard(object sender, RoutedEventArgs e)
+        public void CopyToClipboard(object sender, RoutedEventArgs e)
         {
             CurrentController.SaveAsXml(null, GetExportItems());
         }
 
-        private void SaveAsXML(object sender, RoutedEventArgs e)
+        public void SaveAsXML(object sender, RoutedEventArgs e)
         {
             SaveFileDialog dialog = new SaveFileDialog();
 
