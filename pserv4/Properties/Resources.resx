@@ -157,10 +157,10 @@
     <value>Save as XML</value>
   </data>
   <data name="IDS_SERVICES_CAPTION_LOCAL_MACHINE" xml:space="preserve">
-    <value>{0} on \\\\{1} (this machine)</value>
+    <value>{0} on \\{1} (this machine)</value>
   </data>
   <data name="IDS_SERVICES_CAPTION_REMOTE_MACHINE" xml:space="preserve">
-    <value>{0} on \\\\{1}</value>
+    <value>{0} on \\{1}</value>
   </data>
   <data name="IDS_SERVICES_CONNECT_LOCAL_MACHINE" xml:space="preserve">
     <value>Connect to local machine</value>

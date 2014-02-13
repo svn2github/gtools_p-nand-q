@@ -210,14 +210,21 @@ namespace pserv4
                 {
                     if( !c.BindingName.Equals("InternalID"))
                     {
-                        object item = t.GetProperty(c.BindingName).GetValue(o, null);
-                        if( item != null)
+                        try
                         {
-                            string value = item as string;
-                            if (value == null)
-                                value = item.ToString();
+                            object item = t.GetProperty(c.BindingName).GetValue(o, null);
+                            if (item != null)
+                            {
+                                string value = item as string;
+                                if (value == null)
+                                    value = item.ToString();
 
-                            xtw.WriteElementString(c.BindingName, value);
+                                xtw.WriteElementString(c.BindingName, value);
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            Trace.TraceError(e.ToString());
                         }
                     }
                 }

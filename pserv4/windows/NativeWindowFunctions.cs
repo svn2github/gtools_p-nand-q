@@ -153,7 +153,7 @@ namespace pserv4.windows
             UIntPtr lRes = new UIntPtr(1860);
             if (SendMessageTimeout(hwnd, WM_GETTEXT, 10240, sb, SMTO_ABORTIFHUNG, 1000, out lRes) == 0)
             {
-                Trace.TraceError("SendMessageTimeout() failed with {0}", Marshal.GetLastWin32Error());
+                NativeHelpers.ReportFailure("SendMessageTimeout({0})", hwnd);
                 windowTimedOut = true;
                 return "???";
             }

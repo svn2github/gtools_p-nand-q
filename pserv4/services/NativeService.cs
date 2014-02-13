@@ -17,25 +17,34 @@ namespace pserv4.services
         /// </summary>
         public readonly IntPtr Handle;
 
+        public readonly string ServiceName;
+
+        public readonly bool IsValid;
+
+        public override string ToString()
+        {
+            return string.Format("NativeService({0}: {1})", Handle.ToInt32(), ServiceName);
+        }
+
         /// <summary>
         /// The constructor opens access to the service
         /// </summary>
         /// <param name="scm">The SCM instance that contains the service</param>
         /// <param name="ServiceName">Name of the service</param>
         /// <param name="am">Access rights required.</param>
-        public NativeService(NativeSCManager scm, string ServiceName, ACCESS_MASK am = ACCESS_MASK.STANDARD_RIGHTS_READ | ACCESS_MASK.GENERIC_READ)
+        public NativeService(NativeSCManager scm, string serviceName, ACCESS_MASK am = ACCESS_MASK.STANDARD_RIGHTS_READ | ACCESS_MASK.GENERIC_READ)
         {
+            ServiceName = serviceName;
+
             Handle = NativeServiceFunctions.OpenService(
                 scm.Handle,
-                ServiceName,
+                serviceName,
                 (uint)am);
 
-            if( Handle.ToInt32() == 0 )
+            IsValid = (Handle.ToInt32() != 0);
+            if (!IsValid)
             {
-                int lastError = Marshal.GetLastWin32Error();
-                Trace.TraceError("ERROR {0}: OpenService failed with {1}",
-                    lastError,
-                    new Win32Exception(lastError).Message);
+                NativeHelpers.ReportFailure("OpenService({0}, {1})", serviceName, am);
             }
         }
 
@@ -46,24 +55,26 @@ namespace pserv4.services
         {
             get
             {
-                const int cbBufSize = 8 * 1024;
-                int cbBytesNeeded = 0;
-
-                IntPtr lpMemory = Marshal.AllocHGlobal((int)cbBufSize);
-
-                if (NativeServiceFunctions.QueryServiceConfig(Handle, lpMemory, cbBufSize, ref cbBytesNeeded))
+                if (!IsValid)
                 {
-                    return (QUERY_SERVICE_CONFIG)
-                        Marshal.PtrToStructure(
-                            new IntPtr(lpMemory.ToInt32()),
-                            typeof(QUERY_SERVICE_CONFIG));
+                    Trace.TraceWarning("ServiceConfig not available for '{0}'", ServiceName);
                 }
-                int lastError = Marshal.GetLastWin32Error();
-                Trace.TraceError("ERROR {0}: QueryServiceConfig failed with {1}", 
-                    lastError,
-                    new Win32Exception(lastError).Message);
+                else
+                {
+                    const int cbBufSize = 8 * 1024;
+                    int cbBytesNeeded = 0;
 
-                Trace.TraceInformation("Handle: {0}", Handle);
+                    IntPtr lpMemory = Marshal.AllocHGlobal((int)cbBufSize);
+
+                    if (NativeServiceFunctions.QueryServiceConfig(Handle, lpMemory, cbBufSize, ref cbBytesNeeded))
+                    {
+                        return (QUERY_SERVICE_CONFIG)
+                            Marshal.PtrToStructure(
+                                new IntPtr(lpMemory.ToInt32()),
+                                typeof(QUERY_SERVICE_CONFIG));
+                    }
+                    NativeHelpers.ReportFailure("QueryServiceConfig({0})", ServiceName);
+                }
                 return null;
             }
         }
@@ -75,23 +86,31 @@ namespace pserv4.services
         {
             get
             {
-                const int cbBufSize = 8 * 1024;
-                int cbBytesNeeded = 0;
-
-                IntPtr lpMemory = Marshal.AllocHGlobal((int)cbBufSize);
-
-                if (NativeServiceFunctions.QueryServiceConfig2(
-                        Handle, 
-                        SC_SERVICE_CONFIG_INFO_LEVEL.SERVICE_CONFIG_DESCRIPTION, 
-                        lpMemory, 
-                        cbBufSize, 
-                        out cbBytesNeeded))
+                if (!IsValid)
                 {
-                    SERVICE_DESCRIPTION sd = (SERVICE_DESCRIPTION)
-                        Marshal.PtrToStructure(
-                            new IntPtr(lpMemory.ToInt32()),
-                            typeof(SERVICE_DESCRIPTION));
-                    return sd.Description;
+                    Trace.TraceWarning("Description not available for '{0}'", ServiceName);
+                }
+                else
+                {
+                    const int cbBufSize = 8 * 1024;
+                    int cbBytesNeeded = 0;
+
+                    IntPtr lpMemory = Marshal.AllocHGlobal((int)cbBufSize);
+
+                    if (NativeServiceFunctions.QueryServiceConfig2(
+                            Handle,
+                            SC_SERVICE_CONFIG_INFO_LEVEL.SERVICE_CONFIG_DESCRIPTION,
+                            lpMemory,
+                            cbBufSize,
+                            out cbBytesNeeded))
+                    {
+                        SERVICE_DESCRIPTION sd = (SERVICE_DESCRIPTION)
+                            Marshal.PtrToStructure(
+                                new IntPtr(lpMemory.ToInt32()),
+                                typeof(SERVICE_DESCRIPTION));
+                        return sd.Description;
+                    }
+                    NativeHelpers.ReportFailure("QueryServiceConfig2({0})", ServiceName);
                 }
                 return null;
             }

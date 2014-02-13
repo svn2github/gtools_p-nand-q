@@ -38,6 +38,11 @@ namespace pserv4.services
                                         so.DisplayName,
                                         ServicesLocalisation.Localized(so.CurrentState)));
 
+                        if( so.CurrentState == SC_RUNTIME_STATUS.SERVICE_STOPPED )
+                        {
+                            ServiceAccessMask &= ~(ACCESS_MASK.SERVICE_STOP);
+                        }
+
                         using (NativeService ns = new NativeService(scm, so.InternalID, ServiceAccessMask))
                         {
                             bool requestedStatusChange = false;
@@ -56,7 +61,7 @@ namespace pserv4.services
                                     SetOutputText(string.Format("Service {0}/{1}: {2} is now in state {3}",
                                         serviceIndex,
                                         Services.Count,
-                                        so.DisplayName, 
+                                        so.DisplayName,
                                         ServicesLocalisation.Localized(ss.Status.CurrentState)));
                                     
                                     if (SSR.HasSuccess(ss.Status.CurrentState))

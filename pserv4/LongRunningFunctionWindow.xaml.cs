@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Diagnostics;
 
 namespace pserv4
 {
@@ -45,6 +46,7 @@ namespace pserv4
 
         private void SetOutputText(string message)
         {
+            Trace.TraceInformation("SetOutputText: {0}", message);
             this.Dispatcher.Invoke(
                 new BackgroundAction.SetOutputTextDelegate(SetOutputTextInUIThread),
                 message);

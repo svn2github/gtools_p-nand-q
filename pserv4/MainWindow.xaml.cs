@@ -28,6 +28,9 @@ namespace pserv4
     {
         public static MainWindow Instance;
 
+        private services.ServiceStateRequest InitialSSR = null;
+        private List<string> InitialServiceNames = null;
+
         protected class DataView
         {
             public readonly DataController Controller;
@@ -102,7 +105,7 @@ namespace pserv4
             Trace.TraceInformation("*** END TIMER TICK: {0}", System.Threading.Thread.CurrentThread.ManagedThreadId);
         }
 
-        private void SwitchController(MainViewType newViewType)
+        public void SwitchController(MainViewType newViewType, bool visible = true)
         {
             Trace.TraceInformation("*** SwitchController {0}", System.Threading.Thread.CurrentThread.ManagedThreadId);
             if (CurrentViewType == newViewType)
@@ -111,15 +114,19 @@ namespace pserv4
             using (new WaitCursor())
             {
                 Items.Clear();
-                MainGridView.Columns.Clear();
-                ICollectionView dataView = CollectionViewSource.GetDefaultView(Items);
-                dataView.SortDescriptions.Clear();
-
-                if (CurrentViewType != MainViewType.Invalid)
+                if (visible)
                 {
-                    KnownViews[CurrentViewType].Button.Background = UnselectedBackgroundColor;
-                    KnownViews[CurrentViewType].Button.Foreground = UnselectedForegroundColor;
+                    MainGridView.Columns.Clear();
+                    ICollectionView dataView = CollectionViewSource.GetDefaultView(Items);
+                    dataView.SortDescriptions.Clear();
+
+                    if (CurrentViewType != MainViewType.Invalid)
+                    {
+                        KnownViews[CurrentViewType].Button.Background = UnselectedBackgroundColor;
+                        KnownViews[CurrentViewType].Button.Foreground = UnselectedForegroundColor;
+                    }
                 }
+
 
                 // cleanup
                 CurrentController = KnownViews[newViewType].Controller;
@@ -128,34 +135,53 @@ namespace pserv4
                 CurrentController.Refresh(Items);
                 FindThisText.Text = "";
 
-                MainListView.ItemsSource = Items;   //your query result 
-
-                foreach (DataObjectColumn oc in CurrentController.Columns)
+                if( visible )
                 {
-                    GridViewColumn column = new GridViewColumn();
-                    column.Header = oc.DisplayName;
-                    column.DisplayMemberBinding = new Binding(oc.BindingName);
-                    column.Width = System.Double.NaN;
-                    MainGridView.Columns.Add(column);
+                    MainListView.ItemsSource = Items;   //your query result 
+
+                    foreach (DataObjectColumn oc in CurrentController.Columns)
+                    {
+                        GridViewColumn column = new GridViewColumn();
+                        column.Header = oc.DisplayName;
+                        column.DisplayMemberBinding = new Binding(oc.BindingName);
+                        column.Width = System.Double.NaN;
+                        MainGridView.Columns.Add(column);
+                    }
+                    CurrentController.MainListView = MainListView;
+                    MainListView.ContextMenu = CurrentController.ContextMenu;
+                    MainListView.ContextMenuOpening += MainListView_ContextMenuOpening;
+
+                    UpdateDefaultStatusBar();
+
+                    TbControlStart.Text = CurrentController.ControlStartDescription;
+                    TbControlStop.Text = CurrentController.ControlStopDescription;
+                    TbControlRestart.Text = CurrentController.ControlRestartDescription;
+                    TbControlPause.Text = CurrentController.ControlPauseDescription;
+                    TbControlContinue.Text = CurrentController.ControlContinueDescription;
+
+                    UpdateTitle();
+
+                    CreateInitialSort();
+                    KnownViews[newViewType].Button.Background = SelectedBackgroundColor;
+                    KnownViews[newViewType].Button.Foreground = SelectedForegroundColor;
                 }
-                CurrentController.MainListView = MainListView;
-                MainListView.ContextMenu = CurrentController.ContextMenu;
-                MainListView.ContextMenuOpening += MainListView_ContextMenuOpening;
-
-                UpdateDefaultStatusBar();
-
-                TbControlStart.Text = CurrentController.ControlStartDescription;
-                TbControlStop.Text = CurrentController.ControlStopDescription;
-                TbControlRestart.Text = CurrentController.ControlRestartDescription;
-                TbControlPause.Text = CurrentController.ControlPauseDescription;
-                TbControlContinue.Text = CurrentController.ControlContinueDescription;
-
-                UpdateTitle();
-
-                CreateInitialSort();
                 CurrentViewType = newViewType;
-                KnownViews[CurrentViewType].Button.Background = SelectedBackgroundColor;
-                KnownViews[CurrentViewType].Button.Foreground = SelectedForegroundColor;
+
+
+                if( (InitialSSR != null) && (InitialServiceNames != null) )
+                {
+                    if (newViewType == MainViewType.Services )
+                    {
+                        services.ServicesDataController sdc = CurrentController as services.ServicesDataController;
+                        sdc.PerformExplicitRequest(InitialSSR, InitialServiceNames);
+                        Close();
+                    }
+                    else
+                    {
+                        InitialSSR = null;
+                        InitialServiceNames = null;
+                    }
+                }
             }
         }
 
@@ -473,6 +499,8 @@ namespace pserv4
             IList list = MainListView.SelectedItems;
             if (list.Count == 0)
                 list = MainListView.Items;
+            if (list.Count == 0)
+                list = Items;
             return list;
         }
 
@@ -481,19 +509,39 @@ namespace pserv4
             CurrentController.SaveAsXml(null, GetExportItems());
         }
 
+        public void SetInitialAction(services.ServiceStateRequest initialSSR, List<string> initialServiceNames)
+        {
+            InitialSSR = initialSSR;
+            InitialServiceNames = initialServiceNames;
+        }
+
         public void SaveAsXML(object sender, RoutedEventArgs e)
         {
-            SaveFileDialog dialog = new SaveFileDialog();
-
-            // Set filter for file extension and default file extension 
-            dialog.DefaultExt = ".xml";
-            dialog.Filter = "XML Files (*.xml)|*.xml|All Files (*.*)|*.*";
-
-            // Display OpenFileDialog by calling ShowDialog method 
-            bool? result = dialog.ShowDialog();
-            if( result.HasValue && result.Value)
+            string filename;
+            if( (e == null) && (sender is string))
             {
-                CurrentController.SaveAsXml(dialog.FileName, GetExportItems());
+                filename = sender as string;
+            }
+            else
+            {
+                SaveFileDialog dialog = new SaveFileDialog();
+                // Set filter for file extension and default file extension 
+                dialog.DefaultExt = ".xml";
+                dialog.Filter = "XML Files (*.xml)|*.xml|All Files (*.*)|*.*";
+
+                // Display OpenFileDialog by calling ShowDialog method 
+                bool? result = dialog.ShowDialog();
+                if (result.HasValue && result.Value)
+                {
+                    filename = dialog.FileName;
+                }
+                else return;
+            }
+            CurrentController.SaveAsXml(filename, GetExportItems());
+
+            if ((sender == null) && (e == null))
+            {
+                Process.Start(filename);
             }
         }
 

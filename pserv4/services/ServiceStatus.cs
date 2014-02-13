@@ -18,19 +18,28 @@ namespace pserv4.services
             Memory = Marshal.AllocHGlobal(Marshal.SizeOf(Status));
         }
 
-        
-
         public bool Start()
         {
+            if( !Service.IsValid )
+            {
+                Trace.TraceWarning("Warning, don't attempt to call StartService on {0}", Service);
+                return false;
+            }
+            Trace.TraceInformation("StartService({0})", Service);
             if (NativeServiceFunctions.StartService(Service.Handle, 0, Memory))
                 return true;
 
-            Trace.WriteLine("ERROR, unable to startup service {0}", Service.Description);
-            return false;
+            return NativeHelpers.ReportFailure("StartService({0})", Service);
         }
 
         public bool Control(SC_CONTROL_CODE code)
         {
+            if (!Service.IsValid)
+            {
+                Trace.TraceWarning("Warning, don't attempt to call Control({1}) on {0}", Service, code);
+                return false;
+            }
+            Trace.TraceInformation("ControlService({0}, {1})", Service, code);
             if (NativeServiceFunctions.ControlService(Service.Handle, code, Memory))
             {
                 Status = (SERVICE_STATUS_PROCESS)Marshal.PtrToStructure(
@@ -39,14 +48,16 @@ namespace pserv4.services
                 Trace.TraceInformation("Currentstatus = {0}", Status.CurrentState);
                 return true;
             }
-            Trace.TraceInformation("ERROR, unable to set control {0} for service {1}",
-                Marshal.GetLastWin32Error(), Service.Description);
-
-            return false;
+            return NativeHelpers.ReportFailure("ControlService({0}, {1})", Service, code);
         }
 
         public bool Refresh()
         {
+            if (!Service.IsValid)
+            {
+                Trace.TraceWarning("Warning, don't attempt to call QueryServiceStatusEx() on {0}", Service);
+                return false;
+            }
             int bytesNeeded;
 
             if (NativeServiceFunctions.QueryServiceStatusEx(
@@ -62,8 +73,7 @@ namespace pserv4.services
                 Trace.TraceInformation("CurrentStatus as returned by QSSE = {0}", Status.CurrentState);
                 return true;
             }
-            Trace.WriteLine("ERROR, QueryServiceStatusEx() failed, aborting...");
-            return false;
+            return NativeHelpers.ReportFailure("QueryServiceStatusEx({0})", Service);
         }
 
         #region IDisposable Members

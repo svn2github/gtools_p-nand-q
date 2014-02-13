@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Windows;
+using System.Diagnostics;
 
 namespace pserv4
 {
@@ -19,9 +20,9 @@ namespace pserv4
             MainViewType initialView = MainViewType.Services;
             services.ServiceStateRequest ssr = null;
             bool dumpXml = false;
+            bool useClipboard = false;
             string dumpXmlFilename = null;
             List<string> servicenames = new List<string>();
-
 
             foreach(string arg in args)
             {
@@ -40,6 +41,11 @@ namespace pserv4
                         initialView = MainViewType.Windows;
                     else if (key.Equals("DUMPXML"))
                         dumpXml = true;
+                    else if (key.Equals("CLIPBOARD"))
+                    {
+                        dumpXml = true;
+                        useClipboard = true;
+                    }
                     else if (key.Equals("START"))
                         ssr = new services.RequestServiceStart();
                     else if (key.Equals("STOP"))
@@ -64,17 +70,27 @@ namespace pserv4
             MainWindow wnd = new MainWindow(initialView);
             if (dumpXml)
             {
-                if( string.IsNullOrEmpty(dumpXmlFilename))
+                wnd.SwitchController(initialView, false);
+                if (useClipboard)
                 {
-
+                    wnd.CopyToClipboard(null, null);
+                }
+                else if (string.IsNullOrEmpty(dumpXmlFilename))
+                {
+                    wnd.SaveAsXML(null, null);
                 }
                 else
                 {
-
+                    wnd.SaveAsXML(dumpXmlFilename, null);
                 }
+                Shutdown();
             }
             else
             {
+                if( ssr != null )
+                {
+                    wnd.SetInitialAction(ssr, servicenames);
+                }
                 wnd.Show();
             }
         }

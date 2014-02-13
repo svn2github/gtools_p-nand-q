@@ -196,7 +196,7 @@ namespace pserv4.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} on \\\\{1} (this machine).
+        ///   Looks up a localized string similar to {0} on \\{1} (this machine).
         /// </summary>
         internal static string IDS_SERVICES_CAPTION_LOCAL_MACHINE {
             get {
@@ -205,7 +205,7 @@ namespace pserv4.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} on \\\\{1}.
+        ///   Looks up a localized string similar to {0} on \\{1}.
         /// </summary>
         internal static string IDS_SERVICES_CAPTION_REMOTE_MACHINE {
             get {

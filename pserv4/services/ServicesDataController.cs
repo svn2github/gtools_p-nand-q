@@ -232,6 +232,28 @@ namespace pserv4.services
             SetMenuItemEnabled(menu, 4, IsControlContinueEnabled);
         }
 
+        public void PerformExplicitRequest(ServiceStateRequest ssr, List<string> serviceNames)
+        {
+            PerformServiceStateRequest pssr = new PerformServiceStateRequest(ssr);
+            
+            // OK, so this code is not very efficient and I should really be using a dictionary.
+            // BUT. I expect one or at max two services to be passed, so who cares?
+            foreach (ServiceDataObject sdo in MainListView.Items)
+            {
+                foreach(string serviceName in serviceNames)
+                {
+                    if(serviceName.Equals(sdo.InternalID, StringComparison.OrdinalIgnoreCase) )
+                    {
+                        pssr.Services.Add(sdo);
+                        break;
+                    }
+                }
+            }
+            if (pssr.Services.Count > 0)
+            {
+                new LongRunningFunctionWindow(pssr).ShowDialog();
+            }
+        }
 
         private void OnChangeServiceStatus(ServiceStateRequest ssr)
         {
