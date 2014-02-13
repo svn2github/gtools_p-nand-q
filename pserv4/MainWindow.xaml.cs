@@ -18,6 +18,7 @@ using System.Reflection;
 using System.Collections;
 using Microsoft.Win32;
 using System.Windows.Threading;
+using log4net;
 
 namespace pserv4
 {
@@ -26,6 +27,7 @@ namespace pserv4
     /// </summary>
     public partial class MainWindow : Window
     {
+        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         public static MainWindow Instance;
 
         private services.ServiceStateRequest InitialSSR = null;
@@ -98,18 +100,19 @@ namespace pserv4
 
         private void timer_Tick(object sender, EventArgs e)
         {
-            Trace.TraceInformation("*** BEGIN TIMER TICK: {0}", System.Threading.Thread.CurrentThread.ManagedThreadId);
+            Log.InfoFormat("*** BEGIN TIMER TICK: {0}", System.Threading.Thread.CurrentThread.ManagedThreadId);
 
             RefreshDisplay(sender, null);
 
-            Trace.TraceInformation("*** END TIMER TICK: {0}", System.Threading.Thread.CurrentThread.ManagedThreadId);
+            Log.InfoFormat("*** END TIMER TICK: {0}", System.Threading.Thread.CurrentThread.ManagedThreadId);
         }
 
         public void SwitchController(MainViewType newViewType, bool visible = true)
         {
-            Trace.TraceInformation("*** SwitchController {0}", System.Threading.Thread.CurrentThread.ManagedThreadId);
             if (CurrentViewType == newViewType)
                 return;
+
+            Log.InfoFormat("**** BEGIN SwitchController(): switch from {0} to {1} **** ", CurrentViewType, newViewType);
 
             using (new WaitCursor())
             {
@@ -132,7 +135,18 @@ namespace pserv4
                 CurrentController = KnownViews[newViewType].Controller;
 
                 // create columns
-                CurrentController.Refresh(Items);
+                DateTime startTime = DateTime.Now;
+                try
+                {
+                    CurrentController.Refresh(Items);
+                }
+                catch(Exception e)
+                {
+                    Log.Error(string.Format("{0}.Refresh()", CurrentController), e);
+                }
+                Log.InfoFormat("Total time for CurrentController.Refresh: {0}", DateTime.Now - startTime);
+                Log.InfoFormat("Total items count: {0}", Items.Count);
+                
                 FindThisText.Text = "";
 
                 if( visible )
@@ -167,7 +181,6 @@ namespace pserv4
                 }
                 CurrentViewType = newViewType;
 
-
                 if( (InitialSSR != null) && (InitialServiceNames != null) )
                 {
                     if (newViewType == MainViewType.Services )
@@ -183,6 +196,8 @@ namespace pserv4
                     }
                 }
             }
+
+            Log.Info("**** END SwitchController() ****");
         }
 
         public void UpdateTitle()
@@ -196,8 +211,9 @@ namespace pserv4
             {
                 CurrentController.OnContextMenuOpening(MainListView.SelectedItems, MainListView.ContextMenu);
             }
-            catch(Exception)
+            catch(Exception ex)
             {
+                Log.Error("MainListView_ContextMenuOpening", ex);
             }
         }
 
@@ -268,8 +284,6 @@ namespace pserv4
             dt.Tick += new EventHandler(timer_Tick);
             dt.Interval = new TimeSpan(0, 0, 5); // execute every hour
             dt.Start();
-
-            Trace.TraceInformation("*** START TICK: {0}", System.Threading.Thread.CurrentThread.ManagedThreadId);
         }
 
         private void Zoom_MouseWheel(object sender, MouseWheelEventArgs e)
@@ -364,6 +378,14 @@ namespace pserv4
             SbHidden.Text = string.Format("{0} filtered", nHidden);
             SbTotal.Text = string.Format("{0} total", Items.Count);
             SbSelected.Text = string.Format("{0} selected", MainListView.SelectedItems.Count);
+
+            Log.InfoFormat("UpdateDefaultStatusBar: {0}, {1}, {2}, {3}, {4}, {5}",
+                SbVisible.Text,
+                SbHighlighted.Text,
+                SbDisabled.Text,
+                SbHidden.Text,
+                SbTotal.Text,
+                SbSelected.Text);
         }
 
         private void UpdateFilteredStatusBar()
@@ -393,6 +415,12 @@ namespace pserv4
             SbHighlighted.Text = string.Format("{0} highlighted", nHighlighted);
             SbDisabled.Text = string.Format("{0} disabled", nDisabled);
             SbHidden.Text = string.Format("{0} filtered", nHidden);
+
+            Log.InfoFormat("UpdateFilteredStatusBar: {0}, {1}, {2}, {3}",
+                SbVisible.Text,
+                SbHighlighted.Text,
+                SbDisabled.Text,
+                SbHidden.Text);
         }
 
         private void FindThisText_TextChanged(object sender, TextChangedEventArgs e)
@@ -415,7 +443,6 @@ namespace pserv4
             DataObject item = obj as DataObject;
             if (item == null) 
                 return false;
-
 
             string findThisText = FindThisText.Text.Trim().ToLower();
 
@@ -582,12 +609,9 @@ namespace pserv4
 
         public void RefreshDisplay(object sender, RoutedEventArgs e)
         {
-            Trace.TraceInformation("BEGIN RefreshDisplay()");
-            Trace.Indent();
+            Log.Info("BEGIN RefreshDisplay()");
             CurrentController.Refresh(Items);
-
-            Trace.Unindent();
-            Trace.TraceInformation("END RefreshDisplay()");
+            Log.Info("END RefreshDisplay()");
         }
 
         private void MainListView_KeyDown(object sender, KeyEventArgs e)

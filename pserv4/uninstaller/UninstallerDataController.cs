@@ -16,11 +16,14 @@ using Microsoft.Win32;
 using System.Collections.ObjectModel;
 using pserv4.Properties;
 using System.Diagnostics;
+using log4net;
+using System.Reflection;
 
 namespace pserv4.uninstaller
 {
     public class UninstallerDataController : DataController
     {
+        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private static List<DataObjectColumn> ActualColumns;
 
         public UninstallerDataController()
@@ -243,8 +246,7 @@ namespace pserv4.uninstaller
                     }
                     catch(Exception e)
                     {
-                        Trace.TraceError("Exception {0}: unable to analyse {1}", e, keyPath);
-                        Trace.TraceWarning(e.StackTrace);
+                        Log.Error(string.Format("unable to analyse registry key {0}", keyPath), e);
                     }
 
                 }

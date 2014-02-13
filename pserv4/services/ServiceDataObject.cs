@@ -6,11 +6,14 @@ using System.Text;
 using System.IO;
 using System.Diagnostics;
 using Microsoft.Win32;
+using log4net;
+using System.Reflection;
 
 namespace pserv4.services
 {
     public class ServiceDataObject : DataObject
     {
+        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         public string DisplayName { get; private set; }
 
         public string ServiceTypeString
@@ -219,7 +222,7 @@ namespace pserv4.services
             }
             catch(Exception e)
             {
-                Trace.TraceInformation(e.ToString());
+                Log.Error("DeleteService", e);
                 return false;
             }
         }
@@ -259,7 +262,7 @@ namespace pserv4.services
         {
             try
             {
-                Trace.TraceInformation("RemoveRegistryKey {0}", this);
+                Log.InfoFormat("RemoveRegistryKey {0}", this);
                 RegistryKey rootKey = Registry.LocalMachine;
 
                 using (RegistryKey regkey = rootKey.OpenSubKey("SYSTEM\\CurrentControlSet\\Services", true))
@@ -273,8 +276,7 @@ namespace pserv4.services
             }
             catch (Exception e)
             {
-                Trace.TraceError("Exception {0}: unable to remove registry key {1}", e, this);
-                Trace.TraceWarning(e.StackTrace);
+                Log.Error(string.Format("unable to remove registry key SYSTEM\\CurrentControlSet\\Services\\{0}", InternalID), e);
                 return false;
             }
         }

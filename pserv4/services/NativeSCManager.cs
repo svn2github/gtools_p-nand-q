@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
 using System.Text;
+using System.Reflection;
+using log4net;
 
 namespace pserv4.services
 {
     public class NativeSCManager : IDisposable
     {
+        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         public IntPtr Handle;
 
         public NativeSCManager(string machineName)
@@ -27,7 +31,7 @@ namespace pserv4.services
         {
             if (!NativeServiceFunctions.CloseServiceHandle(Handle))
             {
-                Trace.WriteLine("Warning, unable to close ServiceControlManager.Handle");
+                Log.Warn("Warning, unable to close ServiceControlManager.Handle");
             }
         }
 
@@ -64,7 +68,7 @@ namespace pserv4.services
                         ref ResumeHandle,
                         null))
                 {
-                    //Trace.TraceInformation("Got {0} services in last chunk", ServicesReturned);
+                    Log.InfoFormat("Got {0} services in last chunk", ServicesReturned);
                     repeat = false;
                 }
                 else
@@ -72,11 +76,11 @@ namespace pserv4.services
                     int LastError = Marshal.GetLastWin32Error();
                     if (LastError == NativeServiceFunctions.ERROR_MORE_DATA)
                     {
-                        //Trace.TraceInformation("Got {0} services in this chunk", ServicesReturned);
+                        Log.InfoFormat("Got {0} services in this chunk", ServicesReturned);
                     }
                     else
                     {
-                        //Trace.TraceInformation("ERROR {0}, unable to query list", LastError);
+                        NativeHelpers.ReportFailure("EnumServicesStatusEx()");
                         break;
                     }
                 }

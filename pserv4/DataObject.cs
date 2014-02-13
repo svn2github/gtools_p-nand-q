@@ -7,11 +7,15 @@ using System.Windows;
 using System.Diagnostics;
 using System.IO;
 using Microsoft.Win32;
+using log4net;
+using System.Reflection;
 
 namespace pserv4
 {
     public abstract class DataObject : INotifyPropertyChanged
     {
+        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         public event PropertyChangedEventHandler PropertyChanged;
         protected bool ConstructionIsFinished;
 
@@ -92,23 +96,23 @@ namespace pserv4
 
         public bool BringUpExplorer(string directory)
         {
-            Trace.TraceInformation("{0}.BringUpExplorer({1}) called", this, directory);
+            Log.InfoFormat("{0}.BringUpExplorer({1}) called", this, directory);
             try
             {
                 if (string.IsNullOrEmpty(directory))
                 {
-                    Trace.TraceWarning("Warning, directory is empty - assume function failed");
+                    Log.Warn("Warning, directory is empty - assume function failed");
                     return false;
                 }
 
                 string cmd = string.Format("/root,{0}", directory);
-                Trace.TraceInformation("CMD: {0}", cmd);
+                Log.InfoFormat("CMD: {0}", cmd);
 
                 using (Process p = Process.Start("explorer.exe", cmd))
                 {
                     if (p == null)
                     {
-                        Trace.TraceWarning("Warning, Process.Start() returned null, assuming function failed");
+                        Log.Warn("Warning, Process.Start() returned null, assuming function failed");
                         return false;
                     }
                 }
@@ -116,8 +120,7 @@ namespace pserv4
             }
             catch (Exception e)
             {
-                Trace.TraceError("Exception {0}: unable to bring up Explorer in directory {1}", e, directory);
-                Trace.TraceWarning(e.StackTrace);
+                Log.Error(string.Format("Unable to bring up Explorer in directory {0}", directory), e);
                 return false;
             }
         }
@@ -135,8 +138,7 @@ namespace pserv4
             }
             catch (Exception e)
             {
-                Trace.TraceError("Exception {0}: unable to bring up registry editor in {1}", e, key);
-                Trace.TraceWarning(e.StackTrace);
+                Log.Error(string.Format("Unable to bring up Registry Editor in {0}", key), e);
                 return false;
             }
         }
@@ -144,12 +146,12 @@ namespace pserv4
 
         public bool BringUpTerminal(string directory)
         {
-            Trace.TraceInformation("{0}.BringUpTerminal({1}) called", this, directory);
+            Log.InfoFormat("{0}.BringUpTerminal({1}) called", this, directory);
             try
             {
                 if (string.IsNullOrEmpty(directory))
                 {
-                    Trace.TraceWarning("Warning, directory is empty - assume function failed");
+                    Log.Warn("Warning, directory is empty - assume function failed");
                     return false;
                 }
 
@@ -161,7 +163,7 @@ namespace pserv4
                 {
                     if (p == null)
                     {
-                        Trace.TraceWarning("Warning, Process.Start() returned null, assuming function failed");
+                        Log.Warn("Warning, Process.Start() returned null, assuming function failed");
                         return false;
                     }
                 }
@@ -169,8 +171,7 @@ namespace pserv4
             }
             catch (Exception e)
             {
-                Trace.TraceError("Exception {0}: unable to bring up cmd.exe in directory {1}", e, directory);
-                Trace.TraceWarning(e.StackTrace);
+                Log.Error(string.Format("Unable to bring up CMD.EXE in {0}", directory), e);
                 return false;
             }
         }

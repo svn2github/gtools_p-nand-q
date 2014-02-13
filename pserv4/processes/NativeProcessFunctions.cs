@@ -7,6 +7,8 @@ using System.Diagnostics;
 using System.Security.Permissions;
 using System.Security.Principal;
 using System.IO;
+using log4net;
+using System.Reflection;
 
 using LUID = System.Int64;
 using HANDLE = System.IntPtr;
@@ -81,6 +83,8 @@ namespace pserv4.processes
 
     public static class NativeProcessFunctions
     {
+        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         private const int TOKEN_QUERY = 0X00000008;
 
         private const int ERROR_NO_MORE_ITEMS = 259;
@@ -155,7 +159,7 @@ namespace pserv4.processes
             }
             catch (Exception e)
             {
-                Trace.TraceInformation(e.ToString());                
+                Log.Error("GetUserInfo", e);
             }
             return result;
         }
@@ -200,8 +204,7 @@ namespace pserv4.processes
             }
             catch (Exception ex)
             {
-                Trace.TraceError("Exception {0}: DumpAccountSid failed on {1}", ex, SID);
-                Trace.TraceWarning(ex.StackTrace);
+                Log.Error("DumpAccountSid", ex);
             }
             finally
             {
@@ -219,8 +222,7 @@ namespace pserv4.processes
             }
             catch(Exception e)
             {
-                Trace.TraceError("Exception {0}: GetSafeProcessName failed on {1}", e, p.ProcessName);
-                Trace.TraceWarning(e.StackTrace);
+                Log.Error("GetSafeProcessName", e);
             }
             if (result.StartsWith("\\??\\"))
                 result = result.Substring(4);

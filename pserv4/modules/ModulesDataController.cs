@@ -16,11 +16,15 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Win32;
+using log4net;
+using System.Reflection;
 
 namespace pserv4.modules
 {
     public class ModulesDataController : DataController
     {
+        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         private static List<DataObjectColumn> ActualColumns;
 
         public ModulesDataController()
@@ -103,7 +107,6 @@ namespace pserv4.modules
 
         public override void Refresh(ObservableCollection<DataObject> objects)
         {
-            DateTime now = DateTime.Now;
             using (var manager = new RefreshManager<ModuleDataObject>(objects))
             {
                 foreach (Process p in Process.GetProcesses())
@@ -135,8 +138,7 @@ namespace pserv4.modules
                     }
                     catch(Exception e)
                     {
-                        Trace.TraceError("Exception {0}: problem accessing modules of process {1}", e, p);
-                        Trace.TraceWarning(e.StackTrace);
+                        Log.Error(string.Format("problem accessing modules of process {0}", p), e);
                     }
                     if( pmc != null )
                     {
@@ -157,7 +159,6 @@ namespace pserv4.modules
                     }
                 }
             }
-            Trace.TraceInformation("Time to scan modules: {0}", DateTime.Now - now);
         }
     }
 }

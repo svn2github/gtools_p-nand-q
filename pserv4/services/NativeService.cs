@@ -2,6 +2,8 @@
 using System.Runtime.InteropServices;
 using System.Diagnostics;
 using System.ComponentModel;
+using log4net;
+using System.Reflection;
 
 namespace pserv4.services
 {
@@ -11,11 +13,12 @@ namespace pserv4.services
     /// </summary>
     public class NativeService : IDisposable
     {
+        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         /// <summary>
         /// Native handle of the service. 
         /// <note>This is public, so that you can use one of the NativeServiceFunctions directly</note>
         /// </summary>
-        public readonly IntPtr Handle;
+        public IntPtr Handle { get; private set; }
 
         public readonly string ServiceName;
 
@@ -57,7 +60,7 @@ namespace pserv4.services
             {
                 if (!IsValid)
                 {
-                    Trace.TraceWarning("ServiceConfig not available for '{0}'", ServiceName);
+                    Log.WarnFormat("ServiceConfig not available for '{0}'", ServiceName);
                 }
                 else
                 {
@@ -88,7 +91,7 @@ namespace pserv4.services
             {
                 if (!IsValid)
                 {
-                    Trace.TraceWarning("Description not available for '{0}'", ServiceName);
+                    Log.WarnFormat("Description not available for '{0}'", ServiceName);
                 }
                 else
                 {
@@ -124,9 +127,13 @@ namespace pserv4.services
 
         public void Dispose()
         {
-            if (!NativeServiceFunctions.CloseServiceHandle(Handle))
+            if( IsValid )
             {
-                Trace.WriteLine("Warning, unable to close NativeService.Handle");
+                if (!NativeServiceFunctions.CloseServiceHandle(Handle))
+                {
+                    Log.WarnFormat("Warning, unable to close NativeService.Handle");
+                }
+                Handle = new IntPtr(0);
             }
         }
 

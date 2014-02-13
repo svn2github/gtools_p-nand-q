@@ -16,11 +16,14 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Win32;
 using pserv4.Properties;
+using log4net;
+using System.Reflection;
 
 namespace pserv4.processes
 {
     public class ProcessesDataController : DataController
     {
+        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private static List<DataObjectColumn> ActualColumns;
 
         public ProcessesDataController()
@@ -79,7 +82,6 @@ namespace pserv4.processes
 
         public override void Refresh(ObservableCollection<DataObject> objects)
         {
-            DateTime now = DateTime.Now;
             using (var manager = new RefreshManager<ProcessDataObject>(objects))
             {
                 foreach (Process p in Process.GetProcesses())
@@ -98,12 +100,10 @@ namespace pserv4.processes
                     }
                     catch(Exception e)
                     {
-                        Trace.TraceError("Exception {0}: error analysing process {1}", e, p);
-                        Trace.TraceWarning(e.StackTrace);
+                        Log.Error(string.Format("error analysing process {0}", p), e);
                     }
                 }
             }
-            Trace.TraceInformation("Time to scan processes: {0}", DateTime.Now - now);
         }
 
         private delegate bool ProcessCallback(ProcessDataObject udo);

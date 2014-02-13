@@ -4,6 +4,8 @@ using System.Text;
 using System.Runtime.InteropServices;
 using Microsoft.Win32.SafeHandles;
 using System.Diagnostics;
+using log4net;
+using System.Reflection;
 
 namespace pserv4.services
 {
@@ -483,6 +485,7 @@ namespace pserv4.services
 
     public class NativeServiceFunctions
     {
+        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         public const string SERVICES_ACTIVE_DATABASE = "ServicesActive";
 
         [DllImport("advapi32.dll", EntryPoint = "OpenSCManagerW", ExactSpelling = true, CharSet = CharSet.Unicode, SetLastError = true)]
@@ -596,7 +599,7 @@ namespace pserv4.services
             }
             catch(Exception e)
             {
-                Trace.TraceInformation(e.ToString());
+                Log.Error("ChangeServiceDescription() failed", e);
                 return false;
             }
         }   

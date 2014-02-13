@@ -9,11 +9,14 @@ using System.Security.Principal;
 using System.Diagnostics;
 using System.IO;
 using Microsoft.Win32;
+using log4net;
+using System.Reflection;
 
 namespace pserv4.uninstaller
 {
     public class UninstallerDataObject : DataObject
     {
+        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         public string ApplicationName { get; private set; }
         public string InstallLocation { get; private set; }
         public string Version { get; private set; }
@@ -145,19 +148,19 @@ namespace pserv4.uninstaller
 
         public bool ShowLink(string link)
         {
-            Trace.TraceInformation("{0}.ShowLink({1}) called", this, link);
+            Log.InfoFormat("{0}.ShowLink({1}) called", this, link);
             try
             {
                 if (string.IsNullOrEmpty(link))
                 {
-                    Trace.TraceWarning("Warning, link is empty - assume function failed");
+                    Log.Warn("Warning, link is empty - assume function failed");
                     return false;
                 }
                 using (Process p = Process.Start(link))
                 {
                     if (p == null)
                     {
-                        Trace.TraceWarning("Warning, Process.Start() returned null, assuming function failed");
+                        Log.Warn("Warning, Process.Start() returned null, assuming function failed");
                         return false;
                     }
                 }
@@ -165,8 +168,7 @@ namespace pserv4.uninstaller
             }
             catch (Exception e)
             {
-                Trace.TraceError("Exception {0}: unable to bring up browser for URL {1}", e, link);
-                Trace.TraceWarning(e.StackTrace);
+                Log.Error(string.Format("unable to bring up browser for URL {0}", link), e);
                 return false;
             }
         }
@@ -188,24 +190,24 @@ namespace pserv4.uninstaller
 
         private bool PerformAction(string action)
         {
-            Trace.TraceInformation("{0}.PerformAction({1}) called", this, action);
+            Log.InfoFormat("{0}.PerformAction({1}) called", this, action);
             try
             {
                 if (string.IsNullOrEmpty(action))
                 {
-                    Trace.TraceWarning("Warning, action is empty - assume function failed");
+                    Log.Warn("Warning, action is empty - assume function failed");
                     return false;
                 }
 
                 string cmd = PathSanitizer.GetExecutable(action);
                 string args = PathSanitizer.GetArguments(action);
-                Trace.TraceInformation("CMD: {0}, ARGS: {1}", cmd, args);
+                Log.InfoFormat("CMD: {0}, ARGS: {1}", cmd, args);
 
                 using (Process p = Process.Start(cmd, args))
                 {
                     if (p == null)
                     {
-                        Trace.TraceWarning("Warning, Process.Start() returned null, assuming function failed");
+                        Log.Warn("Warning, Process.Start() returned null, assuming function failed");
                         return false;
                     }
                 }
@@ -213,8 +215,7 @@ namespace pserv4.uninstaller
             }
             catch (Exception e)
             {
-                Trace.TraceError("Exception {0}: unable to run action {1}", e, action);
-                Trace.TraceWarning(e.StackTrace);
+                Log.Error(string.Format("unable to run action {0}", action), e);
                 return false;
             }
         }
@@ -242,7 +243,7 @@ namespace pserv4.uninstaller
             {
                 RegistryKey rootKey = BasedInLocalMachine ? Registry.LocalMachine : Registry.CurrentUser;
 
-                Trace.TraceInformation("RemoveFromRegistry: {0}", RegistryKey);
+                Log.InfoFormat("RemoveFromRegistry: {0}", RegistryKey);
 
                 using (RegistryKey regkey = rootKey.OpenSubKey(UninstallerDataController.UNINSTALLER_SECTION, true))
                 {
@@ -255,8 +256,7 @@ namespace pserv4.uninstaller
             }
             catch (Exception e)
             {
-                Trace.TraceError("Exception {0}: unable to remove registry key {1}", e, RegistryKey);
-                Trace.TraceWarning(e.StackTrace);
+                Log.Error(string.Format("unable to remove registry key {0}", RegistryKey), e);
                 return false;
             }
         }

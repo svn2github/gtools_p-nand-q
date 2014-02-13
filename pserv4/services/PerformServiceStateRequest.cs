@@ -4,11 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Diagnostics;
+using log4net;
+using System.Reflection;
 
 namespace pserv4.services
 {
     public class PerformServiceStateRequest : BackgroundAction
     {
+        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private readonly ServiceStateRequest SSR;
         public readonly List<ServiceDataObject> Services = new List<ServiceDataObject>();
 
@@ -47,7 +50,7 @@ namespace pserv4.services
                         {
                             bool requestedStatusChange = false;
 
-                            Trace.TraceInformation("BEGIN backgroundWorker1_Process for {0}", ns.Description);
+                            Log.InfoFormat("BEGIN backgroundWorker1_Process for {0}", ns.Description);
                             using (ServiceStatus ss = new ServiceStatus(ns))
                             {
                                 for (int i = 0; i < 100; ++i)
@@ -66,7 +69,7 @@ namespace pserv4.services
                                     
                                     if (SSR.HasSuccess(ss.Status.CurrentState))
                                     {
-                                        Trace.WriteLine("Reached target status, done...");
+                                        Log.Info("Reached target status, done...");
                                         break; // TODO: reached 100% of this service' status reqs. 
                                     }
 
@@ -74,19 +77,19 @@ namespace pserv4.services
                                     if (!requestedStatusChange)
                                     {
                                         requestedStatusChange = true;
-                                        Trace.TraceInformation("Ask {0} to issue its status request on {1}", SSR, ss);
+                                        Log.InfoFormat("Ask {0} to issue its status request on {1}", SSR, ss);
                                         if (!SSR.Request(ss))
                                             break;
                                     }
                                     else if (SSR.HasFailed(ss.Status.CurrentState))
                                     {
-                                        Trace.TraceInformation("ERROR, target state is one of the failed ones :(");
+                                        Log.Error("ERROR, target state is one of the failed ones :(");
                                         break;
                                     }
                                     Thread.Sleep(500);
                                 }
                                 so.UpdateFrom(ss.Status);
-                                Trace.TraceInformation("END backgroundWorker1_Process");
+                                Log.Info("END backgroundWorker1_Process");
                             }
                         }
                     }

@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Diagnostics;
+using log4net;
+using System.Reflection;
 
 namespace pserv4
 {
@@ -20,6 +22,8 @@ namespace pserv4
     /// </summary>
     public partial class LongRunningFunctionWindow : Window
     {
+        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         private readonly BackgroundWorker Worker = new BackgroundWorker();
         private readonly BackgroundAction Action;
 
@@ -46,7 +50,7 @@ namespace pserv4
 
         private void SetOutputText(string message)
         {
-            Trace.TraceInformation("SetOutputText: {0}", message);
+            Log.InfoFormat("SetOutputText: {0}", message);
             this.Dispatcher.Invoke(
                 new BackgroundAction.SetOutputTextDelegate(SetOutputTextInUIThread),
                 message);

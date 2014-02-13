@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Diagnostics;
+using log4net;
+using System.Reflection;
 
 namespace pserv4.services
 {
     public class ServiceStatus : IDisposable
     {
+        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private readonly NativeService Service;
         public SERVICE_STATUS_PROCESS Status = new SERVICE_STATUS_PROCESS();
         private IntPtr Memory;
@@ -22,10 +25,10 @@ namespace pserv4.services
         {
             if( !Service.IsValid )
             {
-                Trace.TraceWarning("Warning, don't attempt to call StartService on {0}", Service);
+                Log.WarnFormat("Warning, don't attempt to call StartService on {0}", Service);
                 return false;
             }
-            Trace.TraceInformation("StartService({0})", Service);
+            Log.InfoFormat("StartService({0})", Service);
             if (NativeServiceFunctions.StartService(Service.Handle, 0, Memory))
                 return true;
 
@@ -36,16 +39,16 @@ namespace pserv4.services
         {
             if (!Service.IsValid)
             {
-                Trace.TraceWarning("Warning, don't attempt to call Control({1}) on {0}", Service, code);
+                Log.WarnFormat("Warning, don't attempt to call Control({1}) on {0}", Service, code);
                 return false;
             }
-            Trace.TraceInformation("ControlService({0}, {1})", Service, code);
+            Log.InfoFormat("ControlService({0}, {1})", Service, code);
             if (NativeServiceFunctions.ControlService(Service.Handle, code, Memory))
             {
                 Status = (SERVICE_STATUS_PROCESS)Marshal.PtrToStructure(
                     Memory,
                     typeof(SERVICE_STATUS_PROCESS));
-                Trace.TraceInformation("Currentstatus = {0}", Status.CurrentState);
+                Log.InfoFormat("Currentstatus = {0}", Status.CurrentState);
                 return true;
             }
             return NativeHelpers.ReportFailure("ControlService({0}, {1})", Service, code);
@@ -55,7 +58,7 @@ namespace pserv4.services
         {
             if (!Service.IsValid)
             {
-                Trace.TraceWarning("Warning, don't attempt to call QueryServiceStatusEx() on {0}", Service);
+                Log.WarnFormat("Warning, don't attempt to call QueryServiceStatusEx() on {0}", Service);
                 return false;
             }
             int bytesNeeded;
@@ -70,7 +73,7 @@ namespace pserv4.services
                 Status = (SERVICE_STATUS_PROCESS)Marshal.PtrToStructure(
                     Memory,
                     typeof(SERVICE_STATUS_PROCESS));
-                Trace.TraceInformation("CurrentStatus as returned by QSSE = {0}", Status.CurrentState);
+                Log.InfoFormat("CurrentStatus as returned by QSSE = {0}", Status.CurrentState);
                 return true;
             }
             return NativeHelpers.ReportFailure("QueryServiceStatusEx({0})", Service);

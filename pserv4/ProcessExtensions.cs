@@ -16,11 +16,15 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Win32;
 using pserv4.Properties;
+using log4net;
+using System.Reflection;
 
 namespace pserv4
 {
     public static class ProcessExtensions
     {
+        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         public static bool KillProcessById(int id)
         {
             try
@@ -36,7 +40,7 @@ namespace pserv4
             }
             catch (Exception e)
             {
-                Trace.TraceInformation(e.ToString());
+                Log.Error(string.Format("KillProcessById({0}) failed", id), e);
             }
             return false;
         }
@@ -75,7 +79,7 @@ namespace pserv4
                     {
                         if (p == null)
                         {
-                            Trace.TraceWarning("Warning, Process.Start() returned null, assuming function failed");
+                            Log.Warn("Warning, Process.Start() returned null, assuming function failed");
                             return false;
                         }
                     }
@@ -83,8 +87,7 @@ namespace pserv4
                 }
                 catch (Exception e)
                 {
-                    Trace.TraceError("Exception {0}: unable to bring up debugger", e);
-                    Trace.TraceWarning(e.StackTrace);
+                    Log.Error(string.Format("unable to bring up debugger: {0}",cmdLine), e);
                     return false;
                 }
             }

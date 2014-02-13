@@ -11,11 +11,15 @@ using System.IO;
 using pserv4.Properties;
 using System.Management;
 using System.Management.Instrumentation;
+using log4net;
+using System.Reflection;
 
 namespace pserv4.processes
 {
     public class ProcessInfoCache
     {
+        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         public class Data
         {
             // static data 
@@ -39,7 +43,7 @@ namespace pserv4.processes
                 }
                 catch(Exception e)
                 {
-                    Trace.TraceInformation(e.ToString());
+                    Log.Error(string.Format("Unable to query property '{0}'", key), e);
                 }
                 return "";
             }
@@ -55,7 +59,6 @@ namespace pserv4.processes
                 {
                     Key = Key.Substring(0, Key.Length - 4);
                 }
-                Trace.TraceInformation("Created DATA for {0}: {1}", Key, CommandLine);
             }
         }
 

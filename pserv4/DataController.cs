@@ -11,11 +11,15 @@ using System.Xml;
 using System.Diagnostics;
 using System.Windows.Media.Imaging;
 using pserv4.Properties;
+using log4net;
+using System.Reflection;
 
 namespace pserv4
 {
     public abstract class DataController
     {
+        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         public abstract IEnumerable<DataObjectColumn> Columns { get; }
         protected readonly string ControllerName;
         protected readonly string ItemName;
@@ -224,7 +228,7 @@ namespace pserv4
                         }
                         catch (Exception e)
                         {
-                            Trace.TraceError(e.ToString());
+                            Log.Error(string.Format("Failed to access property {0}", c.BindingName), e);
                         }
                     }
                 }
@@ -247,27 +251,27 @@ namespace pserv4
 
         public virtual void OnControlStart(object sender, RoutedEventArgs e)
         {
-            Trace.TraceWarning("Warning: OnControlStart not implemented for {0}", this);
+            Log.WarnFormat("Warning: OnControlStart not implemented for {0}", this);
         }
 
         public virtual void OnControlStop(object sender, RoutedEventArgs e)
         {
-            Trace.TraceWarning("Warning: OnControlStop not implemented for {0}", this);
+            Log.WarnFormat("Warning: OnControlStop not implemented for {0}", this);
         }
 
         public virtual void OnControlRestart(object sender, RoutedEventArgs e)
         {
-            Trace.TraceWarning("Warning: OnControlRestart not implemented for {0}", this);
+            Log.WarnFormat("Warning: OnControlRestart not implemented for {0}", this);
         }
 
         public virtual void OnControlPause(object sender, RoutedEventArgs e)
         {
-            Trace.TraceWarning("Warning: OnControlPause not implemented for {0}", this);
+            Log.WarnFormat("Warning: OnControlPause not implemented for {0}", this);
         }
 
         public virtual void OnControlContinue(object sender, RoutedEventArgs e)
         {
-            Trace.TraceWarning("Warning: OnControlContinue not implemented for {0}", this);
+            Log.WarnFormat("Warning: OnControlContinue not implemented for {0}", this);
         }
 
 

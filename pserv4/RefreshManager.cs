@@ -4,12 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using log4net;
+using System.Reflection;
 
 namespace pserv4
 {
     public class RefreshManager<T> : IDisposable
         where T: DataObject
     {
+        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         public readonly Dictionary<string, T> ExistingObjects = new Dictionary<string, T>();
         public readonly ObservableCollection<DataObject> Objects;
 
@@ -41,7 +44,7 @@ namespace pserv4
             foreach (string key in ExistingObjects.Keys)
             {
                 T sdo = ExistingObjects[key];
-                Trace.TraceWarning("Removing stale object {0}", sdo);
+                Log.WarnFormat("Removing stale object {0}", sdo);
                 Objects.Remove(sdo);
             }
         }

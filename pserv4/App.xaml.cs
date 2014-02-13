@@ -5,6 +5,10 @@ using System.Data;
 using System.Linq;
 using System.Windows;
 using System.Diagnostics;
+using log4net;
+using System.Reflection;
+
+[assembly: log4net.Config.XmlConfigurator(Watch = true)]
 
 namespace pserv4
 {
@@ -13,9 +17,16 @@ namespace pserv4
     /// </summary>
     public partial class App : Application
     {
-        private void Application_Startup(object sender, StartupEventArgs e)
+        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
+        private void Application_Exit(object sender, ExitEventArgs args)
         {
-            string[] args = Environment.GetCommandLineArgs();
+            Log.Info("- shutting down pserv -");
+        }
+
+        private void Application_Startup(object sender, StartupEventArgs sea)
+        {
+            Log.Info("- starting up pserv -");
 
             MainViewType initialView = MainViewType.Services;
             services.ServiceStateRequest ssr = null;
@@ -23,46 +34,84 @@ namespace pserv4
             bool useClipboard = false;
             string dumpXmlFilename = null;
             List<string> servicenames = new List<string>();
-
-            foreach(string arg in args)
+            int n = 0;
+            foreach(string arg in sea.Args)
             {
+                Log.InfoFormat("- arg[{0}]: {1}", n++, arg);
                 if(arg.StartsWith("/"))
                 {
                     string key = arg.Substring(1).ToUpper();
                     if (key.Equals("DEVICES"))
+                    {
                         initialView = MainViewType.Devices;
+                        Log.InfoFormat("=> set initialView to {0}", initialView);
+                    }
                     else if (key.Equals("MODULES"))
+                    {
                         initialView = MainViewType.Modules;
+                        Log.InfoFormat("=> set initialView to {0}", initialView);
+                    }
                     else if (key.Equals("PROCESSES"))
+                    {
                         initialView = MainViewType.Processes;
+                        Log.InfoFormat("=> set initialView to {0}", initialView);
+                    }
                     else if (key.Equals("UNINSTALLER"))
+                    {
                         initialView = MainViewType.Uninstaller;
+                        Log.InfoFormat("=> set initialView to {0}", initialView);
+                    }
                     else if (key.Equals("WINDOWS"))
+                    {
                         initialView = MainViewType.Windows;
+                        Log.InfoFormat("=> set initialView to {0}", initialView);
+                    }
                     else if (key.Equals("DUMPXML"))
+                    {
                         dumpXml = true;
+                        Log.Info("=> set dumpXml to true");
+                    }
                     else if (key.Equals("CLIPBOARD"))
                     {
                         dumpXml = true;
                         useClipboard = true;
+                        Log.Info("=> set dumpXml to true");
+                        Log.Info("=> set useClipboard to true");
                     }
                     else if (key.Equals("START"))
+                    {
                         ssr = new services.RequestServiceStart();
+                        Log.InfoFormat("=> set ssr to {0}", ssr);
+                    }
                     else if (key.Equals("STOP"))
+                    {
                         ssr = new services.RequestServiceStop();
+                        Log.InfoFormat("=> set ssr to {0}", ssr);
+                    }
                     else if (key.Equals("RESTART"))
+                    {
                         ssr = new services.RequestServiceRestart();
+                        Log.InfoFormat("=> set ssr to {0}", ssr);
+                    }
                     else if (key.Equals("PAUSE"))
+                    {
                         ssr = new services.RequestServicePause();
+                        Log.InfoFormat("=> set ssr to {0}", ssr);
+                    }
                     else if (key.Equals("CONTINUE"))
+                    {
                         ssr = new services.RequestServiceContinue();
+                        Log.InfoFormat("=> set ssr to {0}", ssr);
+                    }
                 }
                 else if( dumpXml && string.IsNullOrEmpty(dumpXmlFilename))
                 {
                     dumpXmlFilename = arg;
+                    Log.InfoFormat("=> set dumpXmlFilename to {0}", dumpXmlFilename);
                 }
                 else if( ssr != null)
                 {
+                    Log.InfoFormat("=> add service named '{0}'", arg);
                     servicenames.Add(arg);
                 }
             }

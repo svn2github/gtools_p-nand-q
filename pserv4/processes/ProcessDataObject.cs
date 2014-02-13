@@ -10,6 +10,8 @@ using System.Diagnostics;
 using System.IO;
 using pserv4.Properties;
 using Microsoft.Win32;
+using log4net;
+using System.Reflection;
 
 using LUID = System.Int64;
 using HANDLE = System.IntPtr;
@@ -19,6 +21,7 @@ namespace pserv4.processes
 {
     public class ProcessDataObject : DataObject
     {
+        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         public string Name { get; private set; }
         public string MainExecutable { get; private set; }
         public string User { get; private set; }
@@ -152,8 +155,7 @@ namespace pserv4.processes
             }
             catch (Exception e)
             {
-                Trace.TraceError("Exception {0}: problem decoding process {1}", e, MainExecutable);
-                Trace.TraceWarning(e.StackTrace);
+                Log.Error(string.Format("problem decoding process {0}", MainExecutable), e);
             }
 
             if (User.Equals("SYSTEM", StringComparison.OrdinalIgnoreCase))

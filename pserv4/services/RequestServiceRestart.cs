@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using log4net;
+using System.Reflection;
 
 namespace pserv4.services
 {
     public class RequestServiceRestart : ServiceStateRequest
     {
+        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private bool HasBeenAskedToStart;
         private ServiceStatus SS;
 
@@ -22,7 +25,7 @@ namespace pserv4.services
             SS = ss;
             if( ss.Status.CurrentState == SC_RUNTIME_STATUS.SERVICE_STOPPED )
             {
-                Trace.TraceInformation("Restart asks for service to start...");
+                Log.Info("Restart asks for service to start...");
                 if (!SS.Start())
                     return false;
 
@@ -38,7 +41,7 @@ namespace pserv4.services
 
         public bool HasSuccess(SC_RUNTIME_STATUS state)
         {
-            Trace.TraceInformation("HasSuccess: {0}", state);
+            Log.InfoFormat("HasSuccess: {0}", state);
             if (SS == null)
                 return false;
 
@@ -49,7 +52,7 @@ namespace pserv4.services
             if (state != SC_RUNTIME_STATUS.SERVICE_STOPPED)
                 return false;
 
-            Trace.TraceInformation("Restart asks for service to start...");
+            Log.Info("Restart asks for service to start...");
             if (!SS.Start())
                 return false;
             
