@@ -153,9 +153,9 @@ namespace pserv4.processes
                     CloseHandle(procToken);
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                
+                Trace.TraceInformation(e.ToString());                
             }
             return result;
         }

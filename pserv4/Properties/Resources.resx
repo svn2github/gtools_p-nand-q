@@ -135,6 +135,18 @@
   <data name="IDS_CONFIRMATION" xml:space="preserve">
     <value>Confirmation</value>
   </data>
+  <data name="IDS_PROCESS_CSRSS" xml:space="preserve">
+    <value>Client Server Runtime Process</value>
+  </data>
+  <data name="IDS_PROCESS_SERVICES" xml:space="preserve">
+    <value>Services and Controller App</value>
+  </data>
+  <data name="IDS_PROCESS_SMSS" xml:space="preserve">
+    <value>Session Manager</value>
+  </data>
+  <data name="IDS_PROCESS_SVCHOST" xml:space="preserve">
+    <value>Services Host</value>
+  </data>
   <data name="IDS_PROPERTIES" xml:space="preserve">
     <value>Properties</value>
   </data>
@@ -164,6 +176,12 @@
   </data>
   <data name="MODULE_C_ProductVersion" xml:space="preserve">
     <value>Product Version</value>
+  </data>
+  <data name="PROCESS_BRING_UP_EXPLORER" xml:space="preserve">
+    <value>Start Explorer in install location</value>
+  </data>
+  <data name="PROCESS_C_CommandLine" xml:space="preserve">
+    <value>Command Line</value>
   </data>
   <data name="PROCESS_C_FileDescription" xml:space="preserve">
     <value>File Description</value>
@@ -254,6 +272,15 @@
   </data>
   <data name="PROCESS_C_WorkingSet64" xml:space="preserve">
     <value>Working Set</value>
+  </data>
+  <data name="PROCESS_DEBUG_PROCESS" xml:space="preserve">
+    <value>Debug Process (*)</value>
+  </data>
+  <data name="PROCESS_KILL_PROCESS" xml:space="preserve">
+    <value>Kill Process (*)</value>
+  </data>
+  <data name="PROCESS_START_CMD" xml:space="preserve">
+    <value>Start CMD.EXE in install location</value>
   </data>
   <data name="SERVICES_BRING_UP_EXPLORER" xml:space="preserve">
     <value>Bring up Explorer in installation path</value>

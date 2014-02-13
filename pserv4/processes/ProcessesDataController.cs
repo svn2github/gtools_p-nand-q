@@ -4,6 +4,18 @@ using System.Linq;
 using System.Diagnostics;
 using System.Text;
 using System.Collections.ObjectModel;
+using System.Collections;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+using Microsoft.Win32;
+using pserv4.Properties;
 
 namespace pserv4.processes
 {
@@ -33,7 +45,7 @@ namespace pserv4.processes
                     ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_ID, "InternalID"));
                     ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_Name, "Name"));
                     ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_MainExecutable, "MainExecutable"));
-                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_InstallLocation, "InstallLocation"));
+                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_CommandLine, "CommandLine"));
                     ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_User, "User"));
                     ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_FileDescription, "FileDescription"));
                     ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_FileVersion, "FileVersion"));
@@ -50,7 +62,6 @@ namespace pserv4.processes
                     ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_PrivilegedProcessorTime, "PrivilegedProcessorTime"));
                     ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_ProcessPriorityClass, "ProcessPriorityClass"));
                     ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_SessionId, "SessionId"));
-                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_StartInfoArguments, "StartInfoArguments"));
                     ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_NonpagedSystemMemorySize64, "NonpagedSystemMemorySize64"));
                     ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_PagedMemorySize64, "PagedMemorySize64"));
                     ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_PeakPagedMemorySize64, "PeakPagedMemorySize64"));
@@ -60,6 +71,7 @@ namespace pserv4.processes
                     ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_PrivateMemorySize64, "PrivateMemorySize64"));
                     ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_VirtualMemorySize64, "VirtualMemorySize64"));
                     ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_WorkingSet64, "WorkingSet64"));
+                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_InstallLocation, "InstallLocation"));
                 }
                 return ActualColumns;
             }
@@ -92,6 +104,55 @@ namespace pserv4.processes
                 }
             }
             Trace.TraceInformation("Time to scan processes: {0}", DateTime.Now - now);
+        }
+
+        private delegate bool ProcessCallback(ProcessDataObject udo);
+
+        private void DispatchCallback(ProcessCallback callback)
+        {
+            foreach (ProcessDataObject pdo in MainListView.SelectedItems)
+            {
+                callback(pdo);
+            }
+        }
+
+        public void OnBringUpExplorer(object sender, RoutedEventArgs e)
+        {
+            DispatchCallback((pdo) => { return pdo.BringUpExplorerInInstallLocation(); });
+        }
+
+        public void OnBringUpTerminal(object sender, RoutedEventArgs e)
+        {
+            DispatchCallback((pdo) => { return pdo.BringUpTerminalInInstallLocation(); });
+        }
+
+        public void OnKillProcess(object sender, RoutedEventArgs e)
+        {
+            DispatchCallback((pdo) => { return pdo.KillProcess(); });
+        }
+
+        public void OnDebugProcess(object sender, RoutedEventArgs e)
+        {
+            DispatchCallback((pdo) => { return pdo.DebugProcess(); });
+        }
+
+        public override ContextMenu ContextMenu
+        {
+            get
+            {
+                ContextMenu menu = new ContextMenu(); // base.ContextMenu;
+
+                //menu.Items.Add(new Separator());
+                AppendMenuItem(menu, Resources.PROCESS_BRING_UP_EXPLORER, "folder_find", OnBringUpExplorer);
+                AppendMenuItem(menu, Resources.PROCESS_START_CMD, "application_xp_terminal", OnBringUpTerminal);
+                menu.Items.Add(new Separator());
+                AppendMenuItem(menu, Resources.PROCESS_DEBUG_PROCESS, "application_lightning", OnDebugProcess);
+                menu.Items.Add(new Separator());
+                AppendMenuItem(menu, Resources.PROCESS_KILL_PROCESS, "application_form_delete", OnKillProcess);
+                menu.Items.Add(new Separator());
+                AppendMenuItem(menu, Resources.IDS_PROPERTIES, "database_gear", ShowProperties);
+                return menu;
+            }
         }
     }
 }

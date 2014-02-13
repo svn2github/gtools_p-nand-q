@@ -115,6 +115,42 @@ namespace pserv4.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Client Server Runtime Process.
+        /// </summary>
+        internal static string IDS_PROCESS_CSRSS {
+            get {
+                return ResourceManager.GetString("IDS_PROCESS_CSRSS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Services and Controller App.
+        /// </summary>
+        internal static string IDS_PROCESS_SERVICES {
+            get {
+                return ResourceManager.GetString("IDS_PROCESS_SERVICES", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Session Manager.
+        /// </summary>
+        internal static string IDS_PROCESS_SMSS {
+            get {
+                return ResourceManager.GetString("IDS_PROCESS_SMSS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Services Host.
+        /// </summary>
+        internal static string IDS_PROCESS_SVCHOST {
+            get {
+                return ResourceManager.GetString("IDS_PROCESS_SVCHOST", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Properties.
         /// </summary>
         internal static string IDS_PROPERTIES {
@@ -201,6 +237,24 @@ namespace pserv4.Properties {
         internal static string MODULE_C_ProductVersion {
             get {
                 return ResourceManager.GetString("MODULE_C_ProductVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start Explorer in install location.
+        /// </summary>
+        internal static string PROCESS_BRING_UP_EXPLORER {
+            get {
+                return ResourceManager.GetString("PROCESS_BRING_UP_EXPLORER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Command Line.
+        /// </summary>
+        internal static string PROCESS_C_CommandLine {
+            get {
+                return ResourceManager.GetString("PROCESS_C_CommandLine", resourceCulture);
             }
         }
         
@@ -471,6 +525,33 @@ namespace pserv4.Properties {
         internal static string PROCESS_C_WorkingSet64 {
             get {
                 return ResourceManager.GetString("PROCESS_C_WorkingSet64", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Debug Process (*).
+        /// </summary>
+        internal static string PROCESS_DEBUG_PROCESS {
+            get {
+                return ResourceManager.GetString("PROCESS_DEBUG_PROCESS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kill Process (*).
+        /// </summary>
+        internal static string PROCESS_KILL_PROCESS {
+            get {
+                return ResourceManager.GetString("PROCESS_KILL_PROCESS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start CMD.EXE in install location.
+        /// </summary>
+        internal static string PROCESS_START_CMD {
+            get {
+                return ResourceManager.GetString("PROCESS_START_CMD", resourceCulture);
             }
         }
         

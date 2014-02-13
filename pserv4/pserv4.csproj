@@ -41,6 +41,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Management.Instrumentation" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -72,6 +74,7 @@
     <Compile Include="processes\NativeProcessFunctions.cs" />
     <Compile Include="processes\ProcessDataObject.cs" />
     <Compile Include="processes\ProcessesDataController.cs" />
+    <Compile Include="processes\ProcessInfoCache.cs" />
     <Compile Include="PropertiesWindow.xaml.cs">
       <DependentUpon>PropertiesWindow.xaml</DependentUpon>
     </Compile>
@@ -224,6 +227,15 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="images\application_xp_terminal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\application_lightning.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\application_form_delete.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
