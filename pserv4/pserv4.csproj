@@ -19,7 +19,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -29,7 +29,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -77,7 +77,6 @@
     <Compile Include="DataObjectColumn.cs" />
     <Compile Include="DataController.cs" />
     <Compile Include="NativeHelpers.cs" />
-    <Compile Include="PathSanitizer.cs" />
     <Compile Include="processes\NativeProcessFunctions.cs" />
     <Compile Include="processes\ProcessDataObject.cs" />
     <Compile Include="processes\ProcessesDataController.cs" />
@@ -254,6 +253,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="images\computer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GSharpTools\GSharpTools.csproj">
+      <Project>{20724c62-41c0-419d-832a-7f637ac41d4a}</Project>
+      <Name>GSharpTools</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

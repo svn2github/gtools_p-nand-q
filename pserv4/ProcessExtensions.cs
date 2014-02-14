@@ -18,6 +18,7 @@ using Microsoft.Win32;
 using pserv4.Properties;
 using log4net;
 using System.Reflection;
+using GSharpTools;
 
 namespace pserv4
 {

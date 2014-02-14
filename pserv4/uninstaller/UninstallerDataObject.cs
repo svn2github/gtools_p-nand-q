@@ -11,6 +11,7 @@ using System.IO;
 using Microsoft.Win32;
 using log4net;
 using System.Reflection;
+using GSharpTools;
 
 namespace pserv4.uninstaller
 {

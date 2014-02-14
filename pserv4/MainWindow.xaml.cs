@@ -19,6 +19,7 @@ using System.Collections;
 using Microsoft.Win32;
 using System.Windows.Threading;
 using log4net;
+using GSharpTools;
 
 namespace pserv4
 {
@@ -200,9 +201,11 @@ namespace pserv4
             Log.Info("**** END SwitchController() ****");
         }
 
+        
+
         public void UpdateTitle()
         {
-            Title = string.Format("pserv 4.0: {0}", CurrentController.Caption);
+            Title = string.Format("pserv {0}: {1}", AppVersion.Get(), CurrentController.Caption);
         }
 
         void MainListView_ContextMenuOpening(object sender, ContextMenuEventArgs e)

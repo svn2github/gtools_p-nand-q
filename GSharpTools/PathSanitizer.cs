@@ -6,18 +6,29 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using Microsoft.Win32.SafeHandles;
-namespace pserv4
+
+namespace GSharpTools
 {
     public static class PathSanitizer
     {
         [DllImport("shell32.dll")]
-        private static extern bool SHGetSpecialFolderPath(IntPtr hwndOwner, [Out] StringBuilder lpszPath, int nFolder, bool fCreate);
+        private static extern bool SHGetSpecialFolderPath(IntPtr hwndOwner, [Out] StringBuilder lpszPath, CSIDL nFolder, bool fCreate);
 
-        private static string Get32BitSystemDirectory()
+        private static string GetDirectory(CSIDL folder)
         {
             StringBuilder path = new StringBuilder(260);
-            SHGetSpecialFolderPath(IntPtr.Zero,path,0x0029,false);
+            SHGetSpecialFolderPath(IntPtr.Zero, path, folder, false);
             return path.ToString();
+        }
+
+        public static string Get32BitSystemDirectory()
+        {
+            return GetDirectory(CSIDL.SYSTEMX86);
+        }
+
+        public static string GetWindowsDirectory()
+        {
+            return GetDirectory(CSIDL.WINDOWS);
         }
 
         private static Dictionary<string, string> Cache = new Dictionary<string, string>();

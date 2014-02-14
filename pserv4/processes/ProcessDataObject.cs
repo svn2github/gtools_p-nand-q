@@ -12,6 +12,7 @@ using pserv4.Properties;
 using Microsoft.Win32;
 using log4net;
 using System.Reflection;
+using GSharpTools;
 
 using LUID = System.Int64;
 using HANDLE = System.IntPtr;
