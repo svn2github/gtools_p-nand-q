@@ -117,82 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="IDS_cache_is_empty" xml:space="preserve">
-    <value>Cache is empty as of yet...</value>
-  </data>
-  <data name="IDS_cache_read" xml:space="preserve">
-    <value>Read {0} hashes from the cache in {1}...</value>
-  </data>
-  <data name="IDS_CMD_cache_doc" xml:space="preserve">
-    <value>cache file name</value>
-  </data>
-  <data name="IDS_CMD_delete_doc" xml:space="preserve">
-    <value>delete files (default: list only)</value>
+  <data name="IDS_check" xml:space="preserve">
+    <value>{0} - {1}</value>
   </data>
   <data name="IDS_CMD_dir_doc" xml:space="preserve">
     <value>one or more directories to search</value>
   </data>
-  <data name="IDS_CMD_minsize_doc" xml:space="preserve">
-    <value>minimum size for files</value>
-  </data>
   <data name="IDS_CMD_recursive_doc" xml:space="preserve">
     <value>search directories recursively</value>
-  </data>
-  <data name="IDS_CMD_rename_doc" xml:space="preserve">
-    <value>rename files in MD5 format</value>
   </data>
   <data name="IDS_COPYRIGHT" xml:space="preserve">
     <value>Freeware written by Gerson Kurz (http://p-nand-q.com)</value>
   </data>
-  <data name="IDS_dupe_found" xml:space="preserve">
-    <value>{0} already exists as {1} [{2} bytes]</value>
-  </data>
-  <data name="IDS_ERR_db_read" xml:space="preserve">
-    <value>ERROR, unable to read database '{0}'</value>
-  </data>
   <data name="IDS_ERR_does_not_exist" xml:space="preserve">
     <value>ERROR, {0} doesn't exist...</value>
-  </data>
-  <data name="IDS_ERR_execute_statement" xml:space="preserve">
-    <value>ERROR, unable to execute statement '{0}'</value>
   </data>
   <data name="IDS_ERR_unable_to_read" xml:space="preserve">
     <value>ERROR, unable to read directory '{0}': {1}.</value>
   </data>
-  <data name="IDS_ERR_unable_to_rename" xml:space="preserve">
-    <value>Unable to rename {0} as {1}</value>
-  </data>
-  <data name="IDS_finished" xml:space="preserve">
-    <value>ddupe finished after {0}</value>
-  </data>
-  <data name="IDS_reading_cache" xml:space="preserve">
-    <value>About to read cache from "{0}"</value>
-  </data>
-  <data name="IDS_size_bytes" xml:space="preserve">
-    <value>{0} Bytes</value>
-  </data>
-  <data name="IDS_size_GB" xml:space="preserve">
-    <value>{0:0.00} GB</value>
-  </data>
-  <data name="IDS_size_KB" xml:space="preserve">
-    <value>{0} KB</value>
-  </data>
-  <data name="IDS_size_MB" xml:space="preserve">
-    <value>{0:0.00} MB</value>
-  </data>
   <data name="IDS_TITLE" xml:space="preserve">
     <value>Version {0}</value>
-  </data>
-  <data name="IDS_total_checked" xml:space="preserve">
-    <value>Checked a total of {0} files using {1}, calculating {2} hashes in {3} ticks.</value>
-  </data>
-  <data name="IDS_total_dupes" xml:space="preserve">
-    <value>Of these, {0} files [{2:0.00%}] using {1} [{3:0.00%}] were duplicates.</value>
-  </data>
-  <data name="IDS_total_hashes" xml:space="preserve">
-    <value>Using hashes from {0} filenames using {1}</value>
-  </data>
-  <data name="IDS_total_renamed" xml:space="preserve">
-    <value>Renamed a total of {0} files using {1}</value>
   </data>
 </root>

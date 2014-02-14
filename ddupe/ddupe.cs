@@ -110,7 +110,7 @@ namespace ddupe
                     catch (Exception e)
                     {
                         Console.WriteLine(e);
-                        Console.WriteLine("Unable to rename {0} as {1}",
+                        Console.WriteLine(resource.IDS_ERR_unable_to_rename,
                             filename, tempname);
                     }
                 }
@@ -127,7 +127,7 @@ namespace ddupe
         private void Run(string[] args)
         {
             Console.OutputEncoding = Encoding.GetEncoding(Encoding.Default.CodePage);
-            Args = new InputArgs("which", string.Format(resource.IDS_TITLE, AppVersion.Get()) + "\r\n" + resource.IDS_COPYRIGHT);
+            Args = new InputArgs("ddupe", string.Format(resource.IDS_TITLE, AppVersion.Get()) + "\r\n" + resource.IDS_COPYRIGHT);
 
             Args.Add(InputArgType.Flag, "recursive", false, Presence.Optional, resource.IDS_CMD_recursive_doc);
             Args.Add(InputArgType.Flag, "rename", false, Presence.Optional, resource.IDS_CMD_rename_doc);

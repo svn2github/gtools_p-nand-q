@@ -187,6 +187,15 @@ namespace ddupe {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to rename {0} as {1}.
+        /// </summary>
+        internal static string IDS_ERR_unable_to_rename {
+            get {
+                return ResourceManager.GetString("IDS_ERR_unable_to_rename", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ddupe finished after {0}.
         /// </summary>
         internal static string IDS_finished {

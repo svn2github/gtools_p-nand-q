@@ -6,21 +6,39 @@ using System.Data;
 using System.Data.Common;
 using System.IO;
 using GSharpTools;
+using System.Security.Cryptography;
 
-namespace touch
+namespace md5sums
 {
     /// <summary>
     /// Find executable files on the PATH environment 
     /// </summary>
-    class touch
+    class md5sums
     {
         private InputArgs Args;
-        private DateTime TimeStamp = DateTime.Now;
 
         /// <summary>
         /// This flag indicates whether subdirectories should be recursed into or not.
         /// </summary>
         private bool Recursive = true;
+
+        private string CalculateMD5(string filename)
+        {
+            long start = DateTime.Now.Ticks;
+            string result = null;
+
+            using (HashAlgorithm hashAlg = MD5.Create())
+            {
+                using (Stream file = new FileStream(filename, FileMode.Open, FileAccess.Read))
+                {
+                    byte[] hash = hashAlg.ComputeHash(file);
+
+                    // Display the hash code of the file to the console.
+                    result = BitConverter.ToString(hash).Replace("-", "");
+                }
+            }
+            return result;
+        }
 
         /// <summary>
         /// This program calculates the MD5 hashes for the given input files
@@ -29,49 +47,13 @@ namespace touch
         private void Run(string[] args)
         {
             Console.OutputEncoding = Encoding.GetEncoding(Encoding.Default.CodePage);
-            Args = new InputArgs("touch", string.Format(resource.IDS_TITLE, AppVersion.Get()) + "\r\n" + resource.IDS_COPYRIGHT);
+            Args = new InputArgs("md5sums", string.Format(resource.IDS_TITLE, AppVersion.Get()) + "\r\n" + resource.IDS_COPYRIGHT);
 
-            Args.Add(InputArgType.Parameter, "date", "", Presence.Optional, resource.IDS_CMD_date_doc);
-            Args.Add(InputArgType.Parameter, "time", "", Presence.Optional, resource.IDS_CMD_time_doc);
             Args.Add(InputArgType.Flag, "recursive", false, Presence.Optional, resource.IDS_CMD_recursive_doc);
             Args.Add(InputArgType.RemainingParameters, "DIR {DIR}", null, Presence.Optional, resource.IDS_CMD_dir_doc);
 
             if (Args.Process(args))
             {
-                DateTime dateSpec = DateTime.Now;
-                DateTime timeSpec = DateTime.Now;
-                string date = Args.GetString("DATE");
-                if (!string.IsNullOrEmpty(date))
-                {
-                    try
-                    {
-                        dateSpec = DateTime.Parse(date);
-                    }
-                    catch(Exception e)
-                    {
-                        Console.WriteLine(e);
-                        Console.WriteLine(e.StackTrace);
-                        Console.WriteLine(resource.IDS_ERR_unable_to_decode_date, date);
-                        return;
-                    }
-                }
-                string time = Args.GetString("TIME");
-                if (!string.IsNullOrEmpty(time))
-                {
-                    try
-                    {
-                        timeSpec = DateTime.Parse(time);
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e);
-                        Console.WriteLine(e.StackTrace);
-                        Console.WriteLine(resource.IDS_ERR_unable_to_decode_time, time);
-                        return;
-                    }
-                }
-                TimeStamp = new DateTime(dateSpec.Year, dateSpec.Month, dateSpec.Day, timeSpec.Hour, timeSpec.Minute, timeSpec.Second);
-
                 Recursive = Args.GetFlag("recursive");
 
                 List<string> directories = Args.GetStringList("DIR {DIR}");
@@ -95,7 +77,7 @@ namespace touch
             string search_pattern = "*";
 
             string optional_filepart = Path.GetFileName(directory);
-            if (!string.IsNullOrEmpty(optional_filepart) && IsWildcard(optional_filepart))
+            if (!string.IsNullOrEmpty(optional_filepart) && IsWildcard(optional_filepart) )
             {
                 search_pattern = optional_filepart;
                 directory = Path.GetDirectoryName(directory);
@@ -131,20 +113,10 @@ namespace touch
                 }
             }
         }
-
+        
         private void Check(string filename)
         {
-            try
-            {
-                File.SetLastWriteTime(filename, TimeStamp);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                Console.WriteLine(e.StackTrace);
-                Console.WriteLine(resource.IDS_ERR_SetLastWriteTimeFailed, filename);
-                Console.WriteLine(resource.IDS_ERR_while_touching, e.Message, filename);
-            }
+            Console.WriteLine(string.Format(resource.IDS_check, CalculateMD5(filename), filename));
         }
 
         static private string RemoveLastPathPart(string text)
@@ -199,7 +171,7 @@ namespace touch
                     }
                     else if (IsWildcard(tokens[0]))
                     {
-                        tokens[0] = string.Format("{0}\\{1}",
+                        tokens[0] = string.Format("{0}\\{1}", 
                             Directory.GetCurrentDirectory(),
                             tokens[0]);
                     }
@@ -259,7 +231,7 @@ namespace touch
         /// <param name="args"></param>
         static void Main(string[] args)
         {
-            new touch().Run(args);
+            new md5sums().Run(args);
         }
     }
 

@@ -41,7 +41,7 @@ namespace pathed
         private void Run(string[] args)
         {
             Console.OutputEncoding = Encoding.GetEncoding(Encoding.Default.CodePage);
-            Args = new InputArgs("which", string.Format(resource.IDS_TITLE, AppVersion.Get()) + "\r\n" + resource.IDS_COPYRIGHT);
+            Args = new InputArgs("pathed", string.Format(resource.IDS_TITLE, AppVersion.Get()) + "\r\n" + resource.IDS_COPYRIGHT);
 
             Args.Add(InputArgType.Flag, "machine", false, Presence.Optional, resource.IDS_CMD_machine_doc);
             Args.Add(InputArgType.Flag, "user", false, Presence.Optional, resource.IDS_CMD_user_doc);
