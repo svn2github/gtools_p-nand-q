@@ -275,15 +275,15 @@ namespace which
                 {
                     Console.WriteLine(ep);
                     Console.WriteLine(ep.StackTrace);
-                    Console.WriteLine(string.Format(resource.IDS_ERR_while_parsing, directory));
-                    Console.WriteLine(string.Format(resource.IDS_ERR_looking_for, lookfor));
+                    Console.WriteLine(resource.IDS_ERR_while_parsing, directory);
+                    Console.WriteLine(resource.IDS_ERR_looking_for, lookfor);
                     break;
                 }
                 catch (Exception ep)
                 {
                     Console.WriteLine(ep);
                     Console.WriteLine(ep.StackTrace);
-                    Console.WriteLine(string.Format(resource.IDS_ERR_while_parsing, directory));
+                    Console.WriteLine(resource.IDS_ERR_while_parsing, directory);
                     continue;
                 }
                 bool hasWildcard = HasWildcard(originalFilename);
