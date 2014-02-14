@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("http://p-nand-q.com")]
 [assembly: AssemblyProduct("pathed")]
-[assembly: AssemblyCopyright("Copyright ©  2014 Gerson Kurz")]
+[assembly: AssemblyCopyright("Copyright ©  2014 by Gerson Kurz")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

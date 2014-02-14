@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("su")]
-[assembly: AssemblyDescription("superuser shell")]
+[assembly: AssemblyTitle("ddupe")]
+[assembly: AssemblyDescription("find and remove duplicate files")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("http://p-nand-q.com")]
-[assembly: AssemblyProduct("su")]
+[assembly: AssemblyProduct("ddupe")]
 [assembly: AssemblyCopyright("Copyright ©  2014 by Gerson Kurz")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("27717949-1a7c-439d-8544-74db8ca255f5")]
+[assembly: Guid("f51d65a5-6249-42ad-ae0c-8cbb2380be70")]
 
 // Version information for an assembly consists of the following four values:
 //

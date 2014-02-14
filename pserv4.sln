@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "su", "su\su.csproj", "{E66A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pathed", "pathed\pathed.csproj", "{29D71424-E57A-4B31-ADD3-733D4C7A27F2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ddupe", "ddupe\ddupe.csproj", "{49518694-FA4A-4691-A954-E82A2FDE8CFB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{29D71424-E57A-4B31-ADD3-733D4C7A27F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{29D71424-E57A-4B31-ADD3-733D4C7A27F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{29D71424-E57A-4B31-ADD3-733D4C7A27F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49518694-FA4A-4691-A954-E82A2FDE8CFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49518694-FA4A-4691-A954-E82A2FDE8CFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49518694-FA4A-4691-A954-E82A2FDE8CFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49518694-FA4A-4691-A954-E82A2FDE8CFB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
