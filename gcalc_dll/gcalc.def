@@ -1,0 +1,12 @@
+;
+EXPORTS
+	gcalc_object_constructor
+	gcalc_object_retain
+	gcalc_object_release
+	gcalc_create
+	gcalc_get_options
+	gcalc_set_options
+	gcalc_evaluate_expression
+	gcalc_set_last_error
+	gcalc_error_to_string_array
+	gcalc_cplusplus_bridge_for_gkalk
