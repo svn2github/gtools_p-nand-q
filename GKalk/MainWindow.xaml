@@ -1,0 +1,89 @@
+﻿<Window x:Class="GKalk.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="GKalk" Height="599" Width="1186" Loaded="Window_Loaded">
+    <Window.Resources>
+        <Style TargetType="ToolTip" x:Key="InternalToolTipStyle">
+            <Setter Property="MaxWidth" Value="400" />
+        </Style>
+    </Window.Resources>
+
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="80"/>
+
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="80"/>
+
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Name="BtNew" Grid.Column="0" BorderThickness="0" Margin="0" BorderBrush="White" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" FontWeight="Normal" Click="BtNew_Click">
+                <Button.ToolTip>
+                    <ToolTip>
+                        <StackPanel>
+                            <TextBlock FontWeight="Bold">New</TextBlock>
+                            <TextBlock>Create a new document</TextBlock>
+                        </StackPanel>
+                    </ToolTip>
+                </Button.ToolTip>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                    <Image Source="images\database_add.png" RenderOptions.BitmapScalingMode="NearestNeighbor" Height="16" Margin="0 0 5 0"/>
+                    <AccessText>_New</AccessText>
+                </StackPanel>
+            </Button>
+            <Button Name="BtOpen" Grid.Column="1" BorderThickness="0" Margin="0" BorderBrush="White" FontFamily="Segoe UI" FontSize="14"  Background="#F5F5F5" Click="BtOpen_Click" >
+                <Button.ToolTip>
+                    <ToolTip>
+                        <StackPanel>
+                            <TextBlock FontWeight="Bold">Open</TextBlock>
+                            <TextBlock>Open an existing document</TextBlock>
+                        </StackPanel>
+                    </ToolTip>
+                </Button.ToolTip>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                    <Image Source="images\database_connect.png" RenderOptions.BitmapScalingMode="NearestNeighbor" Height="16" Margin="0 0 5 0"/>
+                    <AccessText>_Open</AccessText>
+                </StackPanel>
+            </Button>
+            <Button Name="BtSave" Grid.Column="2" BorderThickness="0" Margin="0" BorderBrush="White" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="BtSave_Click">
+                <Button.ToolTip>
+                    <ToolTip>
+                        <StackPanel>
+                            <TextBlock FontWeight="Bold">Save</TextBlock>
+                            <TextBlock>Save the current document</TextBlock>
+                        </StackPanel>
+                    </ToolTip>
+                </Button.ToolTip>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                    <Image Source="images\database_save.png" RenderOptions.BitmapScalingMode="NearestNeighbor" Height="16" Margin="0 0 5 0"/>
+                    <AccessText>_Save</AccessText>
+                </StackPanel>
+            </Button>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="30*"/>
+                <ColumnDefinition Width="70*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0">
+                <TextBox Name="TbInput" PreviewMouseWheel="Zoom_MouseWheel" TextChanged="TbInput_Changed" BorderThickness="0" FontFamily="Courier New" Margin="3" TextWrapping="Wrap" TextAlignment="Right" AcceptsReturn="True"></TextBox>
+            </StackPanel>
+            <GridSplitter Width="5"/>
+            <StackPanel Background="#F5F5F5" Grid.Column="1">
+                <TextBox Name="TbOutput" PreviewMouseWheel="Zoom_MouseWheel" FontFamily="Courier New" Margin="3" HorizontalScrollBarVisibility="Auto"  BorderThickness="0" IsReadOnly="True" BorderBrush="#F5F5F5" Background="#F5F5F5" ></TextBox>
+            </StackPanel>
+        </Grid>
+
+    </Grid>
+
+</Window>
