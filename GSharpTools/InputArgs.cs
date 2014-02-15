@@ -166,6 +166,21 @@ namespace GSharpTools
         {
             ExpectedArg.Value = arg;
             ExpectedArg.HasBeenSeen = true;
+
+            /* See https://github.com/zippy1981/GTools/commit/e29b375d14ceb24a0f1ce9039fb33ebc63beba43:
++             * If you use double quotes on a command line argument and end in a \ the string gets passed as
++             * ending in ". e.g if you issue the command [pathed /add "c:\program files\foo\"], the last 
++             * argument gets passed as [c:\program files\foo"]. This is because windows tries to be forgiving
++             * about spaces, but the '\' escapes a double quote.
++             */
+
+              if (arg.EndsWith("\""))
+                arg = arg.Remove(arg.LastIndexOf('"'));
+
+            // Its just a waste of a character in your path.
+            if (arg.EndsWith("\\"))
+                arg = arg.Remove(arg.LastIndexOf('\\'));
+
             if (!Directory.Exists(arg))
             {
                 Console.WriteLine("ERROR, argument {0} must specify an existing directory, '{1}' does not exist.", ExpectedArg.Name, arg);

@@ -33,15 +33,15 @@ namespace su
 
             Args = new InputArgs("su", string.Format(resource.IDS_TITLE, AppVersion.Get()) + "\r\n" + resource.IDS_COPYRIGHT);
 
-
-            Args.Add(InputArgType.Parameter, "cmd", "cmd.exe", Presence.Optional, "bvlabl");
+            Args.Add(InputArgType.Parameter, "cmd", "cmd.exe", Presence.Optional, resource.IDS_DOC_cmd_param);
 
             if (Args.Process(args))
             {
-                if (!IsAdministrator())
+                
+                string command = Args.GetString("cmd");
+                if( command.Equals("cmd.exe", StringComparison.OrdinalIgnoreCase))
                 {
-                    string command = Args.GetString("cmd");
-                    if( command.Equals("cmd.exe", StringComparison.OrdinalIgnoreCase))
+                    if (!IsAdministrator())
                     {
                         ProcessStartInfo startInfo = new ProcessStartInfo(Path.Combine(Environment.SystemDirectory, "cmd.exe"));
                         startInfo.Verb = "runas";
@@ -52,24 +52,24 @@ namespace su
                     }
                     else
                     {
-                        string exe;
-                        if( ProcessInfoTools.FindExecutable(command, out exe) )
-                        {
-                            ProcessStartInfo startInfo = new ProcessStartInfo(exe);
-                            startInfo.Verb = "runas";
-                            startInfo.WorkingDirectory = Environment.CurrentDirectory;
-
-                            System.Diagnostics.Process.Start(startInfo);
-                        }
-                        else
-                        {
-                            Console.WriteLine("ERROR, unable to locate '{0}'", command);
-                        }
+                        Console.WriteLine(resource.IDS_ERR_AlreadyRunningAsAdministrator);
                     }
                 }
                 else
                 {
-                    Console.WriteLine("You are already administrator...");
+                    string exe;
+                    if( ProcessInfoTools.FindExecutable(command, out exe) )
+                    {
+                        ProcessStartInfo startInfo = new ProcessStartInfo(exe);
+                        startInfo.Verb = "runas";
+                        startInfo.WorkingDirectory = Environment.CurrentDirectory;
+
+                        System.Diagnostics.Process.Start(startInfo);
+                    }
+                    else
+                    {
+                        Console.WriteLine(resource.IDS_ERR_UnableToFindFile, command);
+                    }
                 }
             }
         }

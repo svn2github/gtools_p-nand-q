@@ -70,6 +70,33 @@ namespace su {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Name of program to run as administrator.
+        /// </summary>
+        internal static string IDS_DOC_cmd_param {
+            get {
+                return ResourceManager.GetString("IDS_DOC_cmd_param", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You are already administrator....
+        /// </summary>
+        internal static string IDS_ERR_AlreadyRunningAsAdministrator {
+            get {
+                return ResourceManager.GetString("IDS_ERR_AlreadyRunningAsAdministrator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ERROR, unable to locate &apos;{0}&apos;.
+        /// </summary>
+        internal static string IDS_ERR_UnableToFindFile {
+            get {
+                return ResourceManager.GetString("IDS_ERR_UnableToFindFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Version {0}.
         /// </summary>
         internal static string IDS_TITLE {

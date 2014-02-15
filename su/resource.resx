@@ -120,6 +120,15 @@
   <data name="IDS_COPYRIGHT" xml:space="preserve">
     <value>Freeware written by Gerson Kurz (http://p-nand-q.com)</value>
   </data>
+  <data name="IDS_DOC_cmd_param" xml:space="preserve">
+    <value>Name of program to run as administrator</value>
+  </data>
+  <data name="IDS_ERR_AlreadyRunningAsAdministrator" xml:space="preserve">
+    <value>You are already administrator...</value>
+  </data>
+  <data name="IDS_ERR_UnableToFindFile" xml:space="preserve">
+    <value>ERROR, unable to locate '{0}'</value>
+  </data>
   <data name="IDS_TITLE" xml:space="preserve">
     <value>Version {0}</value>
   </data>
