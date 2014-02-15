@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using System.Diagnostics;
+using log4net;
+using System.Reflection;
 
 namespace GSharpTools
 {
@@ -25,6 +27,8 @@ namespace GSharpTools
 
     public class InputArgs
     {
+        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         internal class InputArg
         {
             public readonly InputArgType Type;

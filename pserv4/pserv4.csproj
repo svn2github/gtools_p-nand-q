@@ -38,6 +38,9 @@
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>pserv4.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="log4net">
       <HintPath>ThirdParty\log4net.dll</HintPath>
@@ -259,6 +262,12 @@
       <Project>{20724c62-41c0-419d-832a-7f637ac41d4a}</Project>
       <Name>GSharpTools</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\database_table.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="pserv4.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

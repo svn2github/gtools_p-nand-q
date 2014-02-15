@@ -232,6 +232,15 @@ namespace pserv4.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Show File Properties in Windows Explorer.
+        /// </summary>
+        internal static string IDS_SYSTEM_PROPERTIES {
+            get {
+                return ResourceManager.GetString("IDS_SYSTEM_PROPERTIES", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to remove this product: {0}?.
         /// </summary>
         internal static string IDS_UNINSTALLER_SureToRemoveKey {

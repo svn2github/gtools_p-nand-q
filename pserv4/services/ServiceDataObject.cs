@@ -25,6 +25,17 @@ namespace pserv4.services
             }
         }
 
+        public override string FileName
+        {
+            get
+            {
+                string result = PathSanitizer.GetExecutable(BinaryPathName, ensureQuotes: true);
+
+                return result;
+            }
+        }
+
+
         private SC_SERVICE_TYPE _ServiceType;
         public SC_SERVICE_TYPE ServiceType
         {
@@ -237,7 +248,7 @@ namespace pserv4.services
 
         public bool ShowRegistryEditor()
         {
-            return ShowRegistryEditor(string.Format("HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\{0}",
+            return ProcessInfoTools.ShowRegistryEditor(string.Format("HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\{0}",
                 InternalID));
         }
 
@@ -251,12 +262,12 @@ namespace pserv4.services
 
         public bool BringUpExplorerInInstallLocation()
         {
-            return BringUpExplorer(InstallLocation);
+            return ProcessInfoTools.ShowExplorer(InstallLocation);
         }
 
         public bool BringUpTerminalInInstallLocation()
         {
-            return BringUpTerminal(InstallLocation);
+            return ProcessInfoTools.ShowTerminal(InstallLocation);
         }
 
         public bool RemoveRegistryKey()

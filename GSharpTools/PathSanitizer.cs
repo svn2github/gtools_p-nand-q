@@ -6,11 +6,14 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using Microsoft.Win32.SafeHandles;
+using log4net;
 
 namespace GSharpTools
 {
     public static class PathSanitizer
     {
+        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         [DllImport("shell32.dll")]
         private static extern bool SHGetSpecialFolderPath(IntPtr hwndOwner, [Out] StringBuilder lpszPath, CSIDL nFolder, bool fCreate);
 
@@ -101,7 +104,7 @@ namespace GSharpTools
             return result;
         }
 
-        public static string GetExecutable(string userPath)
+        public static string GetExecutable(string userPath, bool ensureQuotes = false)
         {
             string result = userPath;
             if (result.StartsWith("\""))
@@ -119,6 +122,13 @@ namespace GSharpTools
                 if (k >= 0)
                 {
                     result = result.Substring(0, k);
+                }
+            }
+            if (ensureQuotes)
+            {
+                if( userPath.IndexOf(' ') >= 0 )
+                {
+                    return string.Format("\"{0}\"", userPath);
                 }
             }
             return result;

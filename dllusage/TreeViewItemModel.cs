@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows;
 using log4net;
 using System.Reflection;
+using System.Diagnostics;
 
 namespace dllusage
 {
@@ -36,6 +37,32 @@ namespace dllusage
         public string Name { get; set; }
 
         public readonly string Key;
+
+        public string XmlItemName
+        {
+            get
+            {
+                return (Tag is Process) ? "process" : "module";
+            }
+        }
+
+        public string XmlItemID
+        {
+            get
+            {
+                Process p = Tag as Process;
+                if( p != null )
+                {
+                    return p.GetSafeProcessName();
+                }
+                ProcessModule m = Tag as ProcessModule;
+                if( m != null )
+                {
+                    return m.GetSafeModuleName();
+                }
+                return Key;
+            }
+        }
 
 
         public bool AddItem(string displayName, string key, object tag)

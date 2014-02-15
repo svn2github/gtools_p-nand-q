@@ -57,6 +57,14 @@ namespace pserv4.processes
 
         private static Dictionary<string, string> KnownSystemServices;
 
+        public override string FileName
+        {
+            get
+            {
+                return MainExecutable;
+            }
+        }
+
         public void Refresh(Process p)
         {
             if( KnownSystemServices == null )
@@ -187,12 +195,12 @@ namespace pserv4.processes
 
         public bool BringUpExplorerInInstallLocation()
         {
-            return BringUpExplorer(InstallLocation);
+            return ProcessInfoTools.ShowExplorer(InstallLocation);
         }
 
         public bool BringUpTerminalInInstallLocation()
         {
-            return BringUpTerminal(InstallLocation);
+            return ProcessInfoTools.ShowTerminal(InstallLocation);
         }
 
 

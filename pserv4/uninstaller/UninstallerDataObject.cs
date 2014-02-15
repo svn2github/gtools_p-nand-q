@@ -139,12 +139,12 @@ namespace pserv4.uninstaller
         
         public bool BringUpExplorerInInstallLocation()
         {
-            return BringUpExplorer(InstallLocation);
+            return ProcessInfoTools.ShowExplorer(InstallLocation);
         }
 
         public bool BringUpTerminalInInstallLocation()
         {
-            return BringUpTerminal(InstallLocation);
+            return ProcessInfoTools.ShowTerminal(InstallLocation);
         }
 
         public bool ShowLink(string link)
@@ -235,7 +235,7 @@ namespace pserv4.uninstaller
 
         public bool ShowRegistryEditor()
         {
-            return ShowRegistryEditor(RegistryKey);
+            return ProcessInfoTools.ShowRegistryEditor(RegistryKey);
         }
 
         public bool RemoveFromRegistry()

@@ -28,7 +28,7 @@ namespace dllusage
             Dictionary<string, TreeViewItemModel> dict = new Dictionary<string, TreeViewItemModel>(StringComparer.CurrentCultureIgnoreCase);
             foreach(TreeViewItemModel model in items)
             {
-                dict[model.Name] = model;
+                dict[model.Key] = model;
                 model.IsValid = false;
                 model.IsNew = false;
             }

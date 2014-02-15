@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using Microsoft.Win32;
 using System.IO;
 using System.Diagnostics;
+using GSharpTools;
 
 namespace GKalk
 {
@@ -35,6 +36,7 @@ namespace GKalk
             Output.EnsureCapacity(MAX_CAPACITY);
             LastKnownFileName = "";
             Calculator = gcalc.gcalc_create();
+            Title = string.Format("gkalk {0}", AppVersion.Get());
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)

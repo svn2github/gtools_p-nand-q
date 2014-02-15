@@ -8,6 +8,7 @@ using System.Security.Permissions;
 using System.Security.Principal;
 using System.Diagnostics;
 using System.IO;
+using GSharpTools;
 
 namespace pserv4.modules
 {
@@ -21,12 +22,22 @@ namespace pserv4.modules
         public string FileVersion { get; private set; }
         public string Product { get; private set; }
         public string ProductVersion { get; private set; }
+        public string MainExecutable { get; private set; }
 
         public readonly int ID;
+
+        public override string FileName
+        {
+            get
+            {
+                return MainExecutable;
+            }
+        }
 
         public void Refresh(Process p, ProcessModule m, bool isDisabled)
         {
             SetStringProperty("ProcessID", p.Id );
+            SetStringProperty("MainExecutable", m.FileName);
             if(SetStringProperty("Name", System.IO.Path.GetFileName(m.FileName)))
             {
                 SetStringProperty("ToolTipCaption", Name);
@@ -53,12 +64,12 @@ namespace pserv4.modules
 
         public bool BringUpExplorerInInstallLocation()
         {
-            return BringUpExplorer(Path);
+            return ProcessInfoTools.ShowExplorer(Path);
         }
 
         public bool BringUpTerminalInInstallLocation()
         {
-            return BringUpTerminal(Path);
+            return ProcessInfoTools.ShowTerminal(Path);
         }
 
         public ModuleDataObject(Process p, ProcessModule m, bool isDisabled)

@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using pserv4.Properties;
 using log4net;
 using System.Reflection;
+using GSharpTools;
 
 namespace pserv4
 {
@@ -37,6 +38,8 @@ namespace pserv4
         public readonly string ControlPauseDescription;
         public readonly string ControlContinueDescription;
 
+        protected bool HasFilenames;
+
         public string Caption {get; protected set; }
 
         public DataController(
@@ -52,6 +55,7 @@ namespace pserv4
             ItemName = itemName;
             Caption = controllerName;
             HasProperties = false;
+            HasFilenames = true;
             ControllerName = controllerName;
             ControlStartDescription = controlStartDescription;
             ControlStopDescription = controlStopDescription;
@@ -117,6 +121,11 @@ namespace pserv4
             AppendMenuItem(menu, Resources.IDS_SAVE_AS_XML, "database_save", MainWindow.Instance.SaveAsXML);
             AppendMenuItem(menu, Resources.IDS_COPY_TO_CLIPBOARD, "database_lightning", MainWindow.Instance.CopyToClipboard);
             menu.Items.Add(new Separator());
+            if (HasFilenames)
+            {
+                AppendMenuItem(menu, Resources.IDS_SYSTEM_PROPERTIES, "database_table", ShowSystemProperties);
+                menu.Items.Add(new Separator());
+            }
             AppendMenuItem(menu, Resources.IDS_PROPERTIES, "database_gear", ShowProperties);
             return menu;
         }
@@ -243,6 +252,18 @@ namespace pserv4
                 new PropertiesWindow().Show();
             }
         }
+
+        public void ShowSystemProperties(object sender, RoutedEventArgs e)
+        {
+            if(HasFilenames)
+            {
+                foreach (DataObject o in MainListView.SelectedItems)
+                {
+                    ProcessInfoTools.ShowFileProperties(o.FileName);
+                }
+            }
+        }
+
 
         public virtual UserControl CreateDetailsPage(DataObject o)
         {

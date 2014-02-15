@@ -20,6 +20,9 @@ using Microsoft.Win32;
 using System.Windows.Threading;
 using log4net;
 using GSharpTools;
+using System.IO;
+using System.Runtime.InteropServices;
+using System.Xml;
 
 namespace dllusage
 {
@@ -97,14 +100,87 @@ namespace dllusage
 
         private void OnShowProperties(object sender, RoutedEventArgs e)
         {
-            
+            string filename;
+            if( GetSelectedFileName(out filename))
+            {
+                ProcessInfoTools.ShowFileProperties(filename);
+            }
+        }
+
+        private bool GetSelectedFileName(out string filename)
+        {
+            filename = null;
+
+            TreeViewItemModel model = MainTreeView.SelectedItem as TreeViewItemModel;
+            if (model != null)
+            {
+                Process p = model.Tag as Process;
+                if (p != null)
+                {
+                    filename = p.GetSafeProcessName();
+                    return true;
+                }
+                else
+                {
+                    ProcessModule m = model.Tag as ProcessModule;
+                    if (m != null)
+                    {
+                        filename = m.GetSafeModuleName();
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        private void OnShowConsole(object sender, RoutedEventArgs e)
+        {
+            string filename;
+            if (GetSelectedFileName(out filename))
+            {
+                ProcessInfoTools.ShowTerminal(System.IO.Path.GetDirectoryName(filename));
+            }
+        }
+
+        private void OnShowExplorer(object sender, RoutedEventArgs e)
+        {
+            string filename;
+            if (GetSelectedFileName(out filename))
+            {
+                ProcessInfoTools.ShowExplorer(System.IO.Path.GetDirectoryName(filename));
+            }
+        }
+
+        private void OnShowDependencies(object sender, RoutedEventArgs e)
+        {
+            string dependencyViewer;
+            if (ProcessInfoTools.FindExecutable("depends.exe", out dependencyViewer))
+            {
+                string filename;
+                if (GetSelectedFileName(out filename))
+                {
+                    Process.Start(dependencyViewer, string.Format("\"{0}\"", filename));
+                }
+            }
+            else
+            {
+                MessageBox.Show("Unable to find DEPENDS.EXE", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void OnRefreshDisplay(object sender, RoutedEventArgs e)
         {
             
         }
-        
+        private void TreeViewItem_PreviewMouseRightButtonDown(object sender, MouseEventArgs e)
+        {
+            TreeViewItem item = sender as TreeViewItem;
+            if (item != null)
+            {
+                item.Focus();
+                e.Handled = true;
+            }
+        }
 
         private void OnSaveAsXML(object sender, RoutedEventArgs e)
         {
@@ -133,49 +209,57 @@ namespace dllusage
 
         private void DoSaveAsXml(string filename)
         {
-            /*
-             * foreach(DataObject o in items)
+            XmlWriterSettings settings = new XmlWriterSettings();
+            settings.Indent = true;
+            settings.Encoding = Encoding.UTF8;
+            settings.IndentChars = "\t";
+            settings.NewLineChars = "\r\n";
+
+            StringBuilder buffer = new StringBuilder();
+            using (XmlWriter xtw = (filename == null) ? XmlWriter.Create(buffer, settings) : XmlWriter.Create(filename, settings))
             {
-                xtw.WriteStartElement(ItemName);
-                xtw.WriteAttributeString("id", o.InternalID);
+                xtw.WriteStartDocument();
+                xtw.WriteStartElement(KnownViews[CurrentViewType].Controller.ToString());
+                xtw.WriteAttributeString("version", "4.0");
+                xtw.WriteAttributeString("count", Items.Count.ToString());
+                OnSaveAsXML(xtw);
+                xtw.WriteEndElement();
+                xtw.Close();
+            }
+            if (filename == null)
+            {
+                Clipboard.SetText(buffer.ToString());
+            }      
+        }
 
-                Type t = o.GetType();
+        private void OnSaveAsXML(XmlWriter xtw)
+        {
+            foreach(TreeViewItemModel o in Items)
+            {
+                xtw.WriteStartElement(o.XmlItemName);
+                xtw.WriteAttributeString("id", o.XmlItemID);
 
-                foreach (DataObjectColumn c in Columns)
+                string childName = null;
+
+                foreach (TreeViewItemModel c in o.Items)
                 {
-                    if( !c.BindingName.Equals("InternalID"))
+                    if (childName == null )
                     {
-                        try
-                        {
-                            object item = t.GetProperty(c.BindingName).GetValue(o, null);
-                            if (item != null)
-                            {
-                                string value = item as string;
-                                if (value == null)
-                                    value = item.ToString();
-
-                                xtw.WriteElementString(c.BindingName, value);
-                            }
-                        }
-                        catch (Exception e)
-                        {
-                            Log.Error(string.Format("Failed to access property {0}", c.BindingName), e);
-                        }
+                        childName = c.XmlItemName;
                     }
+                    xtw.WriteElementString(childName, c.XmlItemID);
                 }
                 xtw.WriteEndElement();
-            }*/
+            }
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             SwitchController(MainViewType.ListByDLLName);
-            /*
             DispatcherTimer dt = new DispatcherTimer();
             dt.Tick += new EventHandler(timer_Tick);
             dt.Interval = new TimeSpan(0, 0, 5); // execute every hour
             dt.Start();
-            */
         }
 
         private void Zoom_MouseWheel(object sender, MouseWheelEventArgs e)
@@ -196,45 +280,50 @@ namespace dllusage
             }
         }
 
+        private void timer_Tick(object sender, EventArgs args)
+        {
+            Log.InfoFormat("*** BEGIN TIMER TICK: {0}", System.Threading.Thread.CurrentThread.ManagedThreadId);
+
+            using (new WaitCursor())
+            {
+                DateTime startTime = DateTime.Now;
+                try
+                {
+                    DataController.Refresh(Items, KnownViews[CurrentViewType].Controller);
+                }
+                catch (Exception e)
+                {
+                    Log.Error(string.Format("{0}.Refresh()", DataController), e);
+                }
+                Log.InfoFormat("Total time for DataController.Refresh: {0}", DateTime.Now - startTime);
+                Log.InfoFormat("Total items count: {0}", Items.Count);
+            }
+            Log.InfoFormat("*** END TIMER TICK: {0}", System.Threading.Thread.CurrentThread.ManagedThreadId);
+        }
+
+        private string TextToFind;
+
         private void FindThisText_TextChanged(object sender, TextChangedEventArgs e)
         {
-            /*ICollectionView view = CollectionViewSource.GetDefaultView(Items);
+            ICollectionView view = CollectionViewSource.GetDefaultView(Items);
             if (FindThisText.Text.Trim().Length == 0)
             {
                 view.Filter = null;
-                UpdateDefaultStatusBar();
             }
             else
             {
+                TextToFind = FindThisText.Text.Trim().ToLower();
                 view.Filter = new Predicate<object>(FilterDataObjectItem);
-                UpdateFilteredStatusBar();
-            }*/
+            }
         }
 
         private bool FilterDataObjectItem(object obj)
         {
-            /*DataObject item = obj as DataObject;
+            TreeViewItemModel item = obj as TreeViewItemModel;
             if (item == null)
                 return false;
 
-            string findThisText = FindThisText.Text.Trim().ToLower();
-
-            Type actualType = obj.GetType();
-
-            foreach (DataObjectColumn oc in CurrentController.Columns)
-            {
-                object actualValue = actualType.GetProperty(oc.BindingName).GetValue(obj, null);
-                if (actualValue != null)
-                {
-                    string sValue = actualValue as string;
-                    if (sValue == null)
-                        sValue = actualValue.ToString();
-
-                    if (sValue.ToLower().Contains(findThisText))
-                        return true;
-                }
-            }*/
-            return false;
+            return item.Name.ToLower().Contains(TextToFind);
         }
 
         private void SwitchController(MainViewType displayMode, bool visible = true)
@@ -276,7 +365,7 @@ namespace dllusage
                 if (visible)
                 {
                     MainTreeView.ItemsSource = Items;   //your query result 
-
+                    
 
 
                     CreateInitialSort();
@@ -318,5 +407,16 @@ namespace dllusage
         {
             SwitchController(MainViewType.ListByEXEPath);
         }
+
+        private void MainTreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            bool enabled = (MainTreeView.SelectedItem != null);
+
+            BtShowDependencies.IsEnabled = enabled;
+            BtShowExplorer.IsEnabled = enabled;
+            BtShowConsole.IsEnabled = enabled;
+            BtShowProperties.IsEnabled = enabled;
+        }
     }
 }
+

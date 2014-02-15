@@ -27,7 +27,8 @@ namespace pserv4.windows
             IsControlStopEnabled = true;
             IsControlRestartEnabled = true;
             IsControlPauseEnabled = true; 
-            IsControlContinueEnabled = true; 
+            IsControlContinueEnabled = true;
+            HasFilenames = false;
         }
 
         public override IEnumerable<DataObjectColumn> Columns

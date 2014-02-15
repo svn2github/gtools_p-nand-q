@@ -37,6 +37,7 @@ namespace pserv4.uninstaller
                 Resources.UNINSTALLER_CTRL_CONTINUE_Description)
         {
             HasProperties = true;
+            HasFilenames = false;
         }
 
 

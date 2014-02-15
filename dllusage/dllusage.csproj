@@ -36,6 +36,9 @@
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>dllusage.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="log4net">
       <HintPath>..\pserv4\ThirdParty\log4net.dll</HintPath>
@@ -135,6 +138,14 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="images\arrow_refresh.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\application_xp_terminal.png" />
+    <Resource Include="images\folder_find.png" />
+    <Resource Include="images\table_gear.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="dllusage.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

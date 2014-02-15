@@ -13,6 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Diagnostics;
 using Microsoft.Win32;
+using GSharpTools;
 
 namespace pserv4.uninstaller
 {
@@ -88,7 +89,7 @@ namespace pserv4.uninstaller
 
         private void OnBrowseFilename(object sender, RoutedEventArgs e)
         {
-            UDO.BringUpExplorer(TbInstallLocation.Text);
+            ProcessInfoTools.ShowExplorer(TbInstallLocation.Text);
         }
 
         private void OnShowHelpLink(object sender, RoutedEventArgs e)

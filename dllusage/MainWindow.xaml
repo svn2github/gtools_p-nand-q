@@ -22,7 +22,12 @@
 
                 <ColumnDefinition Width="90"/>
                 <ColumnDefinition Width="*"/>
+                
                 <ColumnDefinition Width="32"/>
+                <ColumnDefinition Width="32"/>
+                <ColumnDefinition Width="32"/>
+                <ColumnDefinition Width="32"/>
+                
                 <ColumnDefinition Width="32"/>
                 <ColumnDefinition Width="32"/>
                 <ColumnDefinition Width="32"/>
@@ -91,12 +96,12 @@
             </StackPanel>
             <TextBox Grid.Column="5" x:Name="FindThisText" Margin="3" TextChanged="FindThisText_TextChanged" />
 
-            <Button Grid.Column="6" BorderThickness="0" Margin="0" BorderBrush="White" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="OnShowProperties">
+            <Button Grid.Column="6" Name="BtShowProperties" IsEnabled="false" BorderThickness="0" Margin="0" BorderBrush="White" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="OnShowProperties">
                 <Button.ToolTip>
                     <ToolTip>
                         <StackPanel>
                             <TextBlock FontWeight="Bold">Properties</TextBlock>
-                            <TextBlock>Shows more information about the currently selected items. Some controllers allow you to modify additional configuration settings here.</TextBlock>
+                            <TextBlock>Shows more information about the currently selected item.</TextBlock>
                         </StackPanel>
                     </ToolTip>
                 </Button.ToolTip>
@@ -113,33 +118,69 @@
                 </Button.ToolTip>
                 <Image Source="images\arrow_refresh.png" RenderOptions.BitmapScalingMode="NearestNeighbor" Height="16" Margin="0 0 5 0"/>
             </Button>
-            <Button Grid.Column="8" BorderThickness="0" Margin="0" BorderBrush="White" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="OnSaveAsXML">
+            <Button Grid.Column="8" Name="BtSaveAsXML" BorderThickness="0" Margin="0" BorderBrush="White" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="OnSaveAsXML">
                 <Button.ToolTip>
                     <ToolTip>
                         <StackPanel>
                             <TextBlock FontWeight="Bold">Save as XML</TextBlock>
-                            <TextBlock>Save all (or currently selected) items as XML</TextBlock>
+                            <TextBlock>Save all items as XML</TextBlock>
                         </StackPanel>
                     </ToolTip>
                 </Button.ToolTip>
                 <Image Source="images\database_save.png" RenderOptions.BitmapScalingMode="NearestNeighbor" Height="16" Margin="0 0 5 0"/>
             </Button>
-            <Button Grid.Column="9" BorderThickness="0" Margin="0" BorderBrush="White" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="OnCopyToClipboard">
+            <Button Grid.Column="9" Name="BtCopyToClipboard" BorderThickness="0" Margin="0" BorderBrush="White" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="OnCopyToClipboard">
                 <Button.ToolTip>
                     <ToolTip>
                         <StackPanel>
                             <TextBlock FontWeight="Bold">Copy to clipboard</TextBlock>
-                            <TextBlock>Copy information on all (or currently selected) items as XML to the clipboard</TextBlock>
+                            <TextBlock>Copy information on all items as XML to the clipboard</TextBlock>
                         </StackPanel>
                     </ToolTip>
                 </Button.ToolTip>
                 <Image Source="images\database_lightning.png" RenderOptions.BitmapScalingMode="NearestNeighbor" Height="16" Margin="0 0 5 0"/>
             </Button>
 
-
+            <Button Grid.Column="10" Name="BtShowDependencies" IsEnabled="false" BorderThickness="0" Margin="0" BorderBrush="White" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="OnShowDependencies">
+                <Button.ToolTip>
+                    <ToolTip>
+                        <StackPanel>
+                            <TextBlock FontWeight="Bold">Show Dependencies</TextBlock>
+                            <TextBlock>Bring up Dependency Viewer in current directory</TextBlock>
+                        </StackPanel>
+                    </ToolTip>
+                </Button.ToolTip>
+                <Image Source="images\table_gear.png" RenderOptions.BitmapScalingMode="NearestNeighbor" Height="16" Margin="0 0 5 0"/>
+            </Button>
+            <Button Grid.Column="11" Name="BtShowExplorer" IsEnabled="false" BorderThickness="0" Margin="0" BorderBrush="White" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="OnShowExplorer">
+                <Button.ToolTip>
+                    <ToolTip>
+                        <StackPanel>
+                            <TextBlock FontWeight="Bold">Show Explorer</TextBlock>
+                            <TextBlock>Bring up Explorer.EXE in current directory</TextBlock>
+                        </StackPanel>
+                    </ToolTip>
+                </Button.ToolTip>
+                <Image Source="images\folder_find.png" RenderOptions.BitmapScalingMode="NearestNeighbor" Height="16" Margin="0 0 5 0"/>
+            </Button>
+            <Button Grid.Column="12" Name="BtShowConsole" IsEnabled="false" BorderThickness="0" Margin="0" BorderBrush="White" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="OnShowConsole">
+                <Button.ToolTip>
+                    <ToolTip>
+                        <StackPanel>
+                            <TextBlock FontWeight="Bold">Show Console</TextBlock>
+                            <TextBlock>Bring up CMD.EXE in current directory</TextBlock>
+                        </StackPanel>
+                    </ToolTip>
+                </Button.ToolTip>
+                <Image Source="images\application_xp_terminal.png" RenderOptions.BitmapScalingMode="NearestNeighbor" Height="16" Margin="0 0 5 0"/>
+            </Button>
 
         </Grid>
-        <TreeView Grid.Row="1" Name="MainTreeView" PreviewMouseWheel="Zoom_MouseWheel" FontFamily="Courier New">
+        <TreeView Grid.Row="1" 
+                  Name="MainTreeView" 
+                  PreviewMouseWheel="Zoom_MouseWheel" 
+                  FontFamily="Courier New"
+                  SelectedItemChanged="MainTreeView_SelectedItemChanged">
             <TreeView.ItemTemplate>
 
                 <HierarchicalDataTemplate ItemsSource="{Binding Items}">
@@ -149,6 +190,8 @@
 
             <TreeView.ItemContainerStyle>
                 <Style TargetType="TreeViewItem">
+                    <!-- We have to select the item which is right-clicked on -->
+                    <EventSetter Event="TreeViewItem.PreviewMouseRightButtonDown" Handler="TreeViewItem_PreviewMouseRightButtonDown"/>
                     <Setter Property="Foreground" Value="Black" />
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding Path=IsRunning}" Value="True">
