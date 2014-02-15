@@ -121,7 +121,9 @@
                 </StackPanel>
             </Button>
             <Button Name="BtStart" Grid.Column="6" IsEnabled="False" BorderThickness="0" Margin="0" BorderBrush="White" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="OnControlStart">
-                <Image Source="images\control_play.png" RenderOptions.BitmapScalingMode="NearestNeighbor" Height="16" Margin="0 0 5 0"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                    <Image Source="images\control_play.png" RenderOptions.BitmapScalingMode="NearestNeighbor" Height="16" Margin="0 0 5 0"/>
+                </StackPanel>
                 <Button.ToolTip>
                     <ToolTip>
                         <StackPanel>
@@ -131,7 +133,9 @@
                 </Button.ToolTip>
             </Button>
             <Button Name="BtStop" Grid.Column="7" IsEnabled="False" BorderThickness="0" Margin="0" BorderBrush="White" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="OnControlStop">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                 <Image Source="images\control_stop.png" RenderOptions.BitmapScalingMode="NearestNeighbor" Height="16" Margin="0 0 5 0"/>
+                </StackPanel>
                 <Button.ToolTip>
                     <ToolTip>
                         <StackPanel>

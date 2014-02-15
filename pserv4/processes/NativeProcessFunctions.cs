@@ -14,37 +14,7 @@ using LUID = System.Int64;
 using HANDLE = System.IntPtr;
 
 namespace pserv4.processes
-{
-    [Flags]
-    public enum WS_EX_STYLE : uint
-    {
-        DLGMODALFRAME = 0x00000001,
-        NOPARENTNOTIFY = 0x00000004,
-        TOPMOST = 0x00000008,
-        ACCEPTFILES = 0x00000010,
-        TRANSPARENT = 0x00000020,
-        MDICHILD = 0x00000040,
-        TOOLWINDOW = 0x00000080,
-        WINDOWEDGE = 0x00000100,
-        CLIENTEDGE = 0x00000200,
-        CONTEXTHELP = 0x00000400,
-        RIGHT = 0x00001000,
-        LEFT = 0x00000000,
-        RTLREADING = 0x00002000,
-        LTRREADING = 0x00000000,
-        LEFTSCROLLBAR = 0x00004000,
-        RIGHTSCROLLBAR = 0x00000000,
-        CONTROLPARENT = 0x00010000,
-        STATICEDGE = 0x00020000,
-        APPWINDOW = 0x00040000,
-        LAYERED = 0x00080000,
-        NOINHERITLAYOUT = 0x00100000,
-        LAYOUTRTL = 0x00400000,
-        COMPOSITED = 0x02000000,
-        NOACTIVATE = 0x08000000,
-    }
-    
-    
+{    
     public enum TOKEN_INFORMATION_CLASS
     {
         TokenUser = 1,
@@ -59,26 +29,6 @@ namespace pserv4.processes
         TokenStatistics,
         TokenRestrictedSids,
         TokenSessionId
-    }
-    
-    [Serializable, StructLayout(LayoutKind.Sequential)]
-    public struct RECT
-    {
-        public int Left;
-        public int Top;
-        public int Right;
-        public int Bottom;
-
-        public RECT(int left_, int top_, int right_, int bottom_)
-        {
-            Left = left_;
-            Top = top_;
-            Right = right_;
-            Bottom = bottom_;
-        }
-
-        public int Height { get { return Bottom - Top; } }
-        public int Width { get { return Right - Left; } }
     }
 
     public static class NativeProcessFunctions

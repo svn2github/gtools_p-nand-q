@@ -28,6 +28,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GKalk", "GKalk\GKalk.csproj
 		{EEC09044-2D47-4F8D-AE0D-E75774FB6AAE} = {EEC09044-2D47-4F8D-AE0D-E75774FB6AAE}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dllusage", "dllusage\dllusage.csproj", "{032A2A23-2EBF-438A-8BBD-4F4D3819F254}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -148,6 +150,16 @@ Global
 		{D5B19C92-E2ED-44F6-9E80-71B81E6959F2}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{D5B19C92-E2ED-44F6-9E80-71B81E6959F2}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{D5B19C92-E2ED-44F6-9E80-71B81E6959F2}.Release|Win32.ActiveCfg = Release|Any CPU
+		{032A2A23-2EBF-438A-8BBD-4F4D3819F254}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{032A2A23-2EBF-438A-8BBD-4F4D3819F254}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{032A2A23-2EBF-438A-8BBD-4F4D3819F254}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{032A2A23-2EBF-438A-8BBD-4F4D3819F254}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{032A2A23-2EBF-438A-8BBD-4F4D3819F254}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{032A2A23-2EBF-438A-8BBD-4F4D3819F254}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{032A2A23-2EBF-438A-8BBD-4F4D3819F254}.Release|Any CPU.Build.0 = Release|Any CPU
+		{032A2A23-2EBF-438A-8BBD-4F4D3819F254}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{032A2A23-2EBF-438A-8BBD-4F4D3819F254}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{032A2A23-2EBF-438A-8BBD-4F4D3819F254}.Release|Win32.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -52,10 +52,10 @@ namespace pserv4
         private readonly MainViewType InitialControl;
         private MainViewType CurrentViewType;
 
-        private SolidColorBrush SelectedBackgroundColor;
-        private SolidColorBrush SelectedForegroundColor;
-        private SolidColorBrush UnselectedBackgroundColor;
-        private SolidColorBrush UnselectedForegroundColor;
+        private readonly SolidColorBrush SelectedBackgroundColor;
+        private readonly SolidColorBrush SelectedForegroundColor;
+        private readonly SolidColorBrush UnselectedBackgroundColor;
+        private readonly SolidColorBrush UnselectedForegroundColor;
 
         public static BitmapImage[] BIStart = new BitmapImage[2];
         public static BitmapImage[] BIStop = new BitmapImage[2];
@@ -201,8 +201,6 @@ namespace pserv4
             Log.Info("**** END SwitchController() ****");
         }
 
-        
-
         public void UpdateTitle()
         {
             Title = string.Format("pserv {0}: {1}", AppVersion.Get(), CurrentController.Caption);
@@ -285,7 +283,7 @@ namespace pserv4
             SwitchController(InitialControl);
             DispatcherTimer dt = new DispatcherTimer();
             dt.Tick += new EventHandler(timer_Tick);
-            dt.Interval = new TimeSpan(0, 0, 5); // execute every hour
+            dt.Interval = new TimeSpan(0, 0, 5); // auto-refresh every 5 seconds
             dt.Start();
         }
 
