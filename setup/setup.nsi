@@ -5,6 +5,8 @@ Name "GTools 4.0"
 
 OutFile "gtools-4.0.exe"
 
+RequestExecutionLevel admin ;Require admin rights on NT6+ (When UAC is turned on)
+
 ;InstallDir $DESKTOP\IFDF
 InstallDir "$PROGRAMFILES\p-nand-q.com\GTools"
 InstallDirRegKey HKLM "SOFTWARE\Gerson Kurz\GTools" "Install_Dir"
@@ -35,6 +37,7 @@ Section "GTools (required)"
 
     ; Put file there
     File /R "..\BIN\release\*"
+    File /R "..\..\regdiff\BIN\release\*"
 
     ; Write the installation path into the registry
     WriteRegStr HKLM "Software\Gerson Kurz\GTools" "Install_Dir" "$INSTDIR"
