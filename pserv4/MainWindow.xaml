@@ -232,7 +232,8 @@
                   MouseDoubleClick="MainListView_MouseDoubleClick" 
                   SelectionChanged="MainListView_SelectionChanged"
                   PreviewMouseWheel="Zoom_MouseWheel"
-                  GridViewColumnHeader.Click="MainListView_GridViewColumnHeaderClickedHandler" KeyDown="MainListView_KeyDown">
+                  GridViewColumnHeader.Click="MainListView_GridViewColumnHeaderClickedHandler" 
+                  KeyDown="MainListView_KeyDown">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="Foreground" Value="Black" />

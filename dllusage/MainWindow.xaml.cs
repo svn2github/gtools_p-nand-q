@@ -56,14 +56,115 @@ namespace dllusage
             InitializeComponent();
             KnownViews[MainViewType.ListByDLLName] = new DataView(new GetModulesByName(), BtDllName );
             KnownViews[MainViewType.ListByDLLPath] = new DataView(new GetModulesByPath(), BtDllPath );
-            KnownViews[MainViewType.ListByEXEName] = new DataView(new GetModulesByName(), BtExeName );
-            KnownViews[MainViewType.ListByEXEPath] = new DataView(new GetModulesByPath(), BtExePath );
+            KnownViews[MainViewType.ListByEXEName] = new DataView(new GetProcessesByName(), BtExeName );
+            KnownViews[MainViewType.ListByEXEPath] = new DataView(new GetProcessesByPath(), BtExePath );
             UnselectedBackgroundColor = new SolidColorBrush(Color.FromArgb(255, 0xF5, 0xF5, 0xF5));
             UnselectedForegroundColor = new SolidColorBrush(Colors.Black);
             SelectedBackgroundColor = new SolidColorBrush(Colors.CornflowerBlue);
             SelectedForegroundColor = new SolidColorBrush(Colors.White);
-
+            Title = string.Format("dllusage {0}", AppVersion.Get());
             MainTreeView.ItemsSource = Items;
+            MainTreeView.ContextMenu = CreateContextMenu();
+        }
+        
+        protected MenuItem AppendMenuItem(ContextMenu menu, string header, string imageName, RoutedEventHandler callback)
+        {
+            MenuItem mi = new MenuItem();
+            mi.Header = header;
+            Image i = new Image();
+            string filename = string.Format(@"pack://application:,,,/images/{0}.png", imageName);
+            i.Source = new BitmapImage(new Uri(filename));
+            mi.Icon = i;
+            mi.Click += callback;
+            menu.Items.Add(mi);
+            return mi;
+        }
+
+        private ContextMenu CreateContextMenu()
+        {
+            ContextMenu menu = new ContextMenu();
+            AppendMenuItem(menu, resource.IDS_SAVE_AS_XML, "database_save", OnSaveAsXML);
+            AppendMenuItem(menu, resource.IDS_COPY_TO_CLIPBOARD, "database_lightning", OnCopyToClipboard);
+            menu.Items.Add(new Separator());
+            AppendMenuItem(menu, resource.IDS_PROPERTIES, "database_gear", OnShowProperties);
+            return menu;
+        }
+
+        private void OnCopyToClipboard(object sender, RoutedEventArgs e)
+        {
+            DoSaveAsXml(null);
+        }
+
+        private void OnShowProperties(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void OnRefreshDisplay(object sender, RoutedEventArgs e)
+        {
+            
+        }
+        
+
+        private void OnSaveAsXML(object sender, RoutedEventArgs e)
+        {
+            string filename;
+            if ((e == null) && (sender is string))
+            {
+                filename = sender as string;
+            }
+            else
+            {
+                SaveFileDialog dialog = new SaveFileDialog();
+                // Set filter for file extension and default file extension 
+                dialog.DefaultExt = ".xml";
+                dialog.Filter = "XML Files (*.xml)|*.xml|All Files (*.*)|*.*";
+
+                // Display OpenFileDialog by calling ShowDialog method 
+                bool? result = dialog.ShowDialog();
+                if (result.HasValue && result.Value)
+                {
+                    filename = dialog.FileName;
+                }
+                else return;
+            }
+            DoSaveAsXml(filename);
+        }
+
+        private void DoSaveAsXml(string filename)
+        {
+            /*
+             * foreach(DataObject o in items)
+            {
+                xtw.WriteStartElement(ItemName);
+                xtw.WriteAttributeString("id", o.InternalID);
+
+                Type t = o.GetType();
+
+                foreach (DataObjectColumn c in Columns)
+                {
+                    if( !c.BindingName.Equals("InternalID"))
+                    {
+                        try
+                        {
+                            object item = t.GetProperty(c.BindingName).GetValue(o, null);
+                            if (item != null)
+                            {
+                                string value = item as string;
+                                if (value == null)
+                                    value = item.ToString();
+
+                                xtw.WriteElementString(c.BindingName, value);
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            Log.Error(string.Format("Failed to access property {0}", c.BindingName), e);
+                        }
+                    }
+                }
+                xtw.WriteEndElement();
+            }*/
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -176,12 +277,7 @@ namespace dllusage
                 {
                     MainTreeView.ItemsSource = Items;   //your query result 
 
-                    //MainListView.ContextMenu = CurrentController.ContextMenu;
-                    //MainListView.ContextMenuOpening += MainListView_ContextMenuOpening;
 
-                    //UpdateDefaultStatusBar();
-
-                    //UpdateTitle();
 
                     CreateInitialSort();
                     KnownViews[displayMode].Button.Background = SelectedBackgroundColor;

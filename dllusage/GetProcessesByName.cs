@@ -11,19 +11,19 @@ using log4net;
 
 namespace dllusage
 {
-    public class GetModulesByName : GetModulesByPath
+    public class GetProcessesByName : GetProcessesByPath
     {
         private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        public GetModulesByName()
-            : base(resource.IDS_ModulesByName)
+        public GetProcessesByName()
+            :   base(resource.IDS_ProcessesByName)
         {
         }
 
-        protected override string GetDisplayNameFromModuleName(string moduleName)
+        protected override string GetDisplayNameFromProcessName(string processName)
         {
-            string filename = Path.GetFileName(moduleName);
-            string directory = Path.GetDirectoryName(moduleName);
+            string filename = Path.GetFileName(processName);
+            string directory = Path.GetDirectoryName(processName);
 
             return string.Format("{0} in {1}", filename, directory);
         }

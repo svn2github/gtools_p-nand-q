@@ -19,7 +19,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -28,7 +28,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -56,13 +56,19 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="DataController.cs" />
+    <Compile Include="GetProcessesByName.cs" />
+    <Compile Include="GetProcessesByPath.cs" />
     <Compile Include="MainViewType.cs" />
     <Compile Include="GetModulesByPath.cs" />
     <Compile Include="ProcessExtensions.cs" />
-    <Compile Include="ProcessInfo.cs" />
     <Compile Include="GetModulesByName.cs" />
     <Compile Include="RefreshManager.cs" />
     <Compile Include="ProcessModuleExtensions.cs" />
+    <Compile Include="resource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>resource.resx</DependentUpon>
+    </Compile>
     <Compile Include="TreeViewItemModel.cs" />
     <Compile Include="WaitCursor.cs" />
     <Page Include="MainWindow.xaml">
@@ -96,6 +102,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="resource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>resource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <None Include="app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -117,6 +127,14 @@
       <Project>{20724c62-41c0-419d-832a-7f637ac41d4a}</Project>
       <Name>GSharpTools</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\database_gear.png" />
+    <Resource Include="images\database_lightning.png" />
+    <Resource Include="images\database_save.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\arrow_refresh.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

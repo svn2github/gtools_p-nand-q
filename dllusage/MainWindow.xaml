@@ -12,7 +12,6 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="25" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="25" />
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
@@ -22,8 +21,11 @@
                 <ColumnDefinition Width="110"/>
 
                 <ColumnDefinition Width="90"/>
-                <ColumnDefinition Width="50*"/>
-                <ColumnDefinition Width="50*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="32"/>
+                <ColumnDefinition Width="32"/>
+                <ColumnDefinition Width="32"/>
+                <ColumnDefinition Width="32"/>
             </Grid.ColumnDefinitions>
             <Button Name="BtDllName" Grid.Column="0" BorderThickness="0" Margin="0" BorderBrush="White" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" FontWeight="Normal" Click="SwitchToDllName">
                 <Button.ToolTip>
@@ -89,6 +91,52 @@
             </StackPanel>
             <TextBox Grid.Column="5" x:Name="FindThisText" Margin="3" TextChanged="FindThisText_TextChanged" />
 
+            <Button Grid.Column="6" BorderThickness="0" Margin="0" BorderBrush="White" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="OnShowProperties">
+                <Button.ToolTip>
+                    <ToolTip>
+                        <StackPanel>
+                            <TextBlock FontWeight="Bold">Properties</TextBlock>
+                            <TextBlock>Shows more information about the currently selected items. Some controllers allow you to modify additional configuration settings here.</TextBlock>
+                        </StackPanel>
+                    </ToolTip>
+                </Button.ToolTip>
+                <Image Source="images\database_gear.png" RenderOptions.BitmapScalingMode="NearestNeighbor" Height="16" Margin="0 0 5 0"/>
+            </Button>
+            <Button Grid.Column="7" Name="BtRefresh" BorderThickness="0" Margin="0" BorderBrush="White" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="OnRefreshDisplay">
+                <Button.ToolTip>
+                    <ToolTip>
+                        <StackPanel>
+                            <TextBlock FontWeight="Bold">Refresh</TextBlock>
+                            <TextBlock>Refresh the currently displayed information. (Hint: is done automatically all 5 seconds anyway)</TextBlock>
+                        </StackPanel>
+                    </ToolTip>
+                </Button.ToolTip>
+                <Image Source="images\arrow_refresh.png" RenderOptions.BitmapScalingMode="NearestNeighbor" Height="16" Margin="0 0 5 0"/>
+            </Button>
+            <Button Grid.Column="8" BorderThickness="0" Margin="0" BorderBrush="White" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="OnSaveAsXML">
+                <Button.ToolTip>
+                    <ToolTip>
+                        <StackPanel>
+                            <TextBlock FontWeight="Bold">Save as XML</TextBlock>
+                            <TextBlock>Save all (or currently selected) items as XML</TextBlock>
+                        </StackPanel>
+                    </ToolTip>
+                </Button.ToolTip>
+                <Image Source="images\database_save.png" RenderOptions.BitmapScalingMode="NearestNeighbor" Height="16" Margin="0 0 5 0"/>
+            </Button>
+            <Button Grid.Column="9" BorderThickness="0" Margin="0" BorderBrush="White" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="OnCopyToClipboard">
+                <Button.ToolTip>
+                    <ToolTip>
+                        <StackPanel>
+                            <TextBlock FontWeight="Bold">Copy to clipboard</TextBlock>
+                            <TextBlock>Copy information on all (or currently selected) items as XML to the clipboard</TextBlock>
+                        </StackPanel>
+                    </ToolTip>
+                </Button.ToolTip>
+                <Image Source="images\database_lightning.png" RenderOptions.BitmapScalingMode="NearestNeighbor" Height="16" Margin="0 0 5 0"/>
+            </Button>
+
+
 
         </Grid>
         <TreeView Grid.Row="1" Name="MainTreeView" PreviewMouseWheel="Zoom_MouseWheel" FontFamily="Courier New">
@@ -98,46 +146,25 @@
                     <TextBlock Text="{Binding Name}" />
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
-        </TreeView>
 
-        <StatusBar Grid.Row="2">
-            <StatusBar.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="100"/>
-                            <ColumnDefinition Width="100"/>
-                            <ColumnDefinition Width="100"/>
-                            <ColumnDefinition Width="100"/>
-                            <ColumnDefinition Width="100"/>
-                            <ColumnDefinition Width="100"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                    </Grid>
-                </ItemsPanelTemplate>
-            </StatusBar.ItemsPanel>
-            <StatusBarItem Grid.Column="0">
-                <TextBlock Name="SbVisible"/>
-            </StatusBarItem>
-            <StatusBarItem Grid.Column="1">
-                <TextBlock Name="SbHighlighted"/>
-            </StatusBarItem>
-            <StatusBarItem Grid.Column="2">
-                <TextBlock Name="SbDisabled"/>
-            </StatusBarItem>
-            <StatusBarItem Grid.Column="3">
-                <TextBlock Name="SbHidden"/>
-            </StatusBarItem>
-            <StatusBarItem Grid.Column="4">
-                <TextBlock Name="SbTotal"/>
-            </StatusBarItem>
-            <StatusBarItem Grid.Column="5">
-                <TextBlock Name="SbSelected"/>
-            </StatusBarItem>
-        </StatusBar>
+            <TreeView.ItemContainerStyle>
+                <Style TargetType="TreeViewItem">
+                    <Setter Property="Foreground" Value="Black" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=IsRunning}" Value="True">
+                            <Setter Property="Foreground" Value="MediumBlue" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Path=IsDuplicate}" Value="True">
+                            <Setter Property="Foreground" Value="Red" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Path=IsDisabled}" Value="True">
+                            <Setter Property="Foreground" Value="Gray" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TreeView.ItemContainerStyle>
+
+        </TreeView>
     </Grid>
 
 </Window>
