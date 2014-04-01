@@ -35,6 +35,7 @@
                 <ColumnDefinition Width="32"/>
                 <ColumnDefinition Width="32"/>
                 <ColumnDefinition Width="32"/>
+                <ColumnDefinition Width="32"/>
             </Grid.ColumnDefinitions>
             <Button Name="ButtonServices" Grid.Column="0" BorderThickness="0" Margin="0" BorderBrush="White" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" FontWeight="Normal" Click="SwitchToServices">                
                 <Button.ToolTip>
@@ -215,7 +216,18 @@
                 </Button.ToolTip>
                 <Image Source="images\database_save.png" RenderOptions.BitmapScalingMode="NearestNeighbor" Height="16" Margin="0 0 5 0"/>
             </Button>
-            <Button Grid.Column="16" BorderThickness="0" Margin="0" BorderBrush="White" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="CopyToClipboard">
+            <Button Grid.Column="16" BorderThickness="0" Margin="0" BorderBrush="White" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="LoadFromXML">
+                <Button.ToolTip>
+                    <ToolTip>
+                        <StackPanel>
+                            <TextBlock FontWeight="Bold">Apply XML Template</TextBlock>
+                            <TextBlock>Load and apply XML template item</TextBlock>
+                        </StackPanel>
+                    </ToolTip>
+                </Button.ToolTip>
+                <Image Source="images\database_connect.png" RenderOptions.BitmapScalingMode="NearestNeighbor" Height="16" Margin="0 0 5 0"/>
+            </Button>
+            <Button Grid.Column="17" BorderThickness="0" Margin="0" BorderBrush="White" FontFamily="Segoe UI" FontSize="14" Background="#F5F5F5" Click="CopyToClipboard">
                 <Button.ToolTip>
                     <ToolTip>
                         <StackPanel>

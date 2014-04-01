@@ -23,6 +23,7 @@ using GSharpTools;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Xml;
+using GSharpTools.WPF;
 
 namespace dllusage
 {

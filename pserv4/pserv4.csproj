@@ -62,6 +62,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ActionTemplateInfo.cs" />
+    <Compile Include="ApplyTemplate.cs" />
     <Compile Include="BackgroundAction.cs" />
     <Compile Include="ConnectMachineDialog.xaml.cs">
       <DependentUpon>ConnectMachineDialog.xaml</DependentUpon>
@@ -111,7 +113,6 @@
     <Compile Include="uninstaller\UninstallerProperties.xaml.cs">
       <DependentUpon>UninstallerProperties.xaml</DependentUpon>
     </Compile>
-    <Compile Include="WaitCursor.cs" />
     <Compile Include="windows\NativeWindowFunctions.cs" />
     <Compile Include="windows\WindowsDataController.cs" />
     <Compile Include="windows\WindowDataObject.cs" />
@@ -165,6 +166,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="app.manifest">
       <SubType>Designer</SubType>
@@ -258,6 +260,10 @@
     <Resource Include="images\computer.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GSharpTools.WPF\GSharpTools.WPF.csproj">
+      <Project>{ddfe27c1-3c3b-444a-9d6c-ed2fb47ca51f}</Project>
+      <Name>GSharpTools.WPF</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GSharpTools\GSharpTools.csproj">
       <Project>{20724c62-41c0-419d-832a-7f637ac41d4a}</Project>
       <Name>GSharpTools</Name>
@@ -268,6 +274,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="pserv4.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\database_connect.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -124,6 +124,60 @@ namespace pserv4.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error, unable to write {0}: please retry or check the logfiles.
+        /// </summary>
+        internal static string IDS_EXPORT_FAILURE {
+            get {
+                return ResourceManager.GetString("IDS_EXPORT_FAILURE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File {0} exported successfully....
+        /// </summary>
+        internal static string IDS_EXPORT_SUCCESS {
+            get {
+                return ResourceManager.GetString("IDS_EXPORT_SUCCESS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error, unable to read {0}: please retry or check the logfiles.
+        /// </summary>
+        internal static string IDS_IMPORT_FAILURE {
+            get {
+                return ResourceManager.GetString("IDS_IMPORT_FAILURE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loading templates....
+        /// </summary>
+        internal static string IDS_LOADING_TEMPLATES {
+            get {
+                return ResourceManager.GetString("IDS_LOADING_TEMPLATES", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pausing services....
+        /// </summary>
+        internal static string IDS_PAUSING_SERVICES {
+            get {
+                return ResourceManager.GetString("IDS_PAUSING_SERVICES", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Performing action....
+        /// </summary>
+        internal static string IDS_PERFORMING_ACTION {
+            get {
+                return ResourceManager.GetString("IDS_PERFORMING_ACTION", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Client Server Runtime Process.
         /// </summary>
         internal static string IDS_PROCESS_CSRSS {
@@ -165,6 +219,24 @@ namespace pserv4.Properties {
         internal static string IDS_PROPERTIES {
             get {
                 return ResourceManager.GetString("IDS_PROPERTIES", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Restarting services....
+        /// </summary>
+        internal static string IDS_RESTARTING_SERVICES {
+            get {
+                return ResourceManager.GetString("IDS_RESTARTING_SERVICES", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Resuming services....
+        /// </summary>
+        internal static string IDS_RESUMING_SERVICES {
+            get {
+                return ResourceManager.GetString("IDS_RESUMING_SERVICES", resourceCulture);
             }
         }
         
@@ -228,6 +300,24 @@ namespace pserv4.Properties {
         internal static string IDS_SERVICES_CONNECT_REMOTE_MACHINE {
             get {
                 return ResourceManager.GetString("IDS_SERVICES_CONNECT_REMOTE_MACHINE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Starting services....
+        /// </summary>
+        internal static string IDS_STARTING_SERVICES {
+            get {
+                return ResourceManager.GetString("IDS_STARTING_SERVICES", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stopping services....
+        /// </summary>
+        internal static string IDS_STOPPING_SERVICES {
+            get {
+                return ResourceManager.GetString("IDS_STOPPING_SERVICES", resourceCulture);
             }
         }
         

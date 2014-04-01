@@ -14,6 +14,7 @@ using pserv4.Properties;
 using log4net;
 using System.Reflection;
 using GSharpTools;
+using GSharpTools.WPF;
 
 namespace pserv4
 {
@@ -185,32 +186,123 @@ namespace pserv4
         {
         }
 
-        public virtual void SaveAsXml(string filename, IList items)
+        public bool LoadFromXml(string filename)
         {
-            XmlWriterSettings settings = new XmlWriterSettings();
-            settings.Indent = true;
-            settings.Encoding = Encoding.UTF8;
-            settings.IndentChars = "\t";
-            settings.NewLineChars = "\r\n";
-
-            StringBuilder buffer = new StringBuilder();
-            using (XmlWriter xtw = (filename == null) ? XmlWriter.Create(buffer, settings) : XmlWriter.Create(filename, settings))
+            List<ActionTemplateInfo> result = new List<ActionTemplateInfo>();
+            try
             {
-                xtw.WriteStartDocument();
-                xtw.WriteStartElement(ControllerName);
-                xtw.WriteAttributeString("version", "3.0");
-                xtw.WriteAttributeString("count", items.Count.ToString());
-                OnSaveAsXML(xtw, items);
-                xtw.WriteEndElement();
-                xtw.Close();
+                ActionTemplateInfo recording = null;
+                string lastKnownKey = null;
+                using (XmlReader reader = XmlReader.Create(filename))
+                {
+                    while (reader.Read())
+                    {
+                        switch (reader.NodeType)
+                        {
+                            case XmlNodeType.Element:
+                                if (reader.Name == ControllerName)
+                                {
+                                    // ok expected
+                                }
+                                else if (reader.Name == ItemName)
+                                {
+                                    recording = new ActionTemplateInfo(reader.GetAttribute("id"));
+                                    result.Add(recording);
+                                }
+                                else if( recording != null )
+                                {
+                                    lastKnownKey = reader.Name;
+                                }
+                                else
+                                {
+                                    Log.WarnFormat("Warning: didn't expect element type {0}", reader.Name);
+                                }
+                                break;
+                            case XmlNodeType.Text:
+                                if (lastKnownKey != null)
+                                {
+                                    if (recording != null)
+                                    {
+                                        recording[lastKnownKey] = reader.Value;
+                                    }
+                                    else
+                                    {
+                                        Log.WarnFormat("Warning: found key '{0}', but recording is null", lastKnownKey);
+                                    }
+                                }
+                                else
+                                {
+                                    Log.WarnFormat("Warning: didn't expect text '{0}'", reader.Value);
+                                }
+                                break;
+                            case XmlNodeType.EndElement:
+                                if ((lastKnownKey != null) && (reader.Name == lastKnownKey))
+                                {
+                                    lastKnownKey = null;
+                                }
+                                else if ((recording != null) && (reader.Name == ItemName))
+                                {
+                                    recording = null;
+                                }
+                                break;
+                        }
+                    }
+                }
             }
-            if (filename == null)
+            catch (Exception e)
             {
-                Clipboard.SetText(buffer.ToString());
-            }        
+                Log.Error(string.Format("Exception caught loading '{0}'", filename), e);
+                result = null;
+            }
+
+            if (result == null)
+                return false;
+
+            new LongRunningFunctionWindow(new ApplyTemplate(this, result), Resources.IDS_LOADING_TEMPLATES).ShowDialog();
+            return true;
+
         }
 
-        protected virtual void OnSaveAsXML(XmlWriter xtw, System.Collections.IList items)
+        public bool SaveAsXml(string filename, IList items)
+        {
+            using (new WaitCursor())
+            {
+                try
+                {
+
+                    bool result = true;
+                    XmlWriterSettings settings = new XmlWriterSettings();
+                    settings.Indent = true;
+                    settings.Encoding = Encoding.UTF8;
+                    settings.IndentChars = "\t";
+                    settings.NewLineChars = "\r\n";
+
+                    StringBuilder buffer = new StringBuilder();
+                    using (XmlWriter xtw = (filename == null) ? XmlWriter.Create(buffer, settings) : XmlWriter.Create(filename, settings))
+                    {
+                        xtw.WriteStartDocument();
+                        xtw.WriteStartElement(ControllerName);
+                        xtw.WriteAttributeString("version", "3.0");
+                        xtw.WriteAttributeString("count", items.Count.ToString());
+                        result = OnSaveAsXML(xtw, items);
+                        xtw.WriteEndElement();
+                        xtw.Close();
+                    }
+                    if (filename == null)
+                    {
+                        Clipboard.SetText(buffer.ToString());
+                    }
+                    return result;
+                }
+                catch (Exception e)
+                {
+                    Log.Error(string.Format("Exception caught while saving '{0}'", filename), e);
+                    return false;
+                }
+            }
+        }
+
+        protected bool OnSaveAsXML(XmlWriter xtw, System.Collections.IList items)
         {
             foreach(DataObject o in items)
             {
@@ -237,12 +329,13 @@ namespace pserv4
                         }
                         catch (Exception e)
                         {
-                            Log.Error(string.Format("Failed to access property {0}", c.BindingName), e);
+                            Log.Error(string.Format("Exception caught while trying to access property {0}", c.BindingName), e);
                         }
                     }
                 }
                 xtw.WriteEndElement();
             }
+            return true;
         }
 
         public void ShowProperties(object sender, RoutedEventArgs e)
@@ -264,6 +357,10 @@ namespace pserv4
             }
         }
 
+        public virtual void ApplyTemplateInfo(ActionTemplateInfo ati, BackgroundAction action)
+        {
+            // default implementation: do nothing
+        }
 
         public virtual UserControl CreateDetailsPage(DataObject o)
         {

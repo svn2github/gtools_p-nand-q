@@ -25,6 +25,19 @@ namespace pserv4.services
             }
         }
 
+        public override string ToString()
+        {
+            StringBuilder output = new StringBuilder();
+            output.Append("ServiceDataObject{");
+            output.Append(InternalID);
+            output.Append(",StartType=");
+            output.Append(StartTypeString);
+            output.Append(",CurrentState=");
+            output.Append(CurrentStateString);
+            output.Append("}");
+            return output.ToString();
+        }
+
         public override string FileName
         {
             get
@@ -203,15 +216,17 @@ namespace pserv4.services
             }
         }
 
-        public void ApplyStartupChanges(NativeSCManager scm, SC_START_TYPE startupType)
+        public bool ApplyStartupChanges(NativeSCManager scm, SC_START_TYPE startupType)
         {
+            bool success = true;
             if (startupType != StartType)
             {
+                Log.InfoFormat("{0}: Change SC_START_TYPE from {1} to {2}", InternalID, StartType, startupType);
                 using (NativeService ns = new NativeService(scm,
                     InternalID,
                     ACCESS_MASK.SERVICE_CHANGE_CONFIG | ACCESS_MASK.SERVICE_QUERY_STATUS))
                 {
-                    bool success = NativeServiceFunctions.ChangeServiceConfig(ns.Handle,
+                    success = NativeServiceFunctions.ChangeServiceConfig(ns.Handle,
                         StartType: startupType);
                     if( success )
                     {
@@ -219,6 +234,7 @@ namespace pserv4.services
                     }
                 }
             }
+            return success;
         }
 
         public bool Uninstall(NativeSCManager scm)

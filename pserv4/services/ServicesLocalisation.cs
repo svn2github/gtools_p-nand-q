@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using pserv4.Properties;
 
 namespace pserv4.services
 {
@@ -29,6 +30,26 @@ namespace pserv4.services
                 default:
                     return st.ToString();
             }
+        }
+
+        public static SC_START_TYPE ReverseLocalizedStartType(string input)
+        {
+            if( Resources.SERVICE_AUTO_START.Equals(input) )
+                return SC_START_TYPE.SERVICE_AUTO_START;
+
+            if( Resources.SERVICE_BOOT_START.Equals(input) )
+                return SC_START_TYPE.SERVICE_BOOT_START;
+            
+            if( Resources.SERVICE_DEMAND_START.Equals(input) )
+                return SC_START_TYPE.SERVICE_DEMAND_START;
+            
+            if( Resources.SERVICE_DISABLED.Equals(input) )
+                return SC_START_TYPE.SERVICE_DISABLED;
+            
+            if( Resources.SERVICE_SYSTEM_START.Equals(input) )
+                return SC_START_TYPE.SERVICE_SYSTEM_START;
+
+            return SC_START_TYPE.SERVICE_NO_CHANGE;
         }
 
         public static string Localized(SC_ERROR_CONTROL ec)

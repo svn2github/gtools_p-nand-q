@@ -18,6 +18,7 @@ using pserv4.Properties;
 using System.Diagnostics;
 using log4net;
 using System.Reflection;
+using GSharpTools.WPF;
 
 namespace pserv4.uninstaller
 {

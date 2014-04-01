@@ -164,7 +164,7 @@ namespace pserv4.processes
             }
             catch (Exception e)
             {
-                Log.Error(string.Format("problem decoding process {0}", MainExecutable), e);
+                Log.Error(string.Format("Exception caught while decoding process '{0}'", p), e);
             }
 
             if (User.Equals("SYSTEM", StringComparison.OrdinalIgnoreCase))

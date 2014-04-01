@@ -30,6 +30,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GKalk", "GKalk\GKalk.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dllusage", "dllusage\dllusage.csproj", "{032A2A23-2EBF-438A-8BBD-4F4D3819F254}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tikumo", "tikumo\tikumo.csproj", "{13CE3B7A-30F3-4DF9-AA10-51A0022A3840}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GSharpTools.WPF", "GSharpTools.WPF\GSharpTools.WPF.csproj", "{DDFE27C1-3C3B-444A-9D6C-ED2FB47CA51F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -160,6 +164,26 @@ Global
 		{032A2A23-2EBF-438A-8BBD-4F4D3819F254}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{032A2A23-2EBF-438A-8BBD-4F4D3819F254}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{032A2A23-2EBF-438A-8BBD-4F4D3819F254}.Release|Win32.ActiveCfg = Release|Any CPU
+		{13CE3B7A-30F3-4DF9-AA10-51A0022A3840}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13CE3B7A-30F3-4DF9-AA10-51A0022A3840}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13CE3B7A-30F3-4DF9-AA10-51A0022A3840}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{13CE3B7A-30F3-4DF9-AA10-51A0022A3840}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{13CE3B7A-30F3-4DF9-AA10-51A0022A3840}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{13CE3B7A-30F3-4DF9-AA10-51A0022A3840}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13CE3B7A-30F3-4DF9-AA10-51A0022A3840}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13CE3B7A-30F3-4DF9-AA10-51A0022A3840}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{13CE3B7A-30F3-4DF9-AA10-51A0022A3840}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{13CE3B7A-30F3-4DF9-AA10-51A0022A3840}.Release|Win32.ActiveCfg = Release|Any CPU
+		{DDFE27C1-3C3B-444A-9D6C-ED2FB47CA51F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDFE27C1-3C3B-444A-9D6C-ED2FB47CA51F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDFE27C1-3C3B-444A-9D6C-ED2FB47CA51F}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{DDFE27C1-3C3B-444A-9D6C-ED2FB47CA51F}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{DDFE27C1-3C3B-444A-9D6C-ED2FB47CA51F}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{DDFE27C1-3C3B-444A-9D6C-ED2FB47CA51F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDFE27C1-3C3B-444A-9D6C-ED2FB47CA51F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDFE27C1-3C3B-444A-9D6C-ED2FB47CA51F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{DDFE27C1-3C3B-444A-9D6C-ED2FB47CA51F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{DDFE27C1-3C3B-444A-9D6C-ED2FB47CA51F}.Release|Win32.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

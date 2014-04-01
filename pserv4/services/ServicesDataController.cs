@@ -9,11 +9,16 @@ using System.Diagnostics;
 using System.Windows.Media.Imaging;
 using System.Collections;
 using pserv4.Properties;
+using GSharpTools;
+using GSharpTools.WPF;
+using log4net;
+using System.Reflection;
 
 namespace pserv4.services
 {
     public class ServicesDataController : DataController
     {
+        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private static List<DataObjectColumn> ActualColumns;
         private readonly SC_SERVICE_TYPE ServicesType;
 
@@ -111,17 +116,22 @@ namespace pserv4.services
             }
         }
 
-        private void ApplyStartupChanges(SC_START_TYPE startupType)
+        private bool ApplyStartupChanges(SC_START_TYPE startupType)
         {
             using (new WaitCursor())
             {
+                bool result = true;
                 using (NativeSCManager scm = new NativeSCManager(MachineName))
                 {
                     foreach (ServiceDataObject sdo in MainListView.SelectedItems)
                     {
-                        sdo.ApplyStartupChanges(scm, startupType);
+                        if( !sdo.ApplyStartupChanges(scm, startupType) )
+                        {
+                            result = false;
+                        }
                     }
                 }
+                return result;
             }
         }
 
@@ -232,7 +242,55 @@ namespace pserv4.services
             SetMenuItemEnabled(menu, 4, IsControlContinueEnabled);
         }
 
-        public void PerformExplicitRequest(ServiceStateRequest ssr, List<string> serviceNames)
+
+        private ServiceDataObject GetServiceDataObjectByID(string id)
+        {
+            foreach (ServiceDataObject sdo in MainListView.Items)
+            {
+                if (id.Equals(sdo.InternalID, StringComparison.OrdinalIgnoreCase))
+                {
+                    return sdo;
+                }
+            }
+            return null;
+        }
+
+        public override void ApplyTemplateInfo(ActionTemplateInfo ati, BackgroundAction action)
+        {
+            // default implementation: do nothing
+            ServiceDataObject sdo = GetServiceDataObjectByID(ati.ID);
+            if (sdo == null)
+            {
+                Log.ErrorFormat("Unable to find object for ID {0}", ati.ID);
+            }
+            else
+            {
+                string expectedStartType = ati["StartTypeString"];
+                string actualStartType = sdo.StartTypeString;
+                if (expectedStartType != actualStartType)
+                {
+                    Log.InfoFormat("=> StartType for {0} needs to change from {1} to {2}",
+                        ati,
+                        actualStartType,
+                        expectedStartType);
+
+                    using (NativeSCManager scm = new NativeSCManager(MachineName))
+                    {
+                        SC_START_TYPE startType = ServicesLocalisation.ReverseLocalizedStartType(expectedStartType);
+                        if( startType != SC_START_TYPE.SERVICE_NO_CHANGE )
+                        {
+                            sdo.ApplyStartupChanges(scm, startType);
+                        }
+                    }
+                }
+                else
+                {
+                    Log.InfoFormat("=> StartType for {0} identical, no need to change", ati);
+                }
+            }
+        }
+
+        public void PerformExplicitRequest(ServiceStateRequest ssr, List<string> serviceNames, string title)
         {
             PerformServiceStateRequest pssr = new PerformServiceStateRequest(ssr);
             
@@ -251,11 +309,11 @@ namespace pserv4.services
             }
             if (pssr.Services.Count > 0)
             {
-                new LongRunningFunctionWindow(pssr).ShowDialog();
+                new LongRunningFunctionWindow(pssr, title).ShowDialog();
             }
         }
 
-        private void OnChangeServiceStatus(ServiceStateRequest ssr)
+        private void OnChangeServiceStatus(ServiceStateRequest ssr, string title)
         {
             PerformServiceStateRequest pssr = new PerformServiceStateRequest(ssr);
             foreach(ServiceDataObject sdo in MainListView.SelectedItems)
@@ -264,33 +322,33 @@ namespace pserv4.services
             }
             if( pssr.Services.Count > 0 )
             {
-                new LongRunningFunctionWindow(pssr).ShowDialog();
+                new LongRunningFunctionWindow(pssr, title).ShowDialog();
             }
         }
 
         public override void OnControlStart(object sender, RoutedEventArgs e)
         {
-            OnChangeServiceStatus(new RequestServiceStart());
+            OnChangeServiceStatus(new RequestServiceStart(), Resources.IDS_STARTING_SERVICES);
         }
 
         public override void OnControlStop(object sender, RoutedEventArgs e)
         {
-            OnChangeServiceStatus(new RequestServiceStop());
+            OnChangeServiceStatus(new RequestServiceStop(), Resources.IDS_STOPPING_SERVICES);
         }
 
         public override void OnControlRestart(object sender, RoutedEventArgs e)
         {
-            OnChangeServiceStatus(new RequestServiceRestart());
+            OnChangeServiceStatus(new RequestServiceRestart(), Resources.IDS_RESTARTING_SERVICES);
         }
 
         public override void OnControlPause(object sender, RoutedEventArgs e)
         {
-            OnChangeServiceStatus(new RequestServicePause());
+            OnChangeServiceStatus(new RequestServicePause(), Resources.IDS_PAUSING_SERVICES);
         }
 
         public override void OnControlContinue(object sender, RoutedEventArgs e)
         {
-            OnChangeServiceStatus(new RequestServiceContinue());
+            OnChangeServiceStatus(new RequestServiceContinue(), Resources.IDS_RESUMING_SERVICES);
         }
 
         public override UserControl CreateDetailsPage(DataObject o)

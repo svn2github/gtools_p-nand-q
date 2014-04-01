@@ -138,7 +138,7 @@ namespace pserv4.modules
                     }
                     catch(Exception e)
                     {
-                        Log.Error(string.Format("problem accessing modules of process {0}", p), e);
+                        Log.Error(string.Format("Exception caught while accessing modules of process {0}", p), e);
                     }
                     if( pmc != null )
                     {

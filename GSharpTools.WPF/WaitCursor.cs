@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Input;
 
-namespace pserv4
+namespace GSharpTools.WPF
 {
     public class WaitCursor : IDisposable
     {

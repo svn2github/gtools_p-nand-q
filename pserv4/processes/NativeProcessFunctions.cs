@@ -109,7 +109,7 @@ namespace pserv4.processes
             }
             catch (Exception e)
             {
-                Log.Error("GetUserInfo", e);
+                Log.Error(string.Format("Exception caught while querying user info on process '{0}'", p), e);
             }
             return result;
         }
@@ -154,7 +154,7 @@ namespace pserv4.processes
             }
             catch (Exception ex)
             {
-                Log.Error("DumpAccountSid", ex);
+                Log.Error(string.Format("Exception caught in DumpAccountSid '{0}'", SID), ex);
             }
             finally
             {
@@ -170,9 +170,9 @@ namespace pserv4.processes
                 if (p.Id >= 10)
                     result = p.MainModule.FileName;
             }
-            catch(Exception e)
+            catch(Exception ex)
             {
-                Log.Error("GetSafeProcessName", e);
+                Log.Error(string.Format("Exception caught in GetSafeProcessName '{0}'", p), ex);
             }
             if (result.StartsWith("\\??\\"))
                 result = result.Substring(4);

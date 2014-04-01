@@ -138,6 +138,24 @@
   <data name="IDS_COPY_TO_CLIPBOARD" xml:space="preserve">
     <value>Copy to clipboard</value>
   </data>
+  <data name="IDS_EXPORT_FAILURE" xml:space="preserve">
+    <value>Error, unable to write {0}: please retry or check the logfiles</value>
+  </data>
+  <data name="IDS_EXPORT_SUCCESS" xml:space="preserve">
+    <value>File {0} exported successfully...</value>
+  </data>
+  <data name="IDS_IMPORT_FAILURE" xml:space="preserve">
+    <value>Error, unable to read {0}: please retry or check the logfiles</value>
+  </data>
+  <data name="IDS_LOADING_TEMPLATES" xml:space="preserve">
+    <value>Loading templates...</value>
+  </data>
+  <data name="IDS_PAUSING_SERVICES" xml:space="preserve">
+    <value>Pausing services...</value>
+  </data>
+  <data name="IDS_PERFORMING_ACTION" xml:space="preserve">
+    <value>Performing action...</value>
+  </data>
   <data name="IDS_PROCESS_CSRSS" xml:space="preserve">
     <value>Client Server Runtime Process</value>
   </data>
@@ -152,6 +170,12 @@
   </data>
   <data name="IDS_PROPERTIES" xml:space="preserve">
     <value>Properties</value>
+  </data>
+  <data name="IDS_RESTARTING_SERVICES" xml:space="preserve">
+    <value>Restarting services...</value>
+  </data>
+  <data name="IDS_RESUMING_SERVICES" xml:space="preserve">
+    <value>Resuming services...</value>
   </data>
   <data name="IDS_SAVE_AS_XML" xml:space="preserve">
     <value>Save as XML</value>
@@ -173,6 +197,12 @@
   </data>
   <data name="IDS_SERVICE_SureToUninstall" xml:space="preserve">
     <value>Are you sure you want to uninstall {0} ({1})?This action cannot be undone.</value>
+  </data>
+  <data name="IDS_STARTING_SERVICES" xml:space="preserve">
+    <value>Starting services...</value>
+  </data>
+  <data name="IDS_STOPPING_SERVICES" xml:space="preserve">
+    <value>Stopping services...</value>
   </data>
   <data name="IDS_SYSTEM_PROPERTIES" xml:space="preserve">
     <value>Show File Properties in Windows Explorer</value>

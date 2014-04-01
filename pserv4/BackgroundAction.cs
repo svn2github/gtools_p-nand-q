@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.ComponentModel;
 
 namespace pserv4
 {
@@ -9,16 +10,20 @@ namespace pserv4
     {
         public delegate void SetOutputTextDelegate(string message);
         protected SetOutputTextDelegate SetOutputText;
-        public bool IsCancelled;
+        protected BackgroundWorker Worker;
 
         public BackgroundAction()
         {
         }
 
+        public void Bind(BackgroundWorker worker)
+        {
+            Worker = worker;
+        }
+
         public void Setup(SetOutputTextDelegate setOutputText)
         {
             SetOutputText = setOutputText;
-            IsCancelled = false;
         }
 
         public abstract void DoWork();

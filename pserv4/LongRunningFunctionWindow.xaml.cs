@@ -27,25 +27,34 @@ namespace pserv4
         private readonly BackgroundWorker Worker = new BackgroundWorker();
         private readonly BackgroundAction Action;
 
-        public LongRunningFunctionWindow(BackgroundAction action)
+        public LongRunningFunctionWindow(BackgroundAction action, string title)
         {
             InitializeComponent();
-            Action = action;
+            Title = title;
+            Action = action;            
             Worker.DoWork += worker_DoWork;
+            Worker.WorkerSupportsCancellation = true;
+            Action.Bind(Worker);
             Worker.RunWorkerCompleted += worker_RunWorkerCompleted;
         }
 
         private void worker_DoWork(object sender, DoWorkEventArgs e)
         {
+            Log.InfoFormat("BEGIN LongRunningFunctionWindow.worker_DoWork()");
             Action.Setup(SetOutputText);
             try
             {
                 Action.DoWork();
             }
-            catch(Exception)
+            catch(Exception ex)
             {
-                // TODO: trace exception
+                Log.Error(string.Format("Exception caught while processing '{0}'", Action), ex);
             }
+            if (Worker.CancellationPending)
+            {
+                e.Cancel = true;
+            }
+            Log.InfoFormat("END LongRunningFunctionWindow.worker_DoWork()");
         }
 
         private void SetOutputText(string message)
@@ -63,12 +72,28 @@ namespace pserv4
 
         private void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            Log.Info("worker_RunWorkerCompleted() called");
             Close();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             Worker.RunWorkerAsync();
+        }
+
+        private void OnCancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            Log.Info("OnCancelButton_Click() called");
+            try
+            {
+                Worker.CancelAsync();
+                CancelButton.IsEnabled = false;
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Exception caught while pressing the cancel button", ex);
+            }
+            Log.Info("OnCancelButton_Click() done");
         }
     }
 }

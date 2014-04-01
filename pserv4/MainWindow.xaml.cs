@@ -20,6 +20,8 @@ using Microsoft.Win32;
 using System.Windows.Threading;
 using log4net;
 using GSharpTools;
+using GSharpTools.WPF;
+using pserv4.Properties;
 
 namespace pserv4
 {
@@ -143,7 +145,7 @@ namespace pserv4
                 }
                 catch(Exception e)
                 {
-                    Log.Error(string.Format("{0}.Refresh()", CurrentController), e);
+                    Log.Error(string.Format("Exception caught while refreshing {0}", CurrentController), e);
                 }
                 Log.InfoFormat("Total time for CurrentController.Refresh: {0}", DateTime.Now - startTime);
                 Log.InfoFormat("Total items count: {0}", Items.Count);
@@ -187,7 +189,8 @@ namespace pserv4
                     if (newViewType == MainViewType.Services )
                     {
                         services.ServicesDataController sdc = CurrentController as services.ServicesDataController;
-                        sdc.PerformExplicitRequest(InitialSSR, InitialServiceNames);
+                        sdc.PerformExplicitRequest(InitialSSR, InitialServiceNames,
+                            pserv4.Properties.Resources.IDS_PERFORMING_ACTION);
                         Close();
                     }
                     else
@@ -214,7 +217,7 @@ namespace pserv4
             }
             catch(Exception ex)
             {
-                Log.Error("MainListView_ContextMenuOpening", ex);
+                Log.Error("Exception caught while opening the context menu", ex);
             }
         }
 
@@ -543,6 +546,34 @@ namespace pserv4
             InitialServiceNames = initialServiceNames;
         }
 
+        public void LoadFromXML(object sender, RoutedEventArgs e)
+        {
+            string filename;
+            if ((e == null) && (sender is string))
+            {
+                filename = sender as string;
+            }
+            else
+            {
+                OpenFileDialog dialog = new OpenFileDialog();
+                // Set filter for file extension and default file extension 
+                dialog.DefaultExt = ".xml";
+                dialog.Filter = "XML Files (*.xml)|*.xml|All Files (*.*)|*.*";
+
+                // Display OpenFileDialog by calling ShowDialog method 
+                bool? result = dialog.ShowDialog();
+                if (result.HasValue && result.Value)
+                {
+                    filename = dialog.FileName;
+                }
+                else return;
+            }
+            if( !CurrentController.LoadFromXml(filename) )
+            {
+                MessageBox.Show(string.Format(pserv4.Properties.Resources.IDS_IMPORT_FAILURE, filename));
+            }
+        }
+
         public void SaveAsXML(object sender, RoutedEventArgs e)
         {
             string filename;
@@ -557,7 +588,7 @@ namespace pserv4
                 dialog.DefaultExt = ".xml";
                 dialog.Filter = "XML Files (*.xml)|*.xml|All Files (*.*)|*.*";
 
-                // Display OpenFileDialog by calling ShowDialog method 
+                // Display SaveFileDialog by calling ShowDialog method 
                 bool? result = dialog.ShowDialog();
                 if (result.HasValue && result.Value)
                 {
@@ -565,12 +596,20 @@ namespace pserv4
                 }
                 else return;
             }
-            CurrentController.SaveAsXml(filename, GetExportItems());
-
+            bool rc = CurrentController.SaveAsXml(filename, GetExportItems());
             if ((sender == null) && (e == null))
             {
                 Process.Start(filename);
             }
+            else if (rc)
+            {
+                MessageBox.Show(string.Format(pserv4.Properties.Resources.IDS_EXPORT_SUCCESS, filename));
+            }
+            else
+            {
+                MessageBox.Show(string.Format(pserv4.Properties.Resources.IDS_EXPORT_FAILURE, filename));
+            }
+
         }
 
         public static IEnumerable<ListViewItem> GetListViewItemsFromList(ListView lv)

@@ -55,7 +55,7 @@ namespace pserv4.services
                             {
                                 for (int i = 0; i < 100; ++i)
                                 {
-                                    if (IsCancelled)
+                                    if (Worker.CancellationPending)
                                         break;
 
                                     if (!ss.Refresh())
@@ -93,10 +93,11 @@ namespace pserv4.services
                             }
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        Log.Error("Exception caught in PerformServiceStateRequest", ex);
                     }
-                    if (IsCancelled)
+                    if (Worker.CancellationPending)
                         break;
                 }
             }

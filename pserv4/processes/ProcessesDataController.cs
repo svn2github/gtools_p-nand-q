@@ -100,7 +100,7 @@ namespace pserv4.processes
                     }
                     catch(Exception e)
                     {
-                        Log.Error(string.Format("error analysing process {0}", p), e);
+                        Log.Error(string.Format("Exception caught while analysing process {0}", p), e);
                     }
                 }
             }
