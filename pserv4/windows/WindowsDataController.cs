@@ -11,8 +11,6 @@ namespace pserv4.windows
 {
     public class WindowsDataController : DataController
     {
-        private static List<DataObjectColumn> ActualColumns;
-
         public WindowsDataController()
             :   base(
                     "Windows", 
@@ -37,18 +35,18 @@ namespace pserv4.windows
             {
                 if (ActualColumns == null)
                 {
-                    ActualColumns = new List<DataObjectColumn>();
-                    ActualColumns.Add(new DataObjectColumn(Resources.WINDOW_C_HWND, "InternalID"));
-                    ActualColumns.Add(new DataObjectColumn(Resources.WINDOW_C_Title, "Title"));
-                    ActualColumns.Add(new DataObjectColumn(Resources.WINDOW_C_Class, "Class"));
-                    ActualColumns.Add(new DataObjectColumn(Resources.WINDOW_C_Size, "Size"));
-                    ActualColumns.Add(new DataObjectColumn(Resources.WINDOW_C_Position, "Position"));
-                    ActualColumns.Add(new DataObjectColumn(Resources.WINDOW_C_Style, "Style"));
-                    ActualColumns.Add(new DataObjectColumn(Resources.WINDOW_C_ExStyle, "ExStyle"));
-                    ActualColumns.Add(new DataObjectColumn(Resources.WINDOW_C_ID, "ID"));
-                    ActualColumns.Add(new DataObjectColumn(Resources.WINDOW_C_ProcessID, "ProcessID"));
-                    ActualColumns.Add(new DataObjectColumn(Resources.WINDOW_C_ThreadID, "ThreadID"));
-                    ActualColumns.Add(new DataObjectColumn(Resources.WINDOW_C_Process, "Process"));
+                    CreateColumns(
+                        new DataObjectColumn(Resources.WINDOW_C_HWND, "InternalID"),
+                        new DataObjectColumn(Resources.WINDOW_C_Title, "Title"),
+                        new DataObjectColumn(Resources.WINDOW_C_Class, "Class"),
+                        new DataObjectColumn(Resources.WINDOW_C_Size, "Size"),
+                        new DataObjectColumn(Resources.WINDOW_C_Position, "Position"),
+                        new DataObjectColumn(Resources.WINDOW_C_Style, "Style"),
+                        new DataObjectColumn(Resources.WINDOW_C_ExStyle, "ExStyle"),
+                        new DataObjectColumn(Resources.WINDOW_C_ID, "ID"),
+                        new DataObjectColumn(Resources.WINDOW_C_ProcessID, "ProcessID"),
+                        new DataObjectColumn(Resources.WINDOW_C_ThreadID, "ThreadID"),
+                        new DataObjectColumn(Resources.WINDOW_C_Process, "Process"));
                 }
                 return ActualColumns;
             }

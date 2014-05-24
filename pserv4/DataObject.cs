@@ -39,6 +39,11 @@ namespace pserv4
             }
         }
 
+        public object GetValueNamed(string name)
+        {
+            return GetType().GetProperty(name).GetValue(this, null);
+        }
+
         public void NotifyPropertyChanged(string name)
         {
             if (PropertyChanged != null)

@@ -38,6 +38,9 @@ namespace GSharpTools
 
         public static string GetDirectory(string userPath)
         {
+            if (userPath == null)
+                return "";
+
             string result;
             if( Cache.TryGetValue(userPath, out result) )
             {

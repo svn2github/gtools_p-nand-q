@@ -108,6 +108,8 @@
     <Compile Include="services\ServicesLocalisation.cs" />
     <Compile Include="services\ServiceStateRequest.cs" />
     <Compile Include="services\ServiceStatus.cs" />
+    <Compile Include="SortDataObjects.cs" />
+    <Compile Include="SortOrderList.cs" />
     <Compile Include="uninstaller\UninstallerDataController.cs" />
     <Compile Include="uninstaller\UninstallerDataObject.cs" />
     <Compile Include="uninstaller\UninstallerProperties.xaml.cs">

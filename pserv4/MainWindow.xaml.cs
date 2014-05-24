@@ -35,6 +35,7 @@ namespace pserv4
 
         private services.ServiceStateRequest InitialSSR = null;
         private List<string> InitialServiceNames = null;
+        private bool FirstDisplay = true;
 
         protected class DataView
         {
@@ -98,7 +99,17 @@ namespace pserv4
             UnselectedForegroundColor = new SolidColorBrush(Colors.Black);
             SelectedBackgroundColor = new SolidColorBrush(Colors.CornflowerBlue);
             SelectedForegroundColor = new SolidColorBrush(Colors.White);
+            MainGridView.Columns.CollectionChanged += Columns_CollectionChanged; 
+        }
 
+        void Columns_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Move)
+            {
+                Trace.TraceInformation("Column moved from position {0} to position {1}", e.OldStartingIndex, e.NewStartingIndex);
+
+                CurrentController.SaveColumnSortOrder(MainGridView.Columns);
+            } 
         }
 
         private void timer_Tick(object sender, EventArgs e)
@@ -123,8 +134,8 @@ namespace pserv4
                 if (visible)
                 {
                     MainGridView.Columns.Clear();
-                    ICollectionView dataView = CollectionViewSource.GetDefaultView(Items);
-                    dataView.SortDescriptions.Clear();
+                    
+                    LastSortOrder.Clear();
 
                     if (CurrentViewType != MainViewType.Invalid)
                     {
@@ -151,11 +162,9 @@ namespace pserv4
                 Log.InfoFormat("Total items count: {0}", Items.Count);
                 
                 FindThisText.Text = "";
-
                 if( visible )
                 {
                     MainListView.ItemsSource = Items;   //your query result 
-
                     foreach (DataObjectColumn oc in CurrentController.Columns)
                     {
                         GridViewColumn column = new GridViewColumn();
@@ -181,8 +190,18 @@ namespace pserv4
                     CreateInitialSort();
                     KnownViews[newViewType].Button.Background = SelectedBackgroundColor;
                     KnownViews[newViewType].Button.Foreground = SelectedForegroundColor;
+
+                    if (FirstDisplay)
+                    {
+                        FindThisText.Text = App.Settings.LastSearchText;
+
+                        
+                        FirstDisplay = false;
+                    }
                 }
                 CurrentViewType = newViewType;
+
+                App.Settings.LastViewType = CurrentViewType.ToString();
 
                 if( (InitialSSR != null) && (InitialServiceNames != null) )
                 {
@@ -430,6 +449,7 @@ namespace pserv4
         private void FindThisText_TextChanged(object sender, TextChangedEventArgs e)
         {
             ICollectionView view = CollectionViewSource.GetDefaultView(Items);
+            App.Settings.LastSearchText = FindThisText.Text;
             if (FindThisText.Text.Trim().Length == 0)
             {
                 view.Filter = null;
@@ -469,7 +489,7 @@ namespace pserv4
         }
 
         private string LastHeaderClicked;
-        private ListSortDirection LastSortDirection;
+        private readonly SortOrderList LastSortOrder = new SortOrderList();
 
         private void MainListView_GridViewColumnHeaderClickedHandler(object sender, RoutedEventArgs e)
         {
@@ -493,7 +513,7 @@ namespace pserv4
                 }
                 else
                 {
-                    if (LastSortDirection == ListSortDirection.Ascending)
+                    if (LastSortOrder.LastSortDirection == ListSortDirection.Ascending)
                     {
                         direction = ListSortDirection.Descending;
                     }
@@ -505,24 +525,32 @@ namespace pserv4
 
                 Sort(headerClicked, direction);
                 LastHeaderClicked = headerClicked;
-                LastSortDirection = direction;
             }
         }
 
         private void CreateInitialSort()
         {
             Binding b = MainGridView.Columns[0].DisplayMemberBinding as Binding;
-            MainListView_GridViewColumnHeaderClickedHandler(this, new RoutedEventArgs(null, b.Path.Path));
+
+            LastSortOrder.LoadFromSettings();
+
+            ListCollectionView lcv = CollectionViewSource.GetDefaultView(Items) as ListCollectionView;
+            if (lcv != null)
+            {
+                lcv.CustomSort = new SortDataObjects(LastSortOrder);
+                lcv.Refresh();
+            }
         }
-
-        private void Sort(string sortBy, ListSortDirection direction)
+        
+        private void Sort(string key, ListSortDirection direction)
         {
-            ICollectionView dataView = CollectionViewSource.GetDefaultView(Items);
-
-            dataView.SortDescriptions.Clear();
-            SortDescription sd = new SortDescription(sortBy, direction);
-            dataView.SortDescriptions.Add(sd);
-            dataView.Refresh();
+            ListCollectionView lcv = CollectionViewSource.GetDefaultView(Items) as ListCollectionView;
+            if( lcv != null )
+            {
+                LastSortOrder.Push(key, direction);
+                lcv.CustomSort = new SortDataObjects(LastSortOrder);
+                lcv.Refresh();
+            }
         }
 
         private IList GetExportItems()

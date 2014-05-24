@@ -24,7 +24,6 @@ namespace pserv4.processes
     public class ProcessesDataController : DataController
     {
         private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        private static List<DataObjectColumn> ActualColumns;
 
         public ProcessesDataController()
             :   base(
@@ -44,37 +43,37 @@ namespace pserv4.processes
             {
                 if (ActualColumns == null)
                 {
-                    ActualColumns = new List<DataObjectColumn>();
-                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_ID, "InternalID"));
-                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_Name, "Name"));
-                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_MainExecutable, "MainExecutable"));
-                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_CommandLine, "CommandLine"));
-                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_User, "User"));
-                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_FileDescription, "FileDescription"));
-                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_FileVersion, "FileVersion"));
-                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_Product, "Product"));
-                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_ProductVersion, "ProductVersion"));
-                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_ThreadCount, "ThreadCount"));
-                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_HandleCount, "HandleCount"));
-                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_MainWindowHandle, "MainWindowHandle"));
-                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_MainWindowTitle, "MainWindowTitle"));
-                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_Responding, "Responding"));
-                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_StartTime, "StartTime"));
-                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_TotalProcessorTime, "TotalProcessorTime"));
-                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_TotalRunTime, "TotalRunTime"));
-                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_PrivilegedProcessorTime, "PrivilegedProcessorTime"));
-                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_ProcessPriorityClass, "ProcessPriorityClass"));
-                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_SessionId, "SessionId"));
-                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_NonpagedSystemMemorySize64, "NonpagedSystemMemorySize64"));
-                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_PagedMemorySize64, "PagedMemorySize64"));
-                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_PeakPagedMemorySize64, "PeakPagedMemorySize64"));
-                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_PagedSystemMemorySize64, "PagedSystemMemorySize64"));
-                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_PeakVirtualMemorySize64, "PeakVirtualMemorySize64"));
-                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_PeakWorkingSet64, "PeakWorkingSet64"));
-                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_PrivateMemorySize64, "PrivateMemorySize64"));
-                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_VirtualMemorySize64, "VirtualMemorySize64"));
-                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_WorkingSet64, "WorkingSet64"));
-                    ActualColumns.Add(new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_InstallLocation, "InstallLocation"));
+                    CreateColumns(
+                        new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_ID, "InternalID"),
+                        new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_Name, "Name"),
+                        new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_MainExecutable, "MainExecutable"),
+                        new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_CommandLine, "CommandLine"),
+                        new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_User, "User"),
+                        new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_FileDescription, "FileDescription"),
+                        new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_FileVersion, "FileVersion"),
+                        new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_Product, "Product"),
+                        new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_ProductVersion, "ProductVersion"),
+                        new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_ThreadCount, "ThreadCount"),
+                        new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_HandleCount, "HandleCount"),
+                        new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_MainWindowHandle, "MainWindowHandle"),
+                        new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_MainWindowTitle, "MainWindowTitle"),
+                        new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_Responding, "Responding"),
+                        new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_StartTime, "StartTime"),
+                        new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_TotalProcessorTime, "TotalProcessorTime"),
+                        new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_TotalRunTime, "TotalRunTime"),
+                        new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_PrivilegedProcessorTime, "PrivilegedProcessorTime"),
+                        new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_ProcessPriorityClass, "ProcessPriorityClass"),
+                        new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_SessionId, "SessionId"),
+                        new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_NonpagedSystemMemorySize64, "NonpagedSystemMemorySize64"),
+                        new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_PagedMemorySize64, "PagedMemorySize64"),
+                        new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_PeakPagedMemorySize64, "PeakPagedMemorySize64"),
+                        new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_PagedSystemMemorySize64, "PagedSystemMemorySize64"),
+                        new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_PeakVirtualMemorySize64, "PeakVirtualMemorySize64"),
+                        new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_PeakWorkingSet64, "PeakWorkingSet64"),
+                        new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_PrivateMemorySize64, "PrivateMemorySize64"),
+                        new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_VirtualMemorySize64, "VirtualMemorySize64"),
+                        new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_WorkingSet64, "WorkingSet64"),
+                        new DataObjectColumn(pserv4.Properties.Resources.PROCESS_C_InstallLocation, "InstallLocation"));
                 }
                 return ActualColumns;
             }

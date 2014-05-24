@@ -26,6 +26,7 @@ namespace pserv4
         protected readonly string ControllerName;
         protected readonly string ItemName;
         protected bool HasProperties;
+        protected List<DataObjectColumn> ActualColumns;
 
         public bool IsControlStartEnabled { get; protected set; }
         public bool IsControlStopEnabled { get; protected set; }
@@ -72,6 +73,76 @@ namespace pserv4
         /// </summary>
         /// <param name="objects"></param>
         public abstract void Refresh(ObservableCollection<DataObject> objects);
+
+        public void SaveColumnSortOrder(GridViewColumnCollection columns)
+        {
+            StringBuilder content = new StringBuilder();
+            bool first = true;
+
+            foreach(var column in columns)
+            {
+                var binding = column.DisplayMemberBinding as System.Windows.Data.Binding;
+                if( binding != null )
+                {
+                    if (first)
+                        first = false;
+                    else
+                        content.Append(",");
+                    content.Append(binding.Path.Path);
+                }
+            }
+            string propertyName = string.Format("ColumnOrder{0}", ControllerName);
+
+            Type t = App.Settings.GetType();
+            PropertyInfo pi = t.GetProperty(propertyName);
+            pi.SetValue(App.Settings, content.ToString(), null);
+        }
+
+        protected void CreateColumns(params DataObjectColumn[] args)
+        {
+            ActualColumns = new List<DataObjectColumn>();
+
+            // step 1: create lookup dictionary
+            var lookup = new Dictionary<string, DataObjectColumn>();
+            foreach (DataObjectColumn c in args)
+            {
+                lookup[c.BindingName] = c;
+            }
+
+            string propertyName = string.Format("ColumnOrder{0}", ControllerName);
+            Type t = App.Settings.GetType();
+            PropertyInfo pi = t.GetProperty(propertyName);
+            string expectedSortOrder = pi.GetValue(App.Settings, null) as string;
+            if (!string.IsNullOrEmpty(expectedSortOrder))
+            {
+                // apply sort order
+                string[] sortOrder = expectedSortOrder.Split(',');
+
+                foreach(string sortKey in sortOrder)
+                {
+                    if( lookup.ContainsKey(sortKey) )
+                    {
+                        if (lookup[sortKey] != null )
+                        {
+                            ActualColumns.Add(lookup[sortKey]);
+                            lookup[sortKey] = null;
+                        }
+                    }
+                }
+            }
+
+            // finally, add all items not in the list to ActualColumns
+            foreach (DataObjectColumn c in args)
+            {
+                if( lookup[c.BindingName] != null )
+                {
+                    // this item wasn't added to the list just yet, so do it now
+                    ActualColumns.Add(c);
+                }
+            }
+        }
+
+        
 
         protected void SetMenuItemEnabled(ContextMenu menu, int index, bool enabled)
         {

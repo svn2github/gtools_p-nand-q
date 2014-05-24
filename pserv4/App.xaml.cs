@@ -7,6 +7,7 @@ using System.Windows;
 using System.Diagnostics;
 using log4net;
 using System.Reflection;
+using GSharpTools;
 
 [assembly: log4net.Config.XmlConfigurator(Watch = true)]
 
@@ -19,8 +20,12 @@ namespace pserv4
     {
         private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
+        internal static pserv4.Properties.Settings Settings;
+        internal static PersistentSettings PersistentSettings;
+
         private void Application_Exit(object sender, ExitEventArgs args)
         {
+            PersistentSettings.Save();
             Log.Info("- shutting down pserv -");
         }
 
@@ -28,7 +33,22 @@ namespace pserv4
         {
             Log.Info("- starting up pserv -");
 
-            MainViewType initialView = MainViewType.Services;
+            Settings = new pserv4.Properties.Settings();
+            PersistentSettings = new PersistentSettings(Settings, "p-nand-q.com\\pserv4");
+            PersistentSettings.Load();
+
+            MainViewType initialView = MainViewType.Modules;
+            try
+            {
+                if( !string.IsNullOrEmpty(Settings.LastViewType))
+                {
+                    initialView = (MainViewType)Enum.Parse(typeof(MainViewType), Settings.LastViewType, true);
+                }
+            }
+            catch(Exception)
+            {
+            }
+
             services.ServiceStateRequest ssr = null;
             bool dumpXml = false;
             bool useClipboard = false;

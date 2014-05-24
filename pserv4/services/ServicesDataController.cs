@@ -19,7 +19,6 @@ namespace pserv4.services
     public class ServicesDataController : DataController
     {
         private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        private static List<DataObjectColumn> ActualColumns;
         private readonly SC_SERVICE_TYPE ServicesType;
 
         public string MachineName { get; private set; }
@@ -64,26 +63,26 @@ namespace pserv4.services
             {
                 if (ActualColumns == null)
                 {
-                    ActualColumns = new List<DataObjectColumn>();
-                    ActualColumns.Add(new DataObjectColumn(Resources.SERVICE_C_DisplayName, "DisplayName"));
-                    ActualColumns.Add(new DataObjectColumn(Resources.SERVICE_C_ServiceName, "InternalID"));
-                    ActualColumns.Add(new DataObjectColumn(Resources.SERVICE_C_ProcessID, "PID"));
-                    ActualColumns.Add(new DataObjectColumn(Resources.SERVICE_C_CurrentState, "CurrentStateString"));
-                    ActualColumns.Add(new DataObjectColumn(Resources.SERVICE_C_User, "User"));
-                    ActualColumns.Add(new DataObjectColumn(Resources.SERVICE_C_ServiceType, "ServiceTypeString"));
-                    ActualColumns.Add(new DataObjectColumn(Resources.SERVICE_C_StartType, "StartTypeString"));
-                    ActualColumns.Add(new DataObjectColumn(Resources.SERVICE_C_BinaryPathName, "BinaryPathName"));
-                    ActualColumns.Add(new DataObjectColumn(Resources.SERVICE_C_LoadOrderGroup, "LoadOrderGroup"));
-                    ActualColumns.Add(new DataObjectColumn(Resources.SERVICE_C_ErrorControl, "ErrorControl"));
-                    ActualColumns.Add(new DataObjectColumn(Resources.SERVICE_C_TagId, "TagId"));
-                    ActualColumns.Add(new DataObjectColumn(Resources.SERVICE_C_Description, "Description"));
-                    ActualColumns.Add(new DataObjectColumn(Resources.SERVICE_C_Win32ExitCode, "Win32ExitCode"));
-                    ActualColumns.Add(new DataObjectColumn(Resources.SERVICE_C_ServiceSpecificExitCode, "ServiceSpecificExitCode"));
-                    ActualColumns.Add(new DataObjectColumn(Resources.SERVICE_C_CheckPoint, "CheckPoint"));
-                    ActualColumns.Add(new DataObjectColumn(Resources.SERVICE_C_WaitHint, "WaitHint"));
-                    ActualColumns.Add(new DataObjectColumn(Resources.SERVICE_C_ServiceFlags, "ServiceFlags"));
-                    ActualColumns.Add(new DataObjectColumn(Resources.SERVICE_C_ControlsAccepted, "ControlsAcceptedString"));
-                    ActualColumns.Add(new DataObjectColumn(Resources.SERVICE_C_InstallLocation, "InstallLocation"));
+                    CreateColumns(
+                        new DataObjectColumn(Resources.SERVICE_C_DisplayName, "DisplayName"),
+                        new DataObjectColumn(Resources.SERVICE_C_ServiceName, "InternalID"),
+                        new DataObjectColumn(Resources.SERVICE_C_ProcessID, "PID"),
+                        new DataObjectColumn(Resources.SERVICE_C_CurrentState, "CurrentStateString"),
+                        new DataObjectColumn(Resources.SERVICE_C_User, "User"),
+                        new DataObjectColumn(Resources.SERVICE_C_ServiceType, "ServiceTypeString"),
+                        new DataObjectColumn(Resources.SERVICE_C_StartType, "StartTypeString"),
+                        new DataObjectColumn(Resources.SERVICE_C_BinaryPathName, "BinaryPathName"),
+                        new DataObjectColumn(Resources.SERVICE_C_LoadOrderGroup, "LoadOrderGroup"),
+                        new DataObjectColumn(Resources.SERVICE_C_ErrorControl, "ErrorControl"),
+                        new DataObjectColumn(Resources.SERVICE_C_TagId, "TagId"),
+                        new DataObjectColumn(Resources.SERVICE_C_Description, "Description"),
+                        new DataObjectColumn(Resources.SERVICE_C_Win32ExitCode, "Win32ExitCode"),
+                        new DataObjectColumn(Resources.SERVICE_C_ServiceSpecificExitCode, "ServiceSpecificExitCode"),
+                        new DataObjectColumn(Resources.SERVICE_C_CheckPoint, "CheckPoint"),
+                        new DataObjectColumn(Resources.SERVICE_C_WaitHint, "WaitHint"),
+                        new DataObjectColumn(Resources.SERVICE_C_ServiceFlags, "ServiceFlags"),
+                        new DataObjectColumn(Resources.SERVICE_C_ControlsAccepted, "ControlsAcceptedString"),
+                        new DataObjectColumn(Resources.SERVICE_C_InstallLocation, "InstallLocation"));
                 }
                 return ActualColumns;
             }

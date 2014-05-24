@@ -25,8 +25,7 @@ namespace pserv4.uninstaller
     public class UninstallerDataController : DataController
     {
         private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        private static List<DataObjectColumn> ActualColumns;
-
+        
         public UninstallerDataController()
             : base(
                 "Uninstaller", 
@@ -96,16 +95,16 @@ namespace pserv4.uninstaller
             {
                 if (ActualColumns == null)
                 {
-                    ActualColumns = new List<DataObjectColumn>();
-                    ActualColumns.Add(new DataObjectColumn(Resources.UNINSTALLER_C_ApplicationName, "ApplicationName"));
-                    ActualColumns.Add(new DataObjectColumn(Resources.UNINSTALLER_C_InstallLocation, "InstallLocation"));
-                    ActualColumns.Add(new DataObjectColumn(Resources.UNINSTALLER_C_Key, "InternalID"));
-                    ActualColumns.Add(new DataObjectColumn(Resources.UNINSTALLER_C_Version, "Version"));
-                    ActualColumns.Add(new DataObjectColumn(Resources.UNINSTALLER_C_Publisher, "Publisher"));
-                    ActualColumns.Add(new DataObjectColumn(Resources.UNINSTALLER_C_HelpLink, "HelpLink"));
-                    ActualColumns.Add(new DataObjectColumn(Resources.UNINSTALLER_C_AboutLink, "AboutLink"));
-                    ActualColumns.Add(new DataObjectColumn(Resources.UNINSTALLER_C_ModifyPath, "ModifyPath"));
-                    ActualColumns.Add(new DataObjectColumn(Resources.UNINSTALLER_C_Action, "Action"));
+                    CreateColumns(
+                        new DataObjectColumn(Resources.UNINSTALLER_C_ApplicationName, "ApplicationName"),
+                        new DataObjectColumn(Resources.UNINSTALLER_C_InstallLocation, "InstallLocation"),
+                        new DataObjectColumn(Resources.UNINSTALLER_C_Key, "InternalID"),
+                        new DataObjectColumn(Resources.UNINSTALLER_C_Version, "Version"),
+                        new DataObjectColumn(Resources.UNINSTALLER_C_Publisher, "Publisher"),
+                        new DataObjectColumn(Resources.UNINSTALLER_C_HelpLink, "HelpLink"),
+                        new DataObjectColumn(Resources.UNINSTALLER_C_AboutLink, "AboutLink"),
+                        new DataObjectColumn(Resources.UNINSTALLER_C_ModifyPath, "ModifyPath"),
+                        new DataObjectColumn(Resources.UNINSTALLER_C_Action, "Action"));
                 }
                 return ActualColumns;
             }

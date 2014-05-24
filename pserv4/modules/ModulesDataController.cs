@@ -25,8 +25,6 @@ namespace pserv4.modules
     {
         private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        private static List<DataObjectColumn> ActualColumns;
-
         public ModulesDataController()
             :   base(
                     "Modules", 
@@ -45,15 +43,15 @@ namespace pserv4.modules
             {
                 if (ActualColumns == null)
                 {
-                    ActualColumns = new List<DataObjectColumn>();
-                    ActualColumns.Add(new DataObjectColumn(Resources.MODULE_C_ProcessID, "ProcessID"));
-                    ActualColumns.Add(new DataObjectColumn(Resources.MODULE_C_Name, "Name"));
-                    ActualColumns.Add(new DataObjectColumn(Resources.MODULE_C_Path, "Path"));
-                    ActualColumns.Add(new DataObjectColumn(Resources.MODULE_C_ModuleMemorySize, "ModuleMemorySize"));
-                    ActualColumns.Add(new DataObjectColumn(Resources.MODULE_C_FileDescription, "FileDescription"));
-                    ActualColumns.Add(new DataObjectColumn(Resources.MODULE_C_FileVersion, "FileVersion"));
-                    ActualColumns.Add(new DataObjectColumn(Resources.MODULE_C_Product, "Product"));
-                    ActualColumns.Add(new DataObjectColumn(Resources.MODULE_C_ProductVersion, "ProductVersion"));
+                    CreateColumns(
+                        new DataObjectColumn(Resources.MODULE_C_ProcessID, "ProcessID"),
+                        new DataObjectColumn(Resources.MODULE_C_Name, "Name"),
+                        new DataObjectColumn(Resources.MODULE_C_Path, "Path"),
+                        new DataObjectColumn(Resources.MODULE_C_ModuleMemorySize, "ModuleMemorySize"),
+                        new DataObjectColumn(Resources.MODULE_C_FileDescription, "FileDescription"),
+                        new DataObjectColumn(Resources.MODULE_C_FileVersion, "FileVersion"),
+                        new DataObjectColumn(Resources.MODULE_C_Product, "Product"),
+                        new DataObjectColumn(Resources.MODULE_C_ProductVersion, "ProductVersion"));
                 }
                 return ActualColumns;
             }
