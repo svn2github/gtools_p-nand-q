@@ -1,9 +1,9 @@
 !include "MUI2.nsh"
 SetCompressor /SOLID lzma
 
-Name "GTools 4.1"
+Name "GTools 4.2"
 
-OutFile "gtools-4.1.exe"
+OutFile "gtools-4.2.exe"
 
 RequestExecutionLevel admin ;Require admin rights on NT6+ (When UAC is turned on)
 
